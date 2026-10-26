@@ -17,8 +17,8 @@ test('nghe-nghe: khung 512, không nền, không <text>, đủ đặc điểm kh
   assert.match(s, /viewBox="0 0 512 512"/);
   assert.doesNotMatch(s, /<text/);
   assert.doesNotMatch(s, /<rect width="512" height="512"/);
-  assert.ok(s.includes(`stroke="${COLORS.text}" stroke-width="6"`), 'viền 6px nâu');
-  for (const c of [COLORS.horn, COLORS.nose, COLORS.cheek, COLORS.buffalo, COLORS.primary]) {
+  assert.ok(s.includes(`stroke="${COLORS.text}" stroke-width="6"`), 'viền 6px navy');
+  for (const c of [COLORS.horn, COLORS.nose, COLORS.cheek, COLORS.buffalo, COLORS['primary-soft']]) {
     assert.ok(s.includes(`fill="${c}"`), c);
   }
 });
@@ -53,7 +53,7 @@ test('mọi tư thế: svg khung 512, không <text>, giữ đủ đặc điểm 
     assert.match(s, /^<svg[^>]*viewBox="0 0 512 512"/, name);
     assert.doesNotMatch(s, /<text/, name);
     for (const cls of ['horns', 'ears', 'head', 'body', 'badge']) assert.ok(s.includes(`class="${cls}"`), `${name}: ${cls}`);
-    for (const c of [COLORS.horn, COLORS.nose, COLORS.buffalo, COLORS.primary]) assert.ok(s.includes(`fill="${c}"`), `${name}: ${c}`);
+    for (const c of [COLORS.horn, COLORS.nose, COLORS.buffalo, COLORS['primary-soft']]) assert.ok(s.includes(`fill="${c}"`), `${name}: ${c}`);
     seen.add(s);
   }
   assert.equal(seen.size, POSES.length);
@@ -61,11 +61,11 @@ test('mọi tư thế: svg khung 512, không <text>, giữ đủ đặc điểm 
 
 test('đạo cụ theo brief từng tư thế', () => {
   const lap = pose('dang-chay');
-  assert.ok(lap.includes('class="laptop"') && lap.includes(`fill="${COLORS.surface}"`), 'laptop nắp kem');
+  assert.ok(lap.includes('class="laptop"') && lap.includes(`fill="${COLORS.surface}"`), 'laptop có mép thân surface');
   assert.ok(lap.indexOf('class="laptop"') < lap.indexOf(`fill="${COLORS.horn}"`, lap.indexOf('class="laptop"')), 'icon thẻ mọc sừng trên nắp');
   assert.match(lap, /class="typing"/, 'bong bóng đang gõ');
   assert.match(pose('xong-roi-sep'), /class="thumbs-up"/);
-  assert.equal((pose('xong-roi-sep').match(new RegExp(`fill="${COLORS['primary-soft']}" stroke`, 'g')) || []).length, 3, '3 tia lấp lánh');
+  assert.equal((pose('xong-roi-sep').match(new RegExp(`fill="${COLORS['primary-soft']}" stroke="${COLORS.text}" stroke-width="4"`, 'g')) || []).length, 3, '3 tia lấp lánh');
   assert.match(pose('y-sep-la'), /rotate\(-8 256 200\)/);
   const cafe = pose('ca-phe-sang');
   for (const c of ['#6B4226', '#E8CFA8']) assert.ok(cafe.includes(`fill="${c}"`), c);

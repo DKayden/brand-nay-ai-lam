@@ -1,4 +1,4 @@
-// Mascot Nghé — nghé (trâu con) Việt, "nhân sự AI" của group. Chibi tròn mềm, viền nâu đều.
+// Mascot Nghé — nghé (trâu con) Việt, "nhân sự AI" của group. Chibi tròn mềm, viền navy đều.
 // Mọi bộ phận vẽ trong khung 512×512, nét viền 6px màu COLORS.text.
 // Chạy: node src/mascot.mjs → 03-mascot/svg/*.svg, 03-mascot/png/*, 03-mascot/character-sheet.{svg,png}
 import fs from 'node:fs';
@@ -18,8 +18,8 @@ export const MASCOT_COLORS = {
   nose: COLORS.nose,
   cheek: COLORS.cheek,
   ink: INK,
-  badge: COLORS.primary,
-  strap: COLORS['primary-soft'],
+  badge: COLORS['primary-soft'], // thẻ xanh pastel, chữ navy (7.75)
+  strap: COLORS.primary,
 };
 const C = MASCOT_COLORS;
 
@@ -126,24 +126,24 @@ function body() {
     + '</g>';
 }
 
-// Thẻ nhân viên — cùng họ với thẻ trong logo: dây cam nhạt viền nâu, kẹp nâu, khe kem, thân cam đất.
+// Thẻ nhân viên — cùng họ với thẻ trong logo: dây xanh đậm viền navy, kẹp navy, khe navy, thân xanh pastel, chữ navy.
 function badge() {
   const { cx, top, w, h, rx } = CARD;
   const x = cx - w / 2;
   const strapD = `M ${cx - 34} ${top - 52} L ${cx} ${top - 4} L ${cx + 34} ${top - 52}`;
   const strap = (color, width) => `<path d="${strapD}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const name = textPath('Nghé', { family: 'Bricolage Grotesque', weight: 800, size: 22, x: cx, y: top + 50, fill: COLORS.background, anchor: 'middle' }).svg;
-  const role = textPath('Nhân sự AI', { family: 'Be Vietnam Pro', weight: 600, size: 11, x: cx, y: top + 70, fill: COLORS.background, anchor: 'middle' }).svg;
+  const name = textPath('Nghé', { family: 'Bricolage Grotesque', weight: 800, size: 22, x: cx, y: top + 50, fill: INK, anchor: 'middle' }).svg;
+  const role = textPath('Nhân sự AI', { family: 'Be Vietnam Pro', weight: 600, size: 11, x: cx, y: top + 70, fill: INK, anchor: 'middle' }).svg;
   return '<g class="badge">'
     + strap(INK, 8 + SW * 2) + strap(C.strap, 8)
     + `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${rx}" fill="${C.badge}" ${LINE}/>`
-    + `<rect x="${cx - 16}" y="${top + 9}" width="32" height="8" rx="4" fill="${COLORS.background}"/>`
+    + `<rect x="${cx - 16}" y="${top + 9}" width="32" height="8" rx="4" fill="${INK}"/>`
     + `<rect x="${cx - 7}" y="${top - 12}" width="14" height="26" rx="5" fill="${INK}"/>`
     + name + role
     + '</g>';
 }
 
-// Tay = ống bo tròn hơi cong (qua điểm điều khiển qx,qy), đầu là móng guốc nâu chẻ đôi.
+// Tay = ống bo tròn hơi cong (qua điểm điều khiển qx,qy), đầu là móng guốc navy chẻ đôi.
 // hoof: độ sâu móng theo tỉ lệ bề dày tay (0.37 ≈ chỏm mỏng, 0.5 = nửa đầu tròn).
 export function limb(x1, y1, qx, qy, x2, y2, w = 38, hoof = 0.37) {
   const len = Math.hypot(x2 - qx, y2 - qy), ux = (x2 - qx) / len, uy = (y2 - qy) / len; // tiếp tuyến cuối
@@ -251,10 +251,10 @@ export function compose({ head: h = {}, armL = ARM.down, armR = ARM.down, legs: 
   );
 }
 
-// ---------- Đạo cụ cho sticker (khung 512, viền nâu như thân) ----------
+// ---------- Đạo cụ cho sticker (khung 512, viền navy như thân) ----------
 const SOFT = COLORS['primary-soft'];
 
-// Laptop nhìn từ phía sau: nắp kem quay ra người xem, hơi ngả (hình thang), giữa nắp là icon thương hiệu
+// Laptop nhìn từ phía sau: nắp trắng quay ra người xem, hơi ngả (hình thang), giữa nắp là icon thương hiệu
 // (thẻ mọc sừng, mặt cười); dưới nắp là mép thân máy mỏng, rộng hơn nắp để hai móng tì lên.
 export function laptopBack(cx = 256, top = 444, w = 196, h = 46) {
   const bot = top + h, hb = w / 2, ht = hb - 4, r = 10; // nắp: đỉnh hẹp hơn đáy chút xíu (ngả về phía Nghé)
@@ -265,7 +265,7 @@ export function laptopBack(cx = 256, top = 444, w = 196, h = 46) {
   const dw = hb + 44, dh = 11; // mép thân máy thò ra hai bên nắp: chỗ tì móng
   return '<g class="laptop">'
     + `<rect x="${cx - dw}" y="${bot - 2}" width="${dw * 2}" height="${dh}" rx="5" fill="${COLORS.surface}" ${LINE}/>`
-    + `<path d="${lid}" fill="${COLORS.background}" ${LINE}/>` // kem sáng: nổi trên ô surface của stickers sheet
+    + `<path d="${lid}" fill="${COLORS.background}" ${LINE}/>` // trắng xanh: nổi trên ô surface của stickers sheet
     + `<path d="M ${cx - ht + 6} ${top + 7} L ${cx + ht - 6} ${top + 7}" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6"/>`
     + logo
     + '</g>';
@@ -282,7 +282,7 @@ export function typingBubble(x, y, w = 84, h = 44) {
     + dots + '</g>';
 }
 
-// Cà phê sữa đá: cốc trong viền nâu, nâu dưới + sữa trên, 3 viên đá, ống hút cam đất.
+// Cà phê sữa đá: cốc trong viền navy, cà phê dưới + sữa trên, 3 viên đá, ống hút xanh đậm.
 export const straw = (x1, y1, x2, y2) => [[INK, 12 + SW * 2], [COLORS.primary, 12]]
   .map(([c, w]) => `<path d="M ${x1} ${y1} L ${x2} ${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`).join('');
 
@@ -312,7 +312,7 @@ export const sparkle = (x, y, r) => {
   return `<path d="M ${x} ${y - r} Q ${x + k} ${y - k} ${x + r} ${y} Q ${x + k} ${y + k} ${x} ${y + r} Q ${x - k} ${y + k} ${x - r} ${y} Q ${x - k} ${y - k} ${x} ${y - r} Z" fill="${SOFT}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>`;
 };
 
-// Nắm tay giơ ngón cái tại (x,y): nắm tròn màu thân + ngón cái dựng đứng, đầu là móng nâu.
+// Nắm tay giơ ngón cái tại (x,y): nắm tròn màu thân + ngón cái dựng đứng, đầu là móng navy.
 export function thumbsUp(x, y) {
   return '<g class="thumbs-up">'
     + `<rect x="${x - 9}" y="${y - 58}" width="26" height="50" rx="13" fill="${C.buffalo}" ${LINE}/>`
@@ -322,7 +322,7 @@ export function thumbsUp(x, y) {
     + '</g>';
 }
 
-// Chữ đậm có viền nâu (đọc rõ trên nền sáng lẫn tối khi dán vào bình luận).
+// Chữ đậm có viền navy (đọc rõ trên nền sáng lẫn tối khi dán vào bình luận).
 const outlinedText = (s, opts, stroke = 10) => {
   const { d } = textPath(s, opts);
   return `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${stroke}" stroke-linejoin="round"/>`
@@ -481,8 +481,8 @@ export function characterSheet() {
     '2 sừng kem lưỡi liềm quét ngang, cùng họ sừng logo',
     'Mõm rộng xám-hồng (trâu nước), 2 lỗ mũi hạt đậu · má hồng',
     'Mắt tròn đen, đốm sáng · tai cụp ngang · xoáy lông trán',
-    'Thân xám #8C7B70, viền nâu #3A2417 dày 6px (khung 512)',
-    'Thẻ nhân viên cam đất "Nghé · Nhân sự AI"',
+    'Thân xám #8C7B70, viền navy #1F3A5F dày 6px (khung 512)',
+    'Thẻ nhân viên xanh pastel, chữ navy "Nghé · Nhân sự AI"',
   ].forEach((s, i) => {
     const y = 798 + i * 34;
     b += `<circle cx="${X + 6}" cy="${y - 6}" r="5" fill="${COLORS.primary}"/>`;
