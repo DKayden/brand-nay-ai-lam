@@ -1,0 +1,40 @@
+npm notice run npx
+npm notice run designmd lint DESIGN.md
+{
+  "findings": [
+    {
+      "severity": "warning",
+      "path": "colors.primary-soft",
+      "message": "'primary-soft' is defined but never referenced by any component.",
+      "rule": "orphaned-tokens"
+    },
+    {
+      "severity": "warning",
+      "path": "colors.text-muted",
+      "message": "'text-muted' is defined but never referenced by any component.",
+      "rule": "orphaned-tokens"
+    },
+    {
+      "severity": "warning",
+      "path": "colors.buffalo",
+      "message": "'buffalo' is defined but never referenced by any component.",
+      "rule": "orphaned-tokens"
+    },
+    {
+      "severity": "warning",
+      "path": "colors.success",
+      "message": "'success' is defined but never referenced by any component.",
+      "rule": "orphaned-tokens"
+    },
+    {
+      "severity": "info",
+      "message": "Design system defines 9 colors, 8 typography scales, 4 rounding levels, 8 spacing tokens, 6 components.",
+      "rule": "token-summary"
+    }
+  ],
+  "summary": {
+    "errors": 0,
+    "warnings": 4,
+    "infos": 1
+  }
+}
