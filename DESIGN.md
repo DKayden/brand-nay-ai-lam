@@ -54,7 +54,7 @@ Wordmark "Đi làm với AI": chữ "AI" màu `primary`, phần còn lại màu 
 - **text-muted `#7A5A45`**: chú thích, thông tin phụ.
 - **buffalo `#8C7B70`**: màu thân Nghé, dùng cho hình minh hoạ, không dùng làm màu chữ.
 - **success `#5E8C3A`**: trạng thái hoàn thành, dấu tick. Không dùng làm màu chữ nhỏ.
-- **dark-bg `#22150E`**: nền tối. Chỉ dùng logo bản `nen-toi` trên nền này.
+- **dark-bg `#22150E`**: nền tối. Trên nền này chỉ dùng logo bản `nen-toi` hoặc `mono-trang`.
 
 ## Typography
 
