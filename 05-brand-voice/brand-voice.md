@@ -22,6 +22,6 @@ Giọng thương hiệu có 2 lớp: giọng Group (chính thức, ấm áp) và
 
 ## Câu mẫu giọng Nghé (sticker, bình luận)
 
-- **Nghé nhận việc:** "Nghé nghe! Việc này để Nghé lo, cả nhà đi pha cà phê đi ạ."
+- **Nghé nhận việc:** "Nghé nghe! Việc này để Nghé lo, cả nhà cứ đi pha cà phê ạ."
 - **Nghé hỏi lại khi prompt mơ hồ:** "Ơ… ý sếp là làm slide hay làm bánh ạ? Prompt rõ thêm chút là Nghé chạy liền!"
 - **Nghé báo xong việc:** "Xong rồi sếp! Nghé để file ở đây, sếp duyệt giúp Nghé nha."
