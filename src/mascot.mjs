@@ -6,6 +6,7 @@ import path from 'node:path';
 import { COLORS } from './tokens.mjs';
 import { textPath } from './textpath.mjs';
 import { renderSizes, renderPng } from './render.mjs';
+import { icon, PALETTES } from './logo.mjs';
 
 const INK = COLORS.text;
 const SW = 6;
@@ -28,6 +29,8 @@ const EYE = { dx: 64, y: 180, r: 23 };
 const MUZZLE = { cx: 256, top: 226, bottom: 302, half: 92 };
 const BODY = { x: 186, y: 300, w: 140, h: 146, rx: 62 };
 const CARD = { cx: 256, top: 350, w: 76, h: 86, rx: 13 };
+// Vùng chữ "Nghé · Nhân sự AI" trên thẻ (khung 512): đạo cụ không được che vùng này.
+export const BADGE_TEXT_BOX = { x1: CARD.cx - 34, y1: CARD.top + 28, x2: CARD.cx + 34, y2: CARD.top + 74 };
 
 const mirror = (svg) => `<g transform="translate(512 0) scale(-1 1)">${svg}</g>`;
 
@@ -61,6 +64,10 @@ const EYES = {
   small: (x, y) => `<circle cx="${x}" cy="${y}" r="14" fill="${INK}"/>`
     + `<circle cx="${x - 5}" cy="${y - 5}" r="5" fill="#fff"/>`,
   happy: (x, y) => `<path d="M ${x - 19} ${y + 6} Q ${x} ${y - 22} ${x + 19} ${y + 6}" fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round"/>`,
+  // chăm chú nhìn xuống màn hình: mắt hạ thấp, đốm sáng dời xuống dưới
+  focus: (x, y) => `<circle cx="${x}" cy="${y + 6}" r="${EYE.r}" fill="${INK}"/>`
+    + `<circle cx="${x - 6}" cy="${y + 13}" r="7" fill="#fff"/>`
+    + `<circle cx="${x + 8}" cy="${y + 2}" r="2.5" fill="#fff"/>`,
   sleepy: (x, y) => `<path d="M ${x - 19} ${y + 2} Q ${x} ${y + 14} ${x + 19} ${y + 2}" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>`,
 };
 function eyes(kind) {
@@ -247,18 +254,32 @@ export function compose({ head: h = {}, armL = ARM.down, armR = ARM.down, legs: 
 // ---------- Đạo cụ cho sticker (khung 512, viền nâu như thân) ----------
 const SOFT = COLORS['primary-soft'];
 
-// Laptop mở, màn hình quay ra người xem: vòng loading đang quay. Đáy (bàn phím) là tấm mỏng phía dưới.
-export function laptop(cx = 256, top = 400, w = 212, h = 82) {
-  const x = cx - w / 2, sy = top + 10, sh = h - 24, ry = sy + sh / 2, r = 17;
-  const arc = `M ${cx} ${ry - r} A ${r} ${r} 0 1 1 ${cx - r} ${ry}`; // 3/4 vòng
-  const deckY = top + h;
+// Laptop nhìn từ phía sau: nắp kem quay ra người xem, hơi ngả (hình thang), giữa nắp là icon thương hiệu
+// (thẻ mọc sừng, mặt cười); dưới nắp là mép thân máy mỏng, rộng hơn nắp để hai móng tì lên.
+export function laptopBack(cx = 256, top = 444, w = 196, h = 46) {
+  const bot = top + h, hb = w / 2, ht = hb - 4, r = 10; // nắp: đỉnh hẹp hơn đáy chút xíu (ngả về phía Nghé)
+  const lid = `M ${cx - ht + r} ${top} L ${cx + ht - r} ${top} Q ${cx + ht} ${top} ${cx + ht + 0.4} ${top + r}`
+    + ` L ${cx + hb} ${bot} L ${cx - hb} ${bot} L ${cx - ht - 0.4} ${top + r} Q ${cx - ht} ${top} ${cx - ht + r} ${top} Z`;
+  const k = 0.32; // icon khung 200 → ~47px; tâm thân thẻ ở (100, 124)
+  const logo = `<g transform="translate(${cx - 100 * k} ${top + h / 2 - 124 * k + 1})">${icon(PALETTES.full, { size: 200 * k, face: 'smile' })}</g>`;
+  const dw = hb + 44, dh = 11; // mép thân máy thò ra hai bên nắp: chỗ tì móng
   return '<g class="laptop">'
-    + `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="12" fill="${COLORS.surface}" ${LINE}/>`
-    + `<rect x="${x + 12}" y="${sy}" width="${w - 24}" height="${sh}" rx="6" fill="${INK}"/>`
-    + `<circle cx="${cx}" cy="${ry}" r="${r}" fill="none" stroke="${SOFT}" stroke-width="7" opacity=".3"/>`
-    + `<path d="${arc}" fill="none" stroke="${SOFT}" stroke-width="7" stroke-linecap="round"/>`
-    + `<path d="M ${x - 22} ${deckY} L ${x + w + 22} ${deckY} L ${x + w + 10} ${deckY + 16} L ${x - 10} ${deckY + 16} Z" fill="${COLORS.surface}" ${LINE}/>`
+    + `<rect x="${cx - dw}" y="${bot - 2}" width="${dw * 2}" height="${dh}" rx="5" fill="${COLORS.surface}" ${LINE}/>`
+    + `<path d="${lid}" fill="${COLORS.background}" ${LINE}/>` // kem sáng: nổi trên ô surface của stickers sheet
+    + `<path d="M ${cx - ht + 6} ${top + 7} L ${cx + ht - 6} ${top + 7}" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6"/>`
+    + logo
     + '</g>';
+}
+
+// Bong bóng "đang gõ..." (3 chấm, chấm giữa đậm) — đuôi chỉ xuống trái.
+export function typingBubble(x, y, w = 84, h = 44) {
+  const dots = [-20, 0, 20].map((dx, i) => `<circle cx="${x + dx}" cy="${y}" r="6.5" fill="${i === 1 ? COLORS.primary : SOFT}"/>`).join('');
+  const l = x - w / 2, t = y - h / 2;
+  return '<g class="typing">'
+    + `<path d="M ${l + 22} ${t + h - 2} L ${l + 8} ${t + h + 16} L ${l + 38} ${t + h - 2} Z" fill="#fff" ${LINE}/>`
+    + `<rect x="${l}" y="${t}" width="${w}" height="${h}" rx="${h / 2}" fill="#fff" ${LINE}/>`
+    + `<path d="M ${l + 20} ${t + h - 3} L ${l + 38} ${t + h - 3}" stroke="#fff" stroke-width="8"/>`
+    + dots + '</g>';
 }
 
 // Cà phê sữa đá: cốc trong viền nâu, nâu dưới + sữa trên, 3 viên đá, ống hút cam đất.
@@ -266,19 +287,20 @@ export const straw = (x1, y1, x2, y2) => [[INK, 12 + SW * 2], [COLORS.primary, 1
   .map(([c, w]) => `<path d="M ${x1} ${y1} L ${x2} ${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`).join('');
 
 // withStraw=false: không vẽ ống hút (tư thế tự vẽ ống hút lên trên đầu để chạm miệng).
-export function icedCoffee(cx = 256, top = 336, h = 104, withStraw = true) {
-  const tw = 54, bw = 42; // nửa rộng miệng / đáy cốc
+// tw/bw: nửa rộng miệng / đáy cốc; cube: cạnh viên đá.
+export function icedCoffee(cx = 256, top = 336, h = 104, withStraw = true, { tw = 54, bw = 42, cube = 26 } = {}) {
+  const q = tw / 54; // vị trí đá theo tỉ lệ cốc
   const at = (y) => tw - ((tw - bw) * (y - top)) / h; // nửa rộng tại độ cao y
   const band = (y1, y2, fill) => `<path d="M ${cx - at(y1) + 3} ${y1} L ${cx + at(y1) - 3} ${y1} L ${cx + at(y2) - 3} ${y2 - 4} Q ${cx} ${y2 + 2} ${cx - at(y2) + 3} ${y2 - 4} Z" fill="${fill}"/>`;
   const b = top + h;
   const glass = `M ${cx - tw} ${top} L ${cx + tw} ${top} L ${cx + bw} ${b - 8} Q ${cx + bw - 2} ${b} ${cx + bw - 12} ${b} L ${cx - bw + 12} ${b} Q ${cx - bw + 2} ${b} ${cx - bw} ${b - 8} Z`;
-  const ice = (x, y, a) => `<rect x="${x - 13}" y="${y - 13}" width="26" height="26" rx="5" transform="rotate(${a} ${x} ${y})" fill="#fff" fill-opacity=".85" stroke="${INK}" stroke-width="3"/>`;
+  const ice = (x, y, a) => `<rect x="${x - cube / 2}" y="${y - cube / 2}" width="${cube}" height="${cube}" rx="5" transform="rotate(${a} ${x} ${y})" fill="#fff" fill-opacity=".85" stroke="${INK}" stroke-width="3"/>`;
   return '<g class="iced-coffee">'
     + (withStraw ? straw(cx + 14, top + 50, cx + 4, top - 62) : '')
     + `<path d="${glass}" fill="#fff" fill-opacity=".55"/>`
     + band(top + 14, top + 62, '#E8CFA8')
     + band(top + 60, b, '#6B4226')
-    + ice(cx - 22, top + 32, -12) + ice(cx + 20, top + 28, 14) + ice(cx - 2, top + 54, 6)
+    + ice(cx - 22 * q, top + 32 * q, -12) + ice(cx + 20 * q, top + 28 * q, 14) + ice(cx - 2 * q, top + 54 * q, 6)
     + `<path d="M ${cx - tw + 12} ${top + 16} L ${cx - bw + 10} ${b - 14}" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>`
     + `<path d="${glass}" fill="none" ${LINE}/>`
     + '</g>';
@@ -343,14 +365,16 @@ const BUILDERS = {
     armR: ARM.raised,
     extras: sparks(sideX('right', 108), 276),
   }),
-  // Đang chạy: chăm chú gõ laptop, màn hình đang loading.
-  'dang-chay': () => compose({
-    head: { eyes: 'open', mouth: 'o' },
-    armL: { from: [206, 346], ctrl: [146, 424], to: [170, 480], front: true },
-    armR: { from: [206, 346], ctrl: [146, 424], to: [170, 480], front: true },
-    under: laptop(256, 410, 236, 68),
-    extras: sweatDrop(384, 128, 0.9),
-  }),
+  // Đang chạy: ngồi sau laptop (thấy nắp + icon), chăm chú nhìn màn hình, hai móng tì mép máy, bong bóng "đang gõ...".
+  // Cả nhân vật nhích lên 24px để nắp laptop nằm trọn dưới thẻ mà vẫn chừa lề đáy.
+  'dang-chay': () => shiftUp(compose({
+    head: { eyes: 'focus', mouth: 'o' },
+    // tay sau thân, nắp laptop vẽ đè lên → nắp hiện trọn; móng tì lên mép thân máy hai bên nắp
+    armL: { from: [206, 348], ctrl: [176, 410], to: [146, 476] },
+    armR: { from: [206, 348], ctrl: [176, 410], to: [146, 476] },
+    legs: '', // ngồi sau máy: chân khuất
+    under: laptopBack(256, 441, 156, 64),
+  }), 24, typingBubble(64, 262, 76, 38)),
   // Xong rồi sếp: cười tít, giơ ngón cái, lấp lánh.
   'xong-roi-sep': () => compose({
     head: { eyes: 'happy', mouth: 'open' },
@@ -365,25 +389,29 @@ const BUILDERS = {
     armL: false,
     armR: ARM.down,
     extras: arm('left', { from: [206, 346], ctrl: [116, 352], to: [116, 256] })
-      + questionMark(456, 356, 150) + questionMark(482, 222, 62) + sweatDrop(388, 136),
+      + questionMark(456, 356, 150) + questionMark(484, 140, 54) + sweatDrop(388, 136),
   }),
-  // Cà phê sáng: lim dim, hai tay ôm ly cà phê sữa đá, ống hút tới miệng.
+  // Cà phê sáng: lim dim, hai móng ôm ly cà phê sữa đá nhỏ lệch phải (thẻ vẫn đọc được), ống hút tới miệng.
+  // Ly vẽ sau tay → hai móng nằm sau thành ly, như đang ôm.
   'ca-phe-sang': () => compose({
     head: { eyes: 'sleepy', mouth: 'smile' },
-    armL: { from: [206, 346], ctrl: [168, 428], to: [206, 434], front: true },
-    armR: { from: [206, 346], ctrl: [168, 428], to: [206, 434], front: true },
-    under: icedCoffee(256, 352, 124, false),
-    extras: straw(272, 392, 262, 284) + zzz(318, 64),
+    armL: { from: [194, 350], ctrl: [170, 512], to: [318, 440], front: true }, // vai lùi ra ngoài để tay không chạm mép thẻ
+    armR: { from: [206, 348], ctrl: [118, 372], to: [140, 420], front: true },
+    extras: icedCoffee(348, 362, 92, false, { tw: 40, bw: 31, cube: 20 })
+      + straw(340, 380, 272, 284) + zzz(318, 64),
   }),
   // Chào member mới: vẫy tay cao, tay kia cầm bảng "Chào cả nhà!".
   'chao-member-moi': () => compose({
     head: { eyes: 'happy', mouth: 'open' },
     armL: { from: [206, 346], ctrl: [160, 380], to: [156, 430], front: true },
     armR: { from: [200, 350], ctrl: [136, 326], to: [86, 240] },
-    under: sign('Chào cả nhà!'),
+    under: sign('Chào cả nhà!', 256, 430, 300, 54), // đáy bảng (cả khi nghiêng) cách mép khung ≥ 16px
     extras: waveLines(sideX('right', 86), 240),
   }),
 };
+
+// Nhích cả tư thế lên dy px (giữ khung 512); top: vẽ thêm trên cùng, không nhích.
+const shiftUp = (svg, dy, top = '') => svg.replace(/^(<svg[^>]*>)([\s\S]*)(<\/svg>\n?)$/, (_, a, inner, z) => `${a}<g transform="translate(0 -${dy})">${inner}</g>${top}${z}`);
 
 export function pose(name) {
   if (!POSES.includes(name)) throw new Error(`Không có tư thế: ${name}`);

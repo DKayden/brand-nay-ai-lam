@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { part, pose, POSES, characterSheet, stickersSheet, buildMascot, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX } from '../src/mascot.mjs';
+import { Resvg } from '@resvg/resvg-js';
+import { part, pose, POSES, characterSheet, stickersSheet, buildMascot, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX, BADGE_TEXT_BOX } from '../src/mascot.mjs';
 import { COLORS } from '../src/tokens.mjs';
 
 test('POSES đúng 6 tên theo kế hoạch', () => {
@@ -59,7 +60,9 @@ test('mọi tư thế: svg khung 512, không <text>, giữ đủ đặc điểm 
 
 test('đạo cụ theo brief từng tư thế', () => {
   const lap = pose('dang-chay');
-  assert.ok(lap.includes('class="laptop"') && lap.includes(`fill="${COLORS.surface}"`) && lap.includes(`stroke="${COLORS['primary-soft']}"`));
+  assert.ok(lap.includes('class="laptop"') && lap.includes(`fill="${COLORS.surface}"`), 'laptop nắp kem');
+  assert.ok(lap.indexOf('class="laptop"') < lap.indexOf(`fill="${COLORS.horn}"`, lap.indexOf('class="laptop"')), 'icon thẻ mọc sừng trên nắp');
+  assert.match(lap, /class="typing"/, 'bong bóng đang gõ');
   assert.match(pose('xong-roi-sep'), /class="thumbs-up"/);
   assert.equal((pose('xong-roi-sep').match(new RegExp(`fill="${COLORS['primary-soft']}" stroke`, 'g')) || []).length, 3, '3 tia lấp lánh');
   assert.match(pose('y-sep-la'), /rotate\(-8 256 200\)/);
@@ -71,7 +74,28 @@ test('đạo cụ theo brief từng tư thế', () => {
 });
 
 test('nghe-nghe giữ nguyên bản đã duyệt', () => {
-  assert.equal(pose('nghe-nghe'), fs.readFileSync('03-mascot/svg/nghe-nghe.svg', 'utf8'));
+  assert.equal(pose('nghe-nghe'), fs.readFileSync(new URL('../03-mascot/svg/nghe-nghe.svg', import.meta.url), 'utf8'));
+});
+
+// Thẻ "Nghé · Nhân sự AI" là đặc điểm khoá: render từng tư thế và so vùng chữ trên thẻ
+// với bản nghe-nghe (thẻ không bị che). Tư thế nhích cả nhân vật (dang-chay) thì dời vùng so theo.
+test('mọi tư thế: không đạo cụ/tay nào che vùng chữ trên thẻ', () => {
+  const rgba = (svg) => new Resvg(svg, { fitTo: { mode: 'width', value: 512 } }).render().pixels;
+  const ref = rgba(pose('nghe-nghe'));
+  const { x1, y1, x2, y2 } = BADGE_TEXT_BOX;
+  for (const name of POSES) {
+    const s = pose(name);
+    const dy = -(Number(/^<svg[^>]*><g transform="translate\(0 (-?\d+)\)">/.exec(s)?.[1]) || 0);
+    const px = rgba(s);
+    let diff = 0;
+    for (let y = y1; y < y2; y++) {
+      for (let x = x1; x < x2; x++) {
+        const a = (y * 512 + x) * 4, b = ((y - dy) * 512 + x) * 4;
+        if (Math.max(...[0, 1, 2, 3].map((k) => Math.abs(ref[a + k] - px[b + k]))) > 8) diff++;
+      }
+    }
+    assert.equal(diff, 0, `${name}: ${diff} điểm ảnh trong vùng chữ thẻ khác bản gốc (bị che)`);
+  }
 });
 
 test('stickers sheet: lưới 6 ô, chữ là path', () => {
