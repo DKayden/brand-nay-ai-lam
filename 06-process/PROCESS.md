@@ -32,7 +32,7 @@ Thư mục này là toàn bộ "hậu trường" của bài dự thi **Nghé —
 | 10:47 | Nghé dáng gốc + character sheet | `cec464f` |
 | 11:03, 11:11 | Hai vòng chỉnh Nghé theo góp ý của mình | `58f0f89`, `b146aa5` |
 | 11:19, 11:30 | 6 tư thế sticker, rồi sửa lỗi sau review | `914490c`, `39f5cbf` |
-| 11:32 - 11:35 | Slogan, font, brand voice, DESIGN.md (lint 0 lỗi (4 cảnh báo orphaned-tokens đã chấp nhận)) | `2ecd396` ... `acedb63` |
+| 11:32 - 11:35 | Slogan, font, brand voice, DESIGN.md (lint 0 lỗi, 4 cảnh báo orphaned-tokens đã chấp nhận) | `2ecd396` ... `acedb63` |
 | 11:41, 11:43 | Brand board, mockup, poster phẳng; sửa chồng chữ | `aecad2f`, `a45133f` |
 | 14:02 | Sửa móng Nghé che chữ trên biển | `f7266a3` |
 | 14:05 | Thử poster 3D bằng Gemini (không thành), ghi log | `4634d0b` |

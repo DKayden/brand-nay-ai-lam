@@ -38,3 +38,11 @@
 - Lưu trữ: GitHub public tài khoản DKayden + GitHub Pages, bản sao Google Drive.
 - Ảnh quá trình: người dự thi tự chụp; Claude nhắc thời điểm + ghi PROCESS.md / prompts.md.
 - Mọi thao tác public (tạo repo public, upload Drive, đăng bài) đều hỏi lại trước.
+
+## 6. Xem lại group bằng Chrome (26/10, tài khoản người dự thi)
+- 726 thành viên, **+189 trong tuần qua**. 38 bài trong tháng trước. Tạo nhóm 1/1/2025; **tên cũ "Sếp's Toy - Đồ Chơi Cho Sếp"**, nên chữ "sếp" là văn hoá gốc của group (Nghé gọi admin là "sếp" rất khớp).
+- Ban quản trị gồm 4 người: admin Hà, Hưng (Hưng Kescy); kiểm duyệt Duy, Lan Anh.
+- Bài thể lệ trên group khớp PDF, thêm câu: "Mời bạn bè vào group xem và cổ vũ, góp ý cho bài dự thi. BTC sẽ loại các bài có tương tác bất thường." Phần bình luận chưa có hỏi đáp nào làm thay đổi luật.
+- Chưa có bài dự thi nào khác gắn #BrandNayAiLam.
+- Nhận diện hiện tại (ảnh minigame, standee workshop): xanh rêu đậm + kem, "AI" màu vàng chanh. Bộ Nghé (cam đất, kem, nâu) khác hẳn, đúng tinh thần "tự do sáng tạo".
+- Thành viên viết đúng ý concept: "mình có một thói quen là xem AI như một nhân sự thực sự trong team" (Minh Phương). Admin có bài "Nhân sự AI đang phát triển từng bước y như con người".
