@@ -1,8 +1,93 @@
 # Quy trình làm việc với AI Agent
 
-- **Agent:** Claude Code (Claude Opus điều phối; subagent Haiku/Sonnet/Opus làm từng task, mỗi task có một subagent review riêng)
-- **Người dự thi:** không phải designer. Vai trò: trả lời phỏng vấn, chọn và duyệt.
-- Tài liệu nền: `RESEARCH.md` → `docs/briefs/` → `docs/superpowers/specs/` → `docs/superpowers/plans/`
+Thư mục này là toàn bộ "hậu trường" của bài dự thi **Nghé — nhân sự AI mới của Đi làm với AI**. Người khác muốn làm brand cho cộng đồng của mình có thể lấy [prompts.md](prompts.md) về dùng.
+
+## Agent dùng
+
+- **Claude Code** (Anthropic), chạy theo kiểu *subagent-driven development*:
+  - một Agent điều phối (Claude Opus) chia việc thành 16 task theo [plan](../docs/superpowers/plans/2026-10-26-nghe-brand-production.md);
+  - mỗi task giao cho một subagent mới (Haiku/Sonnet/Opus tuỳ độ khó), subagent chỉ thấy phần brief của task đó;
+  - xong task, một **subagent review độc lập** đọc lại kết quả và bắt lỗi, rồi mới sang task tiếp theo.
+- Công cụ phụ: Node (`opentype.js` đổi chữ thành path, `@resvg/resvg-js` xuất PNG), Python + Pillow (GIF), `designmd lint` (kiểm DESIGN.md), Gemini API (thử làm poster 3D, không thành, xem [gemini-log.md](gemini-log.md)).
+- **Người dự thi** không phải designer. Việc của mình: trả lời phỏng vấn, chọn hướng, duyệt hoặc chê. Việc của Agent: nghiên cứu, vẽ, kiểm tra, viết tài liệu.
+
+## Tài liệu nền (theo thứ tự ra đời)
+
+1. [RESEARCH.md](../RESEARCH.md): đọc thể lệ, group, spec DESIGN.md, font có dấu Việt.
+2. [Đề bài đã làm rõ](../docs/briefs/2026-10-26-brand-nay-ai-lam.md): 6 mục (mục tiêu, hiện trạng, vấn đề, mong muốn, ràng buộc), chưa có lời giải.
+3. [Spec ý tưởng](../docs/superpowers/specs/2026-10-26-nghe-brand-design.md): concept, mascot, màu, chữ, giọng.
+4. [Plan sản xuất](../docs/superpowers/plans/2026-10-26-nghe-brand-production.md): 16 task, có 4 cổng để mình duyệt.
+
+## Dòng thời gian thực tế (giờ commit trong git, ngày 26/10/2026)
+
+| Giờ | Việc xong | Commit |
+|---|---|---|
+| 10:16 | Research, brief, spec, plan | `e5ec5ee` |
+| 10:17 | Khởi tạo repo, tải font, kiểm dấu Việt | `d98d733` |
+| 10:19 | Màu + test tương phản; sửa màu chính sang `#B54A17` | `33e49c7`, `c5c7f46` |
+| 10:20 | Pipeline chữ thành path, SVG thành PNG trong suốt | `8642b42` |
+| 10:25 | 3 hướng logo + bảng so ở 32px | `2cf23ab` |
+| 10:33 | Mình chọn hướng A | `c0d6f30` |
+| 10:40 | Bộ logo đầy đủ (ngang, dọc, 1 màu, nền tối, icon) | `fdc2651` |
+| 10:47 | Nghé dáng gốc + character sheet | `cec464f` |
+| 11:03, 11:11 | Hai vòng chỉnh Nghé theo góp ý của mình | `58f0f89`, `b146aa5` |
+| 11:19, 11:30 | 6 tư thế sticker, rồi sửa lỗi sau review | `914490c`, `39f5cbf` |
+| 11:32 - 11:35 | Slogan, font, brand voice, DESIGN.md (lint sạch) | `2ecd396` ... `acedb63` |
+| 11:41, 11:43 | Brand board, mockup, poster phẳng; sửa chồng chữ | `aecad2f`, `a45133f` |
+| 14:02 | Sửa móng Nghé che chữ trên biển | `f7266a3` |
+| 14:05 | Thử poster 3D bằng Gemini (không thành), ghi log | `4634d0b` |
+| 14:07 | GIF "Đang chạy → Xong rồi sếp!" | `e8aa097` |
+
+Tổng: khoảng 4 giờ từ commit đầu đến commit sản phẩm cuối, trong đó có khoảng nghỉ giữa 11:43 và 14:02. Task 13 (build một lệnh, tài liệu) và các bước kiểm tra cuối làm sau mốc này; giờ của chúng xem `git log`.
+
+## Bốn cổng mình duyệt
+
+| Cổng | Mình quyết gì | Kết quả |
+|---|---|---|
+| Hướng logo | Chọn 1 trong 3 | Chọn **A** (thẻ nhân viên mọc sừng) |
+| Nghé, vòng 1 | Xem dáng gốc | Chê mõm hồng to giống bò sữa, tay trái chưa gọn |
+| Nghé, vòng 2 | Xem bản sửa | Chê tay trái chưa giống tay phải, sửa xong thì duyệt |
+| Duyệt cuối | Xem toàn bộ trước khi đăng | Chưa xong tại thời điểm viết (sẽ cập nhật) |
+
+## Review của subagent bắt được lỗi thật
+
+Mỗi task có một subagent review chạy độc lập với subagent làm. Những lỗi dưới đây không tự lộ ra khi người làm tự kiểm:
+
+| Lỗi | Sửa |
+|---|---|
+| Màu chính `#C2521C` trên nền kem chỉ đạt tương phản 4.28:1, dưới ngưỡng 4.5 của `designmd lint` | Tối màu chính thành `#B54A17` (4.88:1), cập nhật spec và plan (`c5c7f46`) |
+| Ở vài tư thế sticker, đạo cụ che mất thẻ tên "Nghé · Nhân sự AI" trên ngực | Sửa lại, thêm test render pixel so vùng chữ trên thẻ với bản gốc (`39f5cbf`) |
+| Laptop trong tư thế sticker khó đọc ra là laptop | Vẽ laptop nhìn từ phía sau (`39f5cbf`) |
+| Móng tay Nghé đè lên chữ trên biển "Chào member mới" | Dời tay khỏi chữ (`f7266a3`) |
+| Mascot chồng lên chú thích trong mockup ảnh bìa group | Dời mascot (`a45133f`) |
+
+## Ảnh chụp quá trình (`screenshots/`)
+
+Bộ 4 ảnh bằng chứng, đặt tên đúng như sau:
+
+| Tệp | Chụp gì |
+|---|---|
+| `01-logo-3-huong.png` | Bảng 3 hướng logo A/B/C ở cỡ 96/48/32px |
+| `02-character-sheet.png` | Character sheet của Nghé |
+| `03-designmd-lint.png` | Kết quả `designmd lint DESIGN.md` (bản chữ: [designmd-lint.txt](designmd-lint.txt)) |
+| `04-brand-board.png` | Brand board hoàn chỉnh |
+
+## Khung quy trình dùng lại được
+
+Mỗi bước dưới đây có prompt điền chỗ trống trong [prompts.md](prompts.md).
+
+1. Research đề bài, thể lệ, đối thủ.
+2. Phỏng vấn theo nhóm câu trắc nghiệm để chốt concept, rồi cho một subagent "đọc lạnh" soi chỗ hổng.
+3. Phác 3 hướng logo bằng SVG code, so ở 32px, tự phê bình, người dùng chọn.
+4. Dựng bộ logo; chữ luôn đổi thành path.
+5. Vẽ mascot bằng code, khoá danh sách đặc điểm, kiểm trùng nhân vật có sẵn.
+6. Làm sticker bằng cách ghép bộ phận, kèm test pixel cho chỗ dễ lỗi.
+7. Viết DESIGN.md và chạy lint.
+8. Dựng brand board, mockup; một lệnh build lại tất cả.
+
+---
+
+# Chi tiết từng bước
 
 ## Bước 0: Research + brainstorm (26/10)
 - Agent đọc thể lệ (PDF Drive) và trang group, rồi research spec DESIGN.md, font Google có dấu tiếng Việt, giới hạn của Gemini.

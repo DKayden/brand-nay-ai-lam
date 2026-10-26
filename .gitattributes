@@ -1,0 +1,8 @@
+*.svg text eol=lf
+*.md text eol=lf
+*.mjs text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.png binary
+*.gif binary
+*.ttf binary
