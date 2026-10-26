@@ -7,6 +7,7 @@ import { Resvg } from '@resvg/resvg-js';
 import { part, pose, POSES, characterSheet, stickersSheet, buildMascot, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX, BADGE_TEXT_BOX, CHAO_SIGN } from '../src/mascot.mjs';
 import { measure } from '../src/textpath.mjs';
 import { COLORS } from '../src/tokens.mjs';
+import { CHEVRON } from '../src/logo.mjs';
 
 test('POSES đúng 6 tên theo kế hoạch', () => {
   assert.deepEqual(POSES, ['nghe-nghe', 'dang-chay', 'xong-roi-sep', 'y-sep-la', 'ca-phe-sang', 'chao-member-moi']);
@@ -62,7 +63,9 @@ test('mọi tư thế: svg khung 512, không <text>, giữ đủ đặc điểm 
 test('đạo cụ theo brief từng tư thế', () => {
   const lap = pose('dang-chay');
   assert.ok(lap.includes('class="laptop"') && lap.includes(`fill="${COLORS.surface}"`), 'laptop có mép thân surface');
-  assert.ok(lap.indexOf('class="laptop"') < lap.indexOf(`fill="${COLORS.horn}"`, lap.indexOf('class="laptop"')), 'icon thẻ mọc sừng trên nắp');
+  const lid = lap.slice(lap.indexOf('class="laptop"'));
+  assert.ok(lid.includes(`d="${CHEVRON}"`), 'icon logo A2 (dấu nhắc lệnh) trên nắp');
+  assert.ok(!lid.slice(0, lid.indexOf('</g></g>')).includes(`fill="${COLORS.horn}"`), 'icon trên nắp không còn sừng');
   assert.match(lap, /class="typing"/, 'bong bóng đang gõ');
   assert.match(pose('xong-roi-sep'), /class="thumbs-up"/);
   assert.equal((pose('xong-roi-sep').match(new RegExp(`fill="${COLORS['primary-soft']}" stroke="${COLORS.text}" stroke-width="4"`, 'g')) || []).length, 3, '3 tia lấp lánh');

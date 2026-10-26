@@ -6,7 +6,7 @@ import path from 'node:path';
 import { COLORS } from './tokens.mjs';
 import { textPath } from './textpath.mjs';
 import { renderSizes, renderPng } from './render.mjs';
-import { icon, PALETTES } from './logo.mjs';
+import { icon, PALETTES, INK_BOX } from './logo.mjs';
 
 const INK = COLORS.text;
 const SW = 6;
@@ -34,7 +34,7 @@ export const BADGE_TEXT_BOX = { x1: CARD.cx - 34, y1: CARD.top + 28, x2: CARD.cx
 
 const mirror = (svg) => `<g transform="translate(512 0) scale(-1 1)">${svg}</g>`;
 
-// Sừng trâu nước — cùng họ với sừng logo (src/logo.mjs hornLeft), phóng k lần:
+// Sừng trâu nước của Nghé (logo A2 từ 26/10 không còn sừng; hình học sừng giữ nguyên tại đây), phóng k lần:
 // thân dày quét ngang ra ngoài rồi vút lên thành lưỡi liềm, chóp quặp vào.
 const hornLeft = (rx, ry, kx, ky = kx) => {
   const p = (dx, dy) => `${rx + dx * kx} ${ry + dy * ky}`;
@@ -126,7 +126,7 @@ function body() {
     + '</g>';
 }
 
-// Thẻ nhân viên — cùng họ với thẻ trong logo: dây xanh đậm viền navy, kẹp navy, khe navy, thân xanh pastel, chữ navy.
+// Thẻ nhân viên — thân xanh pastel viền navy như thẻ trong logo A2; dây xanh đậm viền navy, kẹp navy, khe navy, chữ navy.
 function badge() {
   const { cx, top, w, h, rx } = CARD;
   const x = cx - w / 2;
@@ -255,13 +255,14 @@ export function compose({ head: h = {}, armL = ARM.down, armR = ARM.down, legs: 
 const SOFT = COLORS['primary-soft'];
 
 // Laptop nhìn từ phía sau: nắp trắng quay ra người xem, hơi ngả (hình thang), giữa nắp là icon thương hiệu
-// (thẻ mọc sừng, mặt cười); dưới nắp là mép thân máy mỏng, rộng hơn nắp để hai móng tì lên.
+// (logo A2: thẻ dấu nhắc lệnh thắt cà vạt); dưới nắp là mép thân máy mỏng, rộng hơn nắp để hai móng tì lên.
 export function laptopBack(cx = 256, top = 444, w = 196, h = 46) {
   const bot = top + h, hb = w / 2, ht = hb - 4, r = 10; // nắp: đỉnh hẹp hơn đáy chút xíu (ngả về phía Nghé)
   const lid = `M ${cx - ht + r} ${top} L ${cx + ht - r} ${top} Q ${cx + ht} ${top} ${cx + ht + 0.4} ${top + r}`
     + ` L ${cx + hb} ${bot} L ${cx - hb} ${bot} L ${cx - ht - 0.4} ${top + r} Q ${cx - ht} ${top} ${cx - ht + r} ${top} Z`;
-  const k = 0.32; // icon khung 200 → ~47px; tâm thân thẻ ở (100, 124)
-  const logo = `<g transform="translate(${cx - 100 * k} ${top + h / 2 - 124 * k + 1})">${icon(PALETTES.full, { size: 200 * k, face: 'smile' })}</g>`;
+  const k = 0.19; // icon khung 200×220 → mực cao ~38px, nằm gọn trong nắp 46px; canh tâm mực vào tâm nắp
+  const mx = (INK_BOX.x1 + INK_BOX.x2) / 2, my = (INK_BOX.y1 + INK_BOX.y2) / 2;
+  const logo = `<g transform="translate(${+(cx - mx * k).toFixed(2)} ${+(top + h / 2 - my * k).toFixed(2)})">${icon(PALETTES.full, { size: 200 * k })}</g>`;
   const dw = hb + 44, dh = 11; // mép thân máy thò ra hai bên nắp: chỗ tì móng
   return '<g class="laptop">'
     + `<rect x="${cx - dw}" y="${bot - 2}" width="${dw * 2}" height="${dh}" rx="5" fill="${COLORS.surface}" ${LINE}/>`
@@ -478,7 +479,7 @@ export function characterSheet() {
   // Đặc điểm khoá
   b += T('ĐẶC ĐIỂM KHOÁ (giữ ở mọi tư thế)', { ...B600, size: 14, x: X, y: 762, fill: COLORS['text-muted'] });
   [
-    '2 sừng kem lưỡi liềm quét ngang, cùng họ sừng logo',
+    '2 sừng kem lưỡi liềm quét ngang',
     'Mõm rộng xám-hồng (trâu nước), 2 lỗ mũi hạt đậu · má hồng',
     'Mắt tròn đen, đốm sáng · tai cụp ngang · xoáy lông trán',
     'Thân xám #8C7B70, viền navy #1F3A5F dày 6px (khung 512)',
