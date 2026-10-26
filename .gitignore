@@ -3,3 +3,4 @@ explore/*.png
 .env
 .superpowers/
 dist/
+explore/gemini/
