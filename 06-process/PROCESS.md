@@ -40,26 +40,28 @@ Thư mục này là toàn bộ "hậu trường" của bài dự thi **Nghé —
 
 Tổng: khoảng 4 giờ từ commit đầu đến commit sản phẩm cuối, trong đó có khoảng nghỉ giữa 11:43 và 14:02. Task 13 (build một lệnh, tài liệu) và các bước kiểm tra cuối làm sau mốc này; giờ của chúng xem `git log`.
 
-## Bốn cổng mình duyệt
+## Các lần mình duyệt
 
 | Cổng | Mình quyết gì | Kết quả |
 |---|---|---|
 | Hướng logo | Chọn 1 trong 3 | Chọn **A** (thẻ nhân viên mọc sừng) |
-| Nghé, vòng 1 | Xem dáng gốc | Chê mõm hồng to giống bò sữa, tay trái chưa gọn |
-| Nghé, vòng 2 | Xem bản sửa | Chê tay trái chưa giống tay phải, sửa xong thì duyệt |
+| Nghé, vòng 1 | Xem dáng gốc | Agent góp ý mõm hồng to dễ bị nhìn thành bò sữa và tay trái hơi cụt. Mình đồng ý: "Chỉnh 2 điểm bạn đề xuất (mõm xám-hồng cho ra trâu, tay trái gọn lại)" |
+| Nghé, vòng 2 | Xem bản sửa | "Tay trái vẫn hơi cụt, chỉnh thêm cho giống tay phải (tay tròn có móng rõ) rồi duyệt luôn." |
 | Duyệt cuối | Xem toàn bộ trước khi đăng | Chưa xong tại thời điểm viết (sẽ cập nhật) |
+| Công khai repo | Đồng ý tạo repo GitHub public | Chưa tới bước này |
+| Đăng bài | Mình tự đăng lên group | Chưa tới bước này |
 
-## Review của subagent bắt được lỗi thật
+## Lỗi bắt được trong lúc làm
 
-Mỗi task có một subagent review chạy độc lập với subagent làm. Những lỗi dưới đây không tự lộ ra khi người làm tự kiểm:
+Mỗi task có một subagent review chạy độc lập với subagent làm, cộng với test tự động. Những lỗi dưới đây được bắt và sửa trước khi tới tay mình duyệt:
 
-| Lỗi | Sửa |
-|---|---|
-| Màu chính `#C2521C` trên nền kem chỉ đạt tương phản 4.28:1, dưới ngưỡng 4.5 của `designmd lint` | Tối màu chính thành `#B54A17` (4.88:1), cập nhật spec và plan (`c5c7f46`) |
-| Ở vài tư thế sticker, đạo cụ che mất thẻ tên "Nghé · Nhân sự AI" trên ngực | Sửa lại, thêm test render pixel so vùng chữ trên thẻ với bản gốc (`39f5cbf`) |
-| Laptop trong tư thế sticker khó đọc ra là laptop | Vẽ laptop nhìn từ phía sau (`39f5cbf`) |
-| Móng tay Nghé đè lên chữ trên biển "Chào member mới" | Dời tay khỏi chữ (`f7266a3`) |
-| Mascot chồng lên chú thích trong mockup ảnh bìa group | Dời mascot (`a45133f`) |
+| Lỗi | Ai bắt | Sửa |
+|---|---|---|
+| Màu chính `#C2521C` trên nền kem chỉ đạt tương phản 4.28:1, dưới ngưỡng 4.5 của `designmd lint` | Test tương phản tự động | Tối màu chính thành `#B54A17` (4.88:1), cập nhật spec và plan (`c5c7f46`) |
+| Ở vài tư thế sticker, đạo cụ che mất thẻ tên "Nghé · Nhân sự AI" trên ngực | Subagent review | Sửa lại, thêm test render pixel so vùng chữ trên thẻ với bản gốc (`39f5cbf`) |
+| Laptop trong tư thế sticker khó đọc ra là laptop | Subagent review | Vẽ laptop nhìn từ phía sau (`39f5cbf`) |
+| Móng tay Nghé đè lên chữ trên biển "Chào member mới" | Agent điều phối, khi xem lại bản sửa mockup | Dời tay khỏi chữ (`f7266a3`) |
+| Mascot chồng lên chú thích trong mockup ảnh bìa group | Subagent review | Dời mascot (`a45133f`) |
 
 ## Ảnh chụp quá trình (`screenshots/`)
 
@@ -138,5 +140,5 @@ Nguồn:
 - Từ khoá đã tìm: "linh vật trâu vàng SEA Games 22", "chibi buffalo mascot", "nghé mascot linh vật", "mascot trâu linh vật Tết Tân Sửu", "cute baby water buffalo cartoon character mascot brand".
 
 ### Góp ý của người dùng (26/10)
-- Mõm hồng to trông như bò sữa → đổi mõm sang xám-hồng (#BA8F89, nằm giữa thân #8C7B70 và hồng), lỗ mũi hạt đậu to hơn một chút; má vẫn hồng. Tay trái (phía người xem) gọn lại: ngắn, tròn, ép sát thân, móng nhỏ gọn cùng kiểu tay giơ.
+- Agent nhận xét mõm hồng to dễ bị nhìn thành bò sữa, mình đồng ý → đổi mõm sang xám-hồng (#BA8F89, nằm giữa thân #8C7B70 và hồng), lỗ mũi hạt đậu to hơn một chút; má vẫn hồng. Tay trái (phía người xem) gọn lại: ngắn, tròn, ép sát thân, móng nhỏ gọn cùng kiểu tay giơ.
 - 26/10 (vòng 2): tay trái chỉnh giống tay phải, móng rõ — mình duyệt Nghé.
