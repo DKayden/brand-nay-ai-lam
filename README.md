@@ -8,7 +8,7 @@
 
 Bộ nhận diện cho group **Đi làm với AI**, bài dự thi minigame *#BrandNayAiLam*. Nghé là trâu con, nhân viên mới của group: chăm chỉ, hơi ngáo, giao việc rõ thì "Nghé nghe" liền. Toàn bộ do **Claude Code** làm theo lệnh của một người không biết vẽ.
 
-Bản sao Google Drive: (sẽ cập nhật)
+Bản sao Google Drive (file zip): https://drive.google.com/file/d/1b0NVDBWXCa9yrvcUSXn7C5zqt7OyYLTn/view?usp=sharing
 
 ## 6 hạng mục
 

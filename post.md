@@ -14,7 +14,7 @@ Cách mình làm: Mình không biết vẽ, nên mình làm "sếp" giao việc 
 
 Link file đầy đủ: https://github.com/DKayden/brand-nay-ai-lam/tree/v1-nop-bai
 Bản xem nhanh trên web: https://dkayden.github.io/brand-nay-ai-lam/
-Bản Google Drive: [DÁN LINK DRIVE]
+Bản Google Drive: https://drive.google.com/file/d/1b0NVDBWXCa9yrvcUSXn7C5zqt7OyYLTn/view?usp=sharing
 
 Ngày đầu đi làm, cả nhà sẽ giao việc gì cho Nghé? Comment một việc, Nghé nghe hết! 🐃
 Thấy bộ prompt có ích thì cả nhà cứ share về tường để lưu nha.
