@@ -9,7 +9,7 @@ test('đủ 8 biến thể, mọi chữ là path', () => {
   const v = variants();
   assert.deepEqual(Object.keys(v).sort(), [
     'icon', 'icon-avatar', 'logo-doc', 'logo-doc-nen-toi', 'logo-ngang',
-    'logo-ngang-mono-nau', 'logo-ngang-mono-trang', 'logo-ngang-nen-toi',
+    'logo-ngang-mono-navy', 'logo-ngang-mono-trang', 'logo-ngang-nen-toi',
   ]);
   for (const [name, s] of Object.entries(v)) assert.ok(!s.includes('<text'), name);
 });
@@ -23,14 +23,14 @@ test('icon chỉ lấy màu từ palette truyền vào', () => {
 });
 
 test('bản mono đục thủng mặt thẻ bằng mask, chỉ một màu mực', () => {
-  const s = variants()['logo-ngang-mono-nau'];
+  const s = variants()['logo-ngang-mono-navy'];
   assert.match(s, /<mask /);
   assert.match(s, /mask="url\(#/);
   const visible = colorsIn(s.replace(/<mask[\s\S]*?<\/mask>/g, ''));
   assert.deepEqual([...visible].filter((c) => c !== 'none'), [COLORS.text]);
 });
 
-test('nền tối: "AI" dùng primary-soft, chữ dẫn màu kem', () => {
+test('nền tối: "AI" dùng primary-soft, chữ dẫn màu trắng', () => {
   const s = variants()['logo-ngang-nen-toi'];
   assert.equal(PALETTES['nen-toi'].accent, COLORS['primary-soft']);
   assert.ok(s.includes(`fill="${COLORS['primary-soft']}"`));

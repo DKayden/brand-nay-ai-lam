@@ -9,7 +9,8 @@ test('contrast đúng công thức WCAG', () => {
 const PAIRS = [
   ['text', 'background'], ['text', 'surface'], ['text-muted', 'background'],
   ['primary', 'background'], ['background', 'primary'], ['background', 'dark-bg'],
-  ['primary-soft', 'dark-bg'],
+  ['primary-soft', 'dark-bg'], ['text', 'primary-soft'], ['primary', 'surface'],
+  ['primary', 'primary-soft'],
 ];
 for (const [fg, bg] of PAIRS) {
   test(`${fg} trên ${bg} ≥ 4.5`, () => {

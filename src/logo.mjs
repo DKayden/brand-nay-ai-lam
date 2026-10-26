@@ -101,17 +101,18 @@ function wordmark(c, x, y, anchor = 'start') {
 }
 
 const FULL = {
-  outline: COLORS.text, card: COLORS.primary, face: COLORS.background, horn: COLORS.horn,
-  strap: COLORS['primary-soft'], clip: COLORS.text, lead: COLORS.text, accent: COLORS.primary,
+  // Thẻ xanh pastel viền navy, mặt thẻ navy (7.75 trên pastel); dây đeo xanh đậm, kẹp navy.
+  outline: COLORS.text, card: COLORS['primary-soft'], face: COLORS.text, horn: COLORS.horn,
+  strap: COLORS.primary, clip: COLORS.text, lead: COLORS.text, accent: COLORS.primary,
 };
 const mono = (ink) => ({
   knockout: true, outline: ink, card: ink, horn: 'none', strap: ink, clip: ink, lead: ink, accent: ink,
 });
 export const PALETTES = {
   full: FULL,
-  'mono-nau': mono(COLORS.text),
+  'mono-navy': mono(COLORS.text),
   'mono-trang': mono('#FFFFFF'),
-  // Nền tối: chữ primary không đủ tương phản trên dark-bg → "AI" dùng primary-soft.
+  // Nền tối: chữ primary không đủ tương phản trên dark-bg → chữ dẫn trắng, "AI" xanh pastel.
   'nen-toi': { ...FULL, lead: COLORS.background, accent: COLORS['primary-soft'] },
 };
 
@@ -139,7 +140,7 @@ export function variants() {
   return {
     'logo-ngang': ngang(PALETTES.full),
     'logo-doc': doc(PALETTES.full),
-    'logo-ngang-mono-nau': ngang(PALETTES['mono-nau']),
+    'logo-ngang-mono-navy': ngang(PALETTES['mono-navy']),
     'logo-ngang-mono-trang': ngang(PALETTES['mono-trang']),
     'logo-ngang-nen-toi': ngang(PALETTES['nen-toi'], COLORS['dark-bg']),
     'logo-doc-nen-toi': doc(PALETTES['nen-toi'], COLORS['dark-bg']),
@@ -163,9 +164,9 @@ export function buildLogos(dir = '01-logo') {
 // Trang duyệt: 8 biến thể trên nền trung tính, mỗi ô đặt trên nền đúng mục đích, kèm thử 32px.
 const LABEL = { family: 'Be Vietnam Pro', weight: 600, size: 18 };
 const DARK = COLORS['dark-bg'];
-const TILE_BG = { // ô mặc định nền kem; bản nền tối tự có nền
+const TILE_BG = { // ô mặc định nền trắng xanh; bản nền tối tự có nền
   'logo-ngang-mono-trang': DARK, 'logo-ngang-nen-toi': DARK, 'logo-doc-nen-toi': DARK,
-  'icon-avatar': '#CFC9C1', // xám trung tính để thấy viền ô vuông kem
+  'icon-avatar': '#C9D3DE', // xám xanh trung tính để thấy viền ô vuông nền sáng
 };
 export function previewSheet() {
   const all = variants();
@@ -191,7 +192,7 @@ export function previewSheet() {
     body += textPath(`${name}.svg`, { ...LABEL, x: x0 + 28, y: y0 + cellH - 26, fill: ink }).svg;
     body += textPath('cao 32px', { ...LABEL, size: 14, x: x0 + cellW - 40 - (vw * sk) / 2, y: y0 + cellH / 2 + 40, fill: ink, anchor: 'middle' }).svg;
   });
-  return svg(W, H, body, '#E4E1DC');
+  return svg(W, H, body, '#DDE4EC');
 }
 
 if (path.basename(process.argv[1] ?? '') === 'logo.mjs') {

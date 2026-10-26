@@ -32,8 +32,8 @@ test('buildBoard ghi đủ 13 tệp, đúng kích thước, không có <text>', 
 });
 
 test('embed đổi tên id mỗi lần nhúng, không đụng nhau', () => {
-  const a = embed('01-logo/svg/logo-ngang-mono-nau.svg', 0, 0, 100);
-  const b = embed('01-logo/svg/logo-ngang-mono-nau.svg', 0, 0, 100);
+  const a = embed('01-logo/svg/logo-ngang-mono-navy.svg', 0, 0, 100);
+  const b = embed('01-logo/svg/logo-ngang-mono-navy.svg', 0, 0, 100);
   const idA = a.match(/id="([^"]+)"/)[1], idB = b.match(/id="([^"]+)"/)[1];
   assert.notEqual(idA, idB);
   assert.ok(a.includes(`url(#${idA})`) && !a.includes('url(#the-smile)'));
