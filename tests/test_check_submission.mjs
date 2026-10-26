@@ -8,7 +8,7 @@ import { readdirSync, existsSync } from 'node:fs';
 
 test('check_submission: chỉ lỗi ảnh chụp (hoặc OK khi đã đủ ảnh)', () => {
   const dir = '06-process/screenshots';
-  const shots = existsSync(dir) ? readdirSync(dir).filter((f) => f.toLowerCase().endsWith('.png')) : [];
+  const shots = existsSync(dir) ? readdirSync(dir).filter((f) => /\.(png|jpe?g)$/i.test(f)) : [];
   const r = spawnSync('python', ['-I', 'src/check_submission.py'], { encoding: 'utf-8' });
   assert.equal(r.error, undefined);
   if (shots.length >= 2) {
@@ -16,7 +16,7 @@ test('check_submission: chỉ lỗi ảnh chụp (hoặc OK khi đã đủ ảnh
     assert.match(r.stdout, /OK:/);
   } else {
     assert.equal(r.status, 1, r.stdout + r.stderr);
-    assert.match(r.stdout, /Cần ≥ 2 ảnh/);
+    assert.match(r.stdout, /Cần ≥ 2 ảnh chụp quá trình hợp lệ/);
     assert.doesNotMatch(r.stdout, /Thiếu:|PNG không trong suốt|SVG còn|Slogan sai|Brand voice cần|DESIGN\.md thiếu|fonts\.md thiếu/);
     const lines = r.stdout.split('\n').filter((l) => l.startsWith('- '));
     assert.equal(lines.length, 1, r.stdout);
