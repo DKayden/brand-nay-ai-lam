@@ -14,7 +14,7 @@
 
 - Agent khai báo: **Claude Code**. Mascot tên **Nghé**. Slogan **"AI làm việc, mình làm chủ."** Wordmark **"Đi làm với AI"** ("AI" màu primary).
 - Font: **Bricolage Grotesque** (tiêu đề, 700–800) + **Be Vietnam Pro** (nội dung, 400/500/600), Google Fonts, SIL OFL.
-- Màu (nháp, chỉnh nếu fail tương phản): primary `#C2521C`, primary-soft `#F59A52`, background `#FFF4E4`, surface `#F3E2CA`, text `#3A2417`, text-muted `#7A5A45`, buffalo `#8C7B70`, success `#5E8C3A`, dark-bg `#22150E`.
+- Màu (nháp, chỉnh nếu fail tương phản): primary `#B54A17`, primary-soft `#F59A52`, background `#FFF4E4`, surface `#F3E2CA`, text `#3A2417`, text-muted `#7A5A45`, buffalo `#8C7B70`, success `#5E8C3A`, dark-bg `#22150E`.
 - Thang chữ px: display 56 · h1 40 · h2 32 · h3 24 · body-lg 18 · body 16 · caption 13. Spacing 4–8–12–16–24–32–48–64. Bo góc sm 8 · md 14 · lg 24 · pill 999.
 - Logo: bản ngang + dọc, SVG + PNG trong suốt 512/1024/2048 px; thêm mono nâu, mono trắng, nền tối, icon vuông. Ngang tối thiểu 120px, icon tối thiểu 24px.
 - Mascot: viền `#3A2417` 6px ở khung 512; đặc điểm khoá: 2 sừng kem, mũi hồng đất 2 lỗ hạt đậu, mắt tròn đen 1 đốm sáng, má hồng, thân `#8C7B70`, thẻ nhân viên cam đất "Nghé · Nhân sự AI". 6 tư thế.
@@ -207,7 +207,7 @@ Run: `npm test` — Expected: FAIL (module chưa có).
 
 ```js
 export const COLORS = {
-  primary: '#C2521C',
+  primary: '#B54A17',
   'primary-soft': '#F59A52',
   background: '#FFF4E4',
   surface: '#F3E2CA',
@@ -249,7 +249,7 @@ export const contrast = (a, b) => {
 
 - [ ] **Step 3: Chạy test, chỉnh HEX nếu fail**
 
-Run: `npm test` — Expected: PASS. Cặp nào fail: chỉ chỉnh độ sáng (giữ sắc độ) của màu chữ/nền trong cặp đó — ví dụ `primary` tối dần theo bước 4% (`#C2521C` → `#B54A17` → …) đến khi ≥ 4.5 — rồi cập nhật lại bảng màu trong spec mục 4 cho khớp.
+Run: `npm test` — Expected: PASS. Cặp nào fail: chỉ chỉnh độ sáng (giữ sắc độ) của màu chữ/nền trong cặp đó — ví dụ `primary` tối dần theo bước 4% (`#B54A17` → `#B54A17` → …) đến khi ≥ 4.5 — rồi cập nhật lại bảng màu trong spec mục 4 cho khớp.
 
 - [ ] **Step 4: Commit**
 
@@ -296,7 +296,7 @@ import assert from 'node:assert/strict';
 import { renderPng } from '../src/render.mjs';
 
 test('PNG có kênh alpha và góc trong suốt', () => {
-  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="#C2521C"/></svg>';
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="#B54A17"/></svg>';
   const png = renderPng(svg, 200);
   assert.equal(png.readUInt32BE(16), 200);           // IHDR width
   assert.equal(png[25], 6);                          // color type RGBA
@@ -626,7 +626,7 @@ version: alpha
 name: Đi làm với AI
 description: Hệ nhận diện ấm áp, thân thiện cho cộng đồng người đi làm cùng AI; mascot Nghé.
 colors:
-  primary: "#C2521C"
+  primary: "#B54A17"
   primary-soft: "#F59A52"
   background: "#FFF4E4"
   surface: "#F3E2CA"
