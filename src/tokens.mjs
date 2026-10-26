@@ -10,7 +10,7 @@ export const COLORS = {
   'dark-bg': '#22150E',
   // mascot-only (không dùng cho chữ)
   horn: '#FBE9CF',
-  nose: '#D98A7A',
+  nose: '#BA8F89',
   cheek: '#F2A99A',
 };
 

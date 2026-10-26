@@ -80,7 +80,7 @@ function muzzle() {
     + ` C ${R} ${bottom - 18} ${cx + 52} ${bottom} ${cx} ${bottom}`
     + ` C ${cx - 52} ${bottom} ${L} ${bottom - 18} ${L} ${mid} Z`;
   // lỗ mũi hạt đậu: nghiêng, đặt xa nhau gần mép trên mõm
-  const bean = (x, y, a) => `<path transform="translate(${x} ${y}) rotate(${a}) scale(1.3)" d="M -5 -11 C 3 -13 8 -5 6 3 C 4 11 -4 13 -7 7 C -9 2 -3 0 -4 -4 C -5 -7 -9 -9 -5 -11 Z" fill="${INK}"/>`;
+  const bean = (x, y, a) => `<path transform="translate(${x} ${y}) rotate(${a}) scale(1.5)" d="M -5 -11 C 3 -13 8 -5 6 3 C 4 11 -4 13 -7 7 C -9 2 -3 0 -4 -4 C -5 -7 -9 -9 -5 -11 Z" fill="${INK}"/>`;
   return `<path d="${d}" fill="${C.nose}" ${LINE}/>`
     + `<ellipse cx="${cx}" cy="${top + 14}" rx="44" ry="6" fill="#fff" opacity=".22"/>`
     + bean(cx - 42, top + 28, 160) + bean(cx + 42, top + 28, 20);
@@ -137,51 +137,127 @@ function badge() {
 }
 
 // Tay = ống bo tròn hơi cong (qua điểm điều khiển qx,qy), đầu là móng guốc nâu chẻ đôi.
-function limb(x1, y1, qx, qy, x2, y2, w = 38) {
+// hoof: độ sâu móng theo tỉ lệ bề dày tay (0.37 ≈ chỏm mỏng, 0.5 = nửa đầu tròn).
+export function limb(x1, y1, qx, qy, x2, y2, w = 38, hoof = 0.37) {
   const len = Math.hypot(x2 - qx, y2 - qy), ux = (x2 - qx) / len, uy = (y2 - qy) / len; // tiếp tuyến cuối
-  const nx = -uy, ny = ux, r = w / 2, depth = 14;
-  const pt = (along, side) => `${(x2 + ux * along + nx * side).toFixed(1)} ${(y2 + uy * along + ny * side).toFixed(1)}`;
-  const seg = (color, width) => `<path d="M ${x1} ${y1} Q ${qx} ${qy} ${x2} ${y2}" stroke="${color}" stroke-width="${width}" stroke-linecap="round" fill="none"/>`;
+  const nx = -uy, ny = ux, r = w / 2, depth = Math.round(w * hoof);
+  const f = (v) => +v.toFixed(1);
+  const pt = (along, side) => `${f(x2 + ux * along + nx * side)} ${f(y2 + uy * along + ny * side)}`;
+  const seg = (color, width) => `<path d="M ${f(x1)} ${f(y1)} Q ${f(qx)} ${f(qy)} ${f(x2)} ${f(y2)}" stroke="${color}" stroke-width="${width}" stroke-linecap="round" fill="none"/>`;
   const d = r - depth, half = Math.sqrt(r * r - d * d);
-  const hoof = `<path d="M ${pt(d, half)} A ${r} ${r} 0 0 0 ${pt(d, -half)} Z" fill="${INK}"/>`;
+  const cap = `<path d="M ${pt(d, half)} A ${r} ${r} 0 0 0 ${pt(d, -half)} Z" fill="${INK}"/>`;
   const cleft = `<path d="M ${pt(d - 1, 0)} L ${pt(r - 3, 0)}" stroke="${C.buffalo}" stroke-width="3" stroke-linecap="round"/>`;
-  return seg(INK, w + SW * 2) + seg(C.buffalo, w) + hoof + cleft;
-}
-const sideX = (side, x) => (side === 'right' ? 512 - x : x);
-function armDown(side = 'left') {
-  return `<g class="arm-down-${side}">${limb(sideX(side, 206), 350, sideX(side, 180), 372, sideX(side, 172), 414)}</g>`;
-}
-function armUp(side = 'right') {
-  return `<g class="arm-up-${side}">${limb(sideX(side, 200), 352, sideX(side, 150), 340, sideX(side, 112), 282)}</g>`;
+  return seg(INK, w + SW * 2) + seg(C.buffalo, w) + cap + cleft;
 }
 
-function legs() {
-  const leg = (x) => `<rect x="${x}" y="408" width="44" height="66" rx="20" fill="${C.buffalo}" ${LINE}/>`
-    + `<path d="M ${x + 3} 456 L ${x + 41} 456 L ${x + 41} 458 Q ${x + 41} 471 ${x + 28} 471 L ${x + 16} 471 Q ${x + 3} 471 ${x + 3} 458 Z" fill="${INK}"/>`
-    + `<path d="M ${x + 22} 461 L ${x + 22} 471" stroke="${C.buffalo}" stroke-width="3" stroke-linecap="round"/>`;
-  return `<g class="legs">${leg(204)}${leg(264)}</g>`;
+// side luôn là phía NGƯỜI XEM: 'left' = nửa trái ảnh (x < 256), 'right' = nửa phải (x > 256).
+export const sideX = (side, x) => (side === 'right' ? 512 - x : x);
+const sidePt = (side, [x, y]) => [sideX(side, x), y];
+
+// Tay tham số. Toạ độ viết cho phía 'left' rồi tự lật sang 'right'.
+//  - angle (độ): 0 = buông thẳng xuống, 90 = giơ ngang ra ngoài, 180 = giơ thẳng lên; >180 vắt vào trong.
+//  - length: dài từ vai tới đầu móng; bend: độ cong theo tỉ lệ độ dài (+ khuỷu võng xuống khi giơ, − cong ngược).
+//  - hoặc to: [x,y] (đầu tay) + ctrl: [x,y] tuỳ chọn — cho tay cầm đồ vật ở vị trí cụ thể.
+//  - from: vai (mặc định [204,352]); w: độ dày; hoof: độ sâu móng (xem limb).
+export function arm(side = 'left', { angle = 20, length = 72, bend = 0.2, from = [204, 352], to, ctrl, w = 38, hoof } = {}) {
+  const [x1, y1] = from;
+  let x2, y2;
+  if (to) [x2, y2] = to;
+  else {
+    const a = (angle * Math.PI) / 180;
+    x2 = x1 - Math.sin(a) * length;
+    y2 = y1 + Math.cos(a) * length;
+  }
+  let q = ctrl;
+  if (!q) {
+    const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy) || 1;
+    const nx = dy / L, ny = -dx / L; // pháp tuyến: tay giơ lên → võng xuống; tay buông → ép vào thân
+    q = [(x1 + x2) / 2 + nx * bend * L, (y1 + y2) / 2 + ny * bend * L];
+  }
+  const [a1, b1] = sidePt(side, [x1, y1]), [qa, qb] = sidePt(side, q), [a2, b2] = sidePt(side, [x2, y2]);
+  return `<g class="arm-${side}">${limb(a1, b1, qa, qb, a2, b2, w, hoof)}</g>`;
+}
+// Hai tư thế tay dùng sẵn.
+export const ARM = {
+  tucked: { from: [208, 348], to: [174, 398], ctrl: [176, 360], w: 40, hoof: 0.5 }, // buông, ép sát thân
+  raised: { from: [200, 352], to: [112, 282], ctrl: [150, 340] }, // giơ "Dạ!"
+};
+function armDown(side = 'left') { return arm(side, ARM.tucked); }
+function armUp(side = 'right') { return arm(side, ARM.raised); }
+
+// Chân. stance: 'stand' (đứng chụm) | 'wide' (dạng rộng) | 'step' (nhấc chân phải người xem).
+const STANCES = {
+  stand: [[204, 408], [264, 408]],
+  wide: [[190, 408], [278, 408]],
+  step: [[204, 408], [270, 398]],
+};
+export function legs({ stance = 'stand' } = {}) {
+  const st = STANCES[stance];
+  if (!st) throw new Error(`stance không hỗ trợ: ${stance}`);
+  const leg = ([x, y]) => `<rect x="${x}" y="${y}" width="44" height="66" rx="20" fill="${C.buffalo}" ${LINE}/>`
+    + `<path d="M ${x + 3} ${y + 48} L ${x + 41} ${y + 48} L ${x + 41} ${y + 50} Q ${x + 41} ${y + 63} ${x + 28} ${y + 63} L ${x + 16} ${y + 63} Q ${x + 3} ${y + 63} ${x + 3} ${y + 50} Z" fill="${INK}"/>`
+    + `<path d="M ${x + 22} ${y + 53} L ${x + 22} ${y + 63}" stroke="${C.buffalo}" stroke-width="3" stroke-linecap="round"/>`;
+  return `<g class="legs">${st.map(leg).join('')}</g>`;
 }
 
-export const part = { horns, ears, head, body, badge, armUp, armDown, legs };
+export const part = { horns, ears, head, body, badge, arm, armUp, armDown, legs };
 
 export const POSES = ['nghe-nghe', 'dang-chay', 'xong-roi-sep', 'y-sep-la', 'ca-phe-sang', 'chao-member-moi'];
 
-const wrap = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">${inner}</svg>\n`;
+export const wrap = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">${inner}</svg>
+`;
 
-// Vạch hào hứng cạnh tay giơ.
-const sparks = (x, y) => [[8, -32, 16, -52], [22, -22, 40, -36], [28, -4, 50, -6]]
-  .map(([a, b, c, d]) => `<path d="M ${x + a} ${y + b} L ${x + c} ${y + d}" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>`).join('');
+// Vạch hào hứng (3 nét) — mặc định toả lên-phải từ (x,y); flip=true toả lên-trái.
+export const sparks = (x, y, flip = false) => [[8, -32, 16, -52], [22, -22, 40, -36], [28, -4, 50, -6]]
+  .map(([a, b, c, d]) => {
+    const k = flip ? -1 : 1;
+    return `<path d="M ${x + k * a} ${y + b} L ${x + k * c} ${y + d}" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>`;
+  }).join('');
+
+export { mirror };
+
+// Ghép một tư thế — thứ tự lớp cố định ở đây, Task 7 chỉ khai báo bộ phận:
+//   sừng+tai (theo đầu) → chân → tay sau thân → thân → thẻ → under → tay trước thân → đầu → extras
+// head: { eyes, mouth, transform } — transform (vd "rotate(-10 256 200)") áp cho cả sừng, tai, đầu.
+// armL / armR: tuỳ chọn của arm() (+ front: true để vẽ trước thân), chuỗi SVG có sẵn, hoặc false để bỏ.
+// legs: tuỳ chọn của legs() ({ stance }) hoặc chuỗi SVG. under: đạo cụ nằm sau tay trước (cốc, laptop).
+// extras: vẽ trên cùng (vạch hào hứng, dấu "?", biển cầm tay...).
+export function compose({ head: h = {}, armL = ARM.tucked, armR = ARM.tucked, legs: lg = {}, extras = '', under = '' } = {}) {
+  const { transform, ...face } = h;
+  const tg = (svg) => (transform ? `<g transform="${transform}">${svg}</g>` : svg);
+  const back = [], front = [];
+  for (const [side, a] of [['left', armL], ['right', armR]]) {
+    if (a === false || a == null) continue;
+    if (typeof a === 'string') { back.push(a); continue; }
+    const { front: isFront, ...opts } = a;
+    (isFront ? front : back).push(arm(side, opts));
+  }
+  return wrap(
+    tg(horns() + ears())
+    + (typeof lg === 'string' ? lg : legs(lg))
+    + back.join('')
+    + body() + badge()
+    + under
+    + front.join('')
+    + tg(head(face))
+    + extras,
+  );
+}
 
 const BUILDERS = {
-  'nghe-nghe': () => horns() + ears() + legs() + armUp('right') + armDown('left') + body() + badge()
-    + head({ eyes: 'open', mouth: 'open' }) + sparks(sideX('right', 108), 276),
+  'nghe-nghe': () => compose({
+    head: { eyes: 'open', mouth: 'open' },
+    armL: ARM.tucked,
+    armR: ARM.raised,
+    extras: sparks(sideX('right', 108), 276),
+  }),
 };
 
 export function pose(name) {
   if (!POSES.includes(name)) throw new Error(`Không có tư thế: ${name}`);
   const b = BUILDERS[name];
   if (!b) throw new Error(`Tư thế "${name}" not implemented in Task 6`);
-  return wrap(b());
+  return b();
 }
 
 // ---------- Character sheet 1600×1000 ----------
@@ -218,7 +294,7 @@ export function characterSheet() {
 
   // Bảng màu
   b += T('BẢNG MÀU MASCOT', { ...B600, size: 14, x: X, y: 530, fill: COLORS['text-muted'] });
-  const sw = [['Thân', C.buffalo], ['Bụng', C.belly], ['Sừng', C.horn], ['Mũi', C.nose],
+  const sw = [['Thân', C.buffalo], ['Bụng', C.belly], ['Sừng', C.horn], ['Mõm', C.nose],
     ['Má / tai', C.cheek], ['Viền', INK], ['Thẻ', C.badge], ['Dây thẻ', C.strap]];
   sw.forEach(([name, hex], i) => {
     const x = X + (i % 4) * 186, y = 560 + Math.floor(i / 4) * 84;
@@ -231,7 +307,7 @@ export function characterSheet() {
   b += T('ĐẶC ĐIỂM KHOÁ (giữ ở mọi tư thế)', { ...B600, size: 14, x: X, y: 762, fill: COLORS['text-muted'] });
   [
     '2 sừng kem lưỡi liềm quét ngang, cùng họ sừng logo',
-    'Mõm rộng hồng đất, 2 lỗ mũi hạt đậu · má hồng',
+    'Mõm rộng xám-hồng (trâu nước), 2 lỗ mũi hạt đậu · má hồng',
     'Mắt tròn đen, đốm sáng · tai cụp ngang · xoáy lông trán',
     'Thân xám #8C7B70, viền nâu #3A2417 dày 6px (khung 512)',
     'Thẻ nhân viên cam đất "Nghé · Nhân sự AI"',

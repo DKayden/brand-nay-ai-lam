@@ -37,15 +37,20 @@ So 4 đặc điểm (dáng · màu · đạo cụ · tên) với 5 nhân vật t
 | Billy Buffalo (Buffalo Bills) | bò rừng bison xanh dương | xanh | áo đấu | Billy | 0 |
 | Tranh stock "cute bison/buffalo cartoon" (Adobe Stock, Alamy) | chibi bốn chân | nâu | không | không tên | 0 |
 
+*Lưu ý: không tìm được ảnh/mô tả hình của Trâu Vàng (SEA Games 22), nên dòng so sánh này dựa trên tên và bối cảnh (linh vật thể thao, màu vàng), không dựa trên hình.*
+
 **Kết luận:** không nhân vật nào trùng từ 2 đặc điểm trở lên → giữ thiết kế. Thẻ nhân viên, thân xám, tên "Nghé" là phần riêng. Không tìm thấy mascot nào tên "Nghé".
 
 Nguồn:
 - https://en.wikipedia.org/wiki/List_of_SEA_Games_mascots
 - https://en.wikipedia.org/wiki/2003_SEA_Games
-- https://tuoitre.vn/sao-la-linh-vat-cua-sea-games-31-20200924231348027.htm
+- https://tuoitre.vn/sao-la-linh-vat-cua-sea-games-31-20200924231348027.htm (tham khảo phụ: linh vật sao la SEA Games 31, không phải Trâu Vàng)
 - https://en.wikipedia.org/wiki/%C4%90%C3%B4ng_H%E1%BB%93_painting
 - https://www.vietnam.vn/tranh-chan-trau-thoi-sao
 - https://www.colorado.edu/coloradan/2020/02/01/chip-tales
 - https://en.wikipedia.org/wiki/Billy_Buffalo
 - https://stock.adobe.com/577883450
 - Từ khoá đã tìm: "linh vật trâu vàng SEA Games 22", "chibi buffalo mascot", "nghé mascot linh vật", "mascot trâu linh vật Tết Tân Sửu", "cute baby water buffalo cartoon character mascot brand".
+
+### Góp ý của người dùng (26/10)
+- Mõm hồng to trông như bò sữa → đổi mõm sang xám-hồng (#BA8F89, nằm giữa thân #8C7B70 và hồng), lỗ mũi hạt đậu to hơn một chút; má vẫn hồng. Tay trái (phía người xem) gọn lại: ngắn, tròn, ép sát thân, móng nhỏ gọn cùng kiểu tay giơ.
