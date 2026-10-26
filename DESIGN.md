@@ -46,8 +46,8 @@ Wordmark "Đi làm với AI": chữ "AI" màu `primary`, phần còn lại màu 
 
 ## Colors
 
-- **primary `#2B5C8A`** (xanh đậm): nút chính, chữ "AI" trong logo, dây đeo thẻ, điểm nhấn. Chữ màu primary đặt được trên `background` (6.68:1), `surface` (5.95:1) và `primary-soft` (4.73:1). Không đặt trên `dark-bg` (2.23:1).
-- **primary-soft `#B8D8F5`** (xanh pastel): màu chủ đạo của brand: thẻ nhân viên của Nghé, thân thẻ trong logo, nền ảnh bìa và poster. Chữ trên nền này dùng `text` (7.75:1). Trên `dark-bg`, đây là màu nhấn và màu chữ "AI" (10.56:1).
+- **primary `#2B5C8A`** (xanh đậm): nút chính, chữ "AI" trong wordmark, cà vạt trong logo, dây đeo thẻ, điểm nhấn. Chữ màu primary đặt được trên `background` (6.68:1), `surface` (5.95:1) và `primary-soft` (4.73:1). Không đặt trên `dark-bg` (2.23:1).
+- **primary-soft `#B8D8F5`** (xanh pastel): màu chủ đạo của brand: thẻ nhân viên của Nghé, thân thẻ trong logo, viên thuốc sau chữ "AI" của wordmark, nền ảnh bìa và poster. Chữ trên nền này dùng `text` (7.75:1). Trên `dark-bg`, đây là màu nhấn và màu viên thuốc "AI" (10.56:1).
 - **background `#F7FAFD`** (trắng xanh): nền chính, cũng là màu chữ trên nút primary (6.68:1) và trên nền tối (14.93:1).
 - **surface `#E3EEF9`** (xanh nhạt): thẻ, khối nội dung, nút phụ. Chữ trên surface dùng `text` (9.77:1).
 - **text `#1F3A5F`** (navy): chữ chính và màu viền sticker, viền mascot (10.96:1 trên nền chính).
@@ -90,19 +90,21 @@ Bo góc lớn, tròn trịa: sm 8px (huy hiệu), md 14px, lg 24px (thẻ), pill
 
 ### Logo
 
-Bộ logo gồm: `logo-ngang`, `logo-doc`, `mono-navy`, `mono-trang`, `nen-toi` và `icon` (kèm `icon-avatar`). Bản có chữ dùng thẻ mặt cười; icon đứng một mình dùng thẻ chữ "AI".
+Biểu tượng (bản A2, chốt 26/10): tấm thẻ xanh pastel viền navy, mặt là dấu nhắc lệnh `>_`, bên dưới là cổ áo và cà vạt xanh đậm. Ý nghĩa: AI là đồng nghiệp cấp cao, gương mặt là chỗ mình giao việc cho Agent. Wordmark "Đi làm với AI" màu navy, "AI" nằm trên viên thuốc xanh pastel. Bộ logo gồm: `logo-ngang`, `logo-doc`, `mono-navy`, `mono-trang`, `nen-toi` và `icon` (kèm `icon-avatar`).
 
 - Do: chọn bản theo nền: nền sáng dùng `logo-ngang` hoặc `logo-doc`; nền tối dùng `nen-toi`; in một màu dùng `mono-navy`, hoặc `mono-trang` trên nền tối.
 - Do: chừa vùng an toàn quanh logo bằng chiều cao chữ "A" trong wordmark.
+- Do: khi đặt chữ cùng hàng với bản ngang, canh theo chân chữ wordmark, để cà vạt thả xuống dưới.
 - Do: giữ cỡ tối thiểu: bản ngang rộng 120px, icon 24px. Nhỏ hơn thì dùng `icon`.
 - Don't: kéo méo, đổi tỉ lệ, xoay logo.
+- Don't: thêm sừng, hình não hay chữ "AI" vào biểu tượng.
 - Don't: đổi màu ngoài bảng màu thương hiệu.
 - Don't: đặt logo lên nền rối hoặc ảnh nhiều chi tiết.
-- Don't: đặt bản màu đầy đủ lên nền tối (chữ navy và chữ "AI" màu primary không đủ tương phản).
+- Don't: đặt bản màu đầy đủ lên nền tối (chữ navy không đủ tương phản).
 
 ### Mascot Nghé
 
-- Do: giữ đúng đặc điểm: hai sừng kem lưỡi liềm giống logo, mõm xám hồng `#BA8F89` với hai lỗ mũi hạt đậu, mắt tròn đen có một đốm sáng, má hồng, bụng `#A99A8F`, thân `#8C7B70`, viền navy `#1F3A5F` 6px ở khung 512px.
+- Do: giữ đúng đặc điểm: hai sừng kem lưỡi liềm, mõm xám hồng `#BA8F89` với hai lỗ mũi hạt đậu, mắt tròn đen có một đốm sáng, má hồng, bụng `#A99A8F`, thân `#8C7B70`, viền navy `#1F3A5F` 6px ở khung 512px.
 - Do: luôn cho Nghé đeo thẻ nhân viên xanh pastel, chữ navy "Nghé · Nhân sự AI".
 - Do: dùng 6 tư thế sticker trong `03-mascot/` cho các tình huống tương ứng.
 - Don't: đổi màu thân, sừng hay mũi.

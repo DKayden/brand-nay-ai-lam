@@ -42,6 +42,8 @@ Wordmark chung: **"Đi làm với AI"**, viết bằng Bricolage Grotesque Extra
 - **B. Đầu Nghé tối giản:** mặt Nghé rút gọn thành icon tròn. Thân thiện nhất, nhưng logo lẫn với mascot.
 - **C. Sừng thành chữ A:** hai sừng chụm lại tạo chữ A trong "AI". Tinh tế, nhưng ở cỡ nhỏ khó nhận ra trâu.
 
+**Đổi ngày 26/10 (người dùng quyết):** người dùng không thích logo có sừng, bỏ luôn hướng hình não, rồi bỏ chữ "AI" khỏi biểu tượng. Logo chính thức thay bằng **A2 "Thẻ thắt cà vạt, dấu nhắc lệnh"**: tấm thẻ xanh pastel viền navy, mặt là dấu nhắc lệnh `>_`, bên dưới là cổ áo trắng xanh và cà vạt xanh đậm (khung 200×220). Ý nghĩa: AI là đồng nghiệp cấp cao, gương mặt là chỗ mình giao việc cho Agent. Wordmark giữ chữ, "AI" đặt trên viên thuốc xanh pastel. Sừng chỉ còn ở mascot Nghé. Hướng A/B/C ở trên giữ lại làm lịch sử.
+
 **Bộ file logo bắt buộc** (với hướng được chọn):
 - bản ngang (icon trái + chữ);
 - bản dọc (icon trên + chữ dưới);

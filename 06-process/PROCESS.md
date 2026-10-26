@@ -177,3 +177,25 @@ Vài chỗ phải chỉnh tay sau khi đổi màu:
 - Trang carousel 4: thêm đĩa pastel sau sticker "Ý sếp là...?" để dấu hỏi xanh đậm không chìm vào khối nền primary.
 - Màu `success` `#5E8C3A` giữ nguyên vì không dùng làm chữ (3.79:1 trên nền mới).
 
+
+## Bước — Làm lại logo (26/10)
+
+Sau khi đổi màu, mình xem lại logo thẻ mọc sừng và góp ý theo từng lượt:
+
+1. *"Tôi không thích logo có sừng"*
+2. *"bỏ hình ảnh não"*
+3. *"thử một hướng bỏ chữ AI"*
+4. *"Chốt A2 phương án 1 (dấu nhắc lệnh)"*
+
+Diễn biến:
+- Khi sừng bị gạch, Claude thử vài hướng lấy hình não làm biểu tượng (các file `explore/logo2-*`). Mình thấy hình não sáo, nên bỏ.
+- Claude chuyển sang một canvas Claude Design (riêng tư), dựng 3 hướng khác hẳn nhau để so cạnh nhau: **A "AI thắt cà vạt"**, **B "Chữ A là người"**, **C "Ghế sếp"**.
+- Mình thích A nhưng muốn bỏ chữ "AI" trong biểu tượng. Claude làm tiếp A2: giữ thẻ thắt cà vạt, thay chữ bằng 3 gương mặt khác nhau: dấu nhắc lệnh, mặt cười, lấp lánh.
+- Mình chọn **dấu nhắc lệnh**. Ý nghĩa: AI là một đồng nghiệp cấp cao (thắt cà vạt), gương mặt là dấu nhắc lệnh `>_`, đúng chỗ mình gõ để giao việc cho Agent.
+
+Cách làm: Claude chép nguyên hình học đã duyệt trên canvas vào `src/logo.mjs` (khung 200×220), giữ đủ 8 biến thể và tên file cũ, rồi chạy lại `npm run build`. Logo, nắp laptop của tư thế "đang chạy", brand board, 4 mockup, 2 poster, 5 trang carousel và GIF đổi theo trong một lượt. Vài chỗ chỉnh thêm:
+- Wordmark: "AI" nằm trên viên thuốc xanh pastel như trên canvas. Bản nền tối để "AI" màu navy trên pastel (7.75:1).
+- Bản một màu: đục thủng dấu nhắc lệnh, lòng cổ áo, khe giữa nút và thân cà vạt, chữ "AI" trong viên thuốc, để logo đọc được bằng một màu mực.
+- Khung lockup tính từ hộp mực thật của chữ (kể cả dấu tiếng Việt), test render kiểm mép không bị cắt.
+- Cà vạt thả xuống dưới hàng chữ, nên ở chân poster và carousel, hashtag được canh theo chân chữ wordmark thay vì canh giữa cả khối logo.
+- Sừng chỉ còn ở Nghé. Hình học sừng vẫn nằm trong `src/mascot.mjs`; test xác nhận bản `nghe-nghe` không đổi một byte.

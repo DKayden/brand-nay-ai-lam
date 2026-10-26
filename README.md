@@ -14,7 +14,7 @@ Bản sao Google Drive: (sẽ cập nhật)
 
 | # | Hạng mục | Xem ở đâu |
 |---|---|---|
-| 1 | Logo ngang + dọc (SVG, PNG nền trong suốt; thêm bản 1 màu, nền tối) | [01-logo](01-logo/) |
+| 1 | Logo "thẻ thắt cà vạt, dấu nhắc lệnh": AI là đồng nghiệp cấp cao, mặt là chỗ mình giao việc cho Agent. Bản ngang + dọc (SVG, PNG nền trong suốt; thêm bản 1 màu, nền tối, icon) | [01-logo](01-logo/) |
 | 2 | Slogan + lời giải thích | [02-slogan](02-slogan/slogan.md) |
 | 3 | Mascot Nghé, character sheet, 6 sticker | [03-mascot](03-mascot/) |
 | 4 | Font: Bricolage Grotesque + Be Vietnam Pro | [04-font](04-font/fonts.md) |
