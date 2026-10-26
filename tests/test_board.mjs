@@ -21,7 +21,7 @@ test('buildBoard ghi đủ 13 tệp, đúng kích thước, không có <text>', 
     'board/mockup-ly-ca-phe.png': [1200, 900],
     'board/mockup-slide-webinar.png': [1920, 1080],
     'board/poster-nghe-phang.png': [1080, 1350],
-    'board/poster-nghe-cam.png': [1080, 1350],
+    'board/poster-nghe-xanh.png': [1080, 1350],
     'board/carousel-01.png': [1080, 1080],
     'board/carousel-02.png': [1080, 1080],
     'board/carousel-03.png': [1080, 1080],
@@ -45,10 +45,10 @@ test('mọi SVG nguồn của mockup đều không có <text>', () => {
   for (const [name, svg] of all) assert.ok(!svg.includes('<text'), name);
 });
 
-test('poster cam + carousel: 6 ảnh, SVG không có <text>, chữ chỉ là path', () => {
+test('poster xanh + carousel: 6 ảnh, SVG không có <text>, chữ chỉ là path', () => {
   const jobs = socialJobs();
   assert.deepEqual(jobs.map(([n]) => n),
-    ['poster-nghe-cam', 'carousel-01', 'carousel-02', 'carousel-03', 'carousel-04', 'carousel-05']);
+    ['poster-nghe-xanh', 'carousel-01', 'carousel-02', 'carousel-03', 'carousel-04', 'carousel-05']);
   for (const [name, svg] of jobs) {
     assert.ok(!svg.includes('<text'), name);
     assert.ok(svg.includes('<path d="M'), name);

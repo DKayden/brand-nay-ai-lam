@@ -133,8 +133,8 @@ export function brandBoard() {
   // --- 01 Màu ---
   let y = 576;
   b += secHead('01', 'Màu sắc', y);
-  const sw = [['Cam đất', 'primary'], ['Cam nhạt', 'primary-soft'], ['Kem', 'background'],
-    ['Be', 'surface'], ['Nâu đất', 'text'], ['Nâu đêm', 'dark-bg']];
+  const sw = [['Xanh đậm', 'primary'], ['Xanh pastel', 'primary-soft'], ['Trắng xanh', 'background'],
+    ['Xanh nhạt', 'surface'], ['Navy', 'text'], ['Navy đêm', 'dark-bg']];
   const cw = colW / 6, cy = secTitleBase(y) + 26 + 44;
   sw.forEach(([name, key], i) => {
     const cx = M + cw * i + cw / 2;
@@ -188,20 +188,20 @@ export function brandBoard() {
 export function coverGroup() {
   const W = 1640, H = 856, SAFE_TOP = (H - 624) / 2; // 116
   let b = '';
-  // Nghé bên phải trên đĩa kem
+  // Nghé bên phải trên đĩa trắng xanh
   const nS = 600, nX = W - 140 - nS, nY = SAFE_TOP - 4;
   b += `<circle cx="${nX + nS / 2}" cy="${nY + nS / 2 + 10}" r="${nS * 0.44}" fill="${C.background}"/>`;
   b += embed(`${MASCOT}/nghe-nghe.svg`, nX, nY, nS);
-  // Trái: wordmark trên tấm nền tối + slogan kem
+  // Trái: wordmark trên tấm nền navy + slogan navy (7.75 trên nền pastel)
   const X = 120, lw = 600, lh = lw * ratio(`${LOGO}/logo-ngang-nen-toi.svg`);
   const panelY = SAFE_TOP + 118, pad = 28;
   b += stickerCard(X, panelY, lw + pad * 2, lh + pad, 28, C['dark-bg'], { sw: 0, drop: 0 });
   b += embed(`${LOGO}/logo-ngang-nen-toi.svg`, X + pad, panelY + pad / 2, lw, { noBg: true });
   const sl = { ...H800, size: 64 };
   const sy = panelY + lh + pad + 56 + cap(sl);
-  b += T('AI làm việc,', sl, X, sy, C.background);
-  b += T('mình làm chủ.', sl, X, sy + 74, C.background);
-  return doc(W, H, b, C.primary);
+  b += T('AI làm việc,', sl, X, sy, INK);
+  b += T('mình làm chủ.', sl, X, sy + 74, INK);
+  return doc(W, H, b, C['primary-soft']);
 }
 
 // ================= MOCKUP: thẻ nhân viên 1200×900 =================
@@ -212,23 +212,24 @@ export function badgeMockup() {
   b += `<circle cx="${cx}" cy="${cardY + cardH / 2}" r="400" fill="${C.surface}"/>`;
   // dây đeo: hai quai chụm vào kẹp
   const strap = (color, w) => `<path d="M ${cx - 150} -20 L ${cx - 14} ${cardY - 44} M ${cx + 150} -20 L ${cx + 14} ${cardY - 44}" stroke="${color}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
-  b += strap(INK, 46) + strap(C['primary-soft'], 34);
+  b += strap(INK, 46) + strap(C.primary, 34);
   b += rect(cx - 30, cardY - 62, 60, 44, 12, INK);
   b += rect(cx - 16, cardY - 28, 32, 56, 8, C.buffalo, OUTLINE(4));
   // thân thẻ
-  b += stickerCard(cardX, cardY, cardW, cardH, 36, C.primary, { sw: 6, drop: 12 });
-  b += rect(cx - 50, cardY + 22, 100, 18, 9, C['dark-bg']); // khe đeo
-  // đầu thẻ: icon + wordmark kem (chữ kem trên primary đạt 4.88)
+  // thân thẻ xanh pastel như thẻ của Nghé, chữ navy (7.75)
+  b += stickerCard(cardX, cardY, cardW, cardH, 36, C['primary-soft'], { sw: 6, drop: 12 });
+  b += rect(cx - 50, cardY + 22, 100, 18, 9, INK); // khe đeo
+  // đầu thẻ: icon + wordmark navy, "AI" xanh đậm (4.73 trên pastel, chữ lớn)
   b += embed(`${LOGO}/icon-avatar.svg`, cardX + 40, cardY + 58, 60);
-  b += T('Đi làm với AI', { ...H800, size: 30 }, cardX + 116, cardY + 88 + cap(H800, 30) / 2, C.background);
+  b += runs([['Đi làm với ', INK], ['AI', C.primary]], { ...H800, size: 30 }, cardX + 116, cardY + 88 + cap(H800, 30) / 2);
   // ảnh Nghé
   const phX = cardX + 40, phY = cardY + 136, phW = cardW - 80, phH = 300;
   b += rect(phX, phY, phW, phH, 20, C.background, OUTLINE(4));
   b += `<clipPath id="anh-nghe"><rect x="${phX + 2}" y="${phY + 2}" width="${phW - 4}" height="${phH - 4}" rx="18"/></clipPath>`;
   b += `<g clip-path="url(#anh-nghe)">${embed(`${MASCOT}/nghe-nghe.svg`, cx - 256, phY - 40, 512)}</g>`;
   // tên + chức danh + mã NV
-  b += T('Nghé', { ...H800, size: 72 }, cx, phY + phH + 84, C.background, 'middle');
-  b += T('Nhân sự AI', { ...B600, size: 28 }, cx, phY + phH + 128, C.background, 'middle');
+  b += T('Nghé', { ...H800, size: 72 }, cx, phY + phH + 84, INK, 'middle');
+  b += T('Nhân sự AI', { ...B600, size: 28 }, cx, phY + phH + 128, INK, 'middle');
   const code = 'Mã NV: AI-001', cs = { ...B600, size: 22 };
   const cw = W_(code, cs) + 48;
   b += rect(cx - cw / 2, phY + phH + 152, cw, 48, 24, C.background);
@@ -247,7 +248,7 @@ export function cupMockup() {
   const lidY = top - 70;
   b += `<ellipse cx="${cx}" cy="${floorY}" rx="${bw / 2 + 40}" ry="14" fill="${INK}" opacity=".12"/>`;
   b += `<path d="M ${cx - tw / 2} ${top} L ${cx + tw / 2} ${top} L ${cx + bw / 2} ${bot} L ${cx - bw / 2} ${bot} Z" fill="${C.background}" ${OUTLINE(6)}/>`;
-  // đai giấy cam đất
+  // đai giấy xanh đậm
   const sTop = 400, sBot = 600;
   const xAt = (y) => tw / 2 - ((tw - bw) / 2) * ((y - top) / (bot - top));
   b += `<path d="M ${cx - xAt(sTop)} ${sTop} L ${cx + xAt(sTop)} ${sTop} L ${cx + xAt(sBot)} ${sBot} L ${cx - xAt(sBot)} ${sBot} Z" fill="${C.primary}" ${OUTLINE(6)}/>`;
@@ -307,7 +308,7 @@ export function flatPoster() {
   b += rect(bx, by + 8, bw, bh, bh / 2, INK);
   b += `<path d="M ${W / 2 - 34} ${by + bh + 4} L ${W / 2 - 6} ${by + bh + 52} L ${W / 2 + 26} ${by + bh + 4} Z" fill="${INK}"/>`;
   b += rect(bx, by, bw, bh, bh / 2, C.background, OUTLINE(5));
-  b += tail; // vẽ sau thân bóng: phần tô kem che nét viền chỗ đuôi nối thân
+  b += tail; // vẽ sau thân bóng: phần tô nền che nét viền chỗ đuôi nối thân
   b += runs(parts, bs, W / 2, by + bh / 2 + cap(bs) / 2, 'middle');
   // logo + slogan
   const lw = 560, lh = lw * ratio(`${LOGO}/logo-ngang.svg`);
@@ -317,27 +318,29 @@ export function flatPoster() {
   return doc(W, H, b, C.background);
 }
 
-// ================= POSTER CAM 1080×1350 (ảnh đầu bài đăng) =================
-// Nền primary để nổi trên feed trắng của Facebook. Chữ trên nền cam chỉ dùng kem (4.88:1);
-// chữ primary chỉ nằm trong bong bóng/thẻ nền kem.
-const DEEP = '#9A3D12'; // mảng tối hơn cùng tông cam, chỉ làm nền trang trí (kem trên nền này còn cao hơn 4.88)
-export function orangePoster() {
+// ================= POSTER XANH 1080×1350 (ảnh đầu bài đăng) =================
+// Nền xanh pastel (primary-soft) — màu chủ đạo của brand. Pastel nhạt dễ chìm trên feed trắng của
+// Facebook nên poster tự giữ đường biên: tiêu đề navy rất đậm (7.75:1), dải chân navy đặc full ngang,
+// mảng tròn xanh đậm hơn một tông sau Nghé. Chữ primary chỉ nằm trong bong bóng/thẻ nền sáng.
+const TONAL = '#8DBCE8'; // xanh pastel đậm hơn một tông, chỉ làm mảng trang trí (không đặt chữ lên)
+export function bluePoster() {
   const W = 1080, H = 1350, M = 64;
+  const BG = C['primary-soft'];
   let b = '';
-  // mảng tông tối phía sau Nghé
-  b += `<circle cx="${W / 2 + 40}" cy="900" r="430" fill="${DEEP}"/>`;
+  // mảng tông đậm phía sau Nghé
+  b += `<circle cx="${W / 2 + 40}" cy="900" r="430" fill="${TONAL}"/>`;
 
   // thẻ mã nhân viên
-  const tag = pill('Mã NV: AI-001', { ...B600, size: 30 }, M, M, { fill: C.background, ink: INK, padX: 26, h: 58 });
+  const tag = pill('Mã NV: AI-001', { ...B600, size: 30 }, M, M, { fill: INK, ink: C.background, padX: 26, h: 58 });
   b += tag.svg;
 
-  // tiêu đề móc tò mò
+  // tiêu đề móc tò mò — navy đậm, cỡ lớn
   const hs = { ...H800, size: 100 }, lh = 104;
   const h1 = M + 58 + 40 + cap(hs);
-  ['Group mình vừa', 'tuyển nhân sự AI', 'đầu tiên'].forEach((l, i) => { b += T(l, hs, M - 4, h1 + i * lh, C.background); });
+  ['Group mình vừa', 'tuyển nhân sự AI', 'đầu tiên'].forEach((l, i) => { b += T(l, hs, M - 4, h1 + i * lh, INK); });
 
   // Nghé + bong bóng thoại
-  const nS = 660, nX = 370, nY = 560;
+  const nS = 660, nX = 380, nY = 566;
   b += embed(`${MASCOT}/nghe-nghe.svg`, nX, nY, nS);
   const bs = { ...H800, size: 46 };
   const parts = [['Nói là ', INK], ['Nghé', C.primary], [' nghe!', INK]];
@@ -352,24 +355,24 @@ export function orangePoster() {
 
   // dòng mô tả trái
   const sub = { ...B600, size: 32 };
-  const subY = by + bh + 120;
+  const subY = by + bh + 110;
   ['Nhân viên mới', 'chăm, hơi ngáo', 'nghe lời sếp'].forEach((l, i) => {
     const y = subY + i * 58;
-    b += `<circle cx="${M + 9}" cy="${y - cap(sub) / 2}" r="7" fill="${C.background}"/>`;
-    b += T(l, sub, M + 30, y, C.background);
+    b += `<circle cx="${M + 9}" cy="${y - cap(sub) / 2}" r="7" fill="${INK}"/>`;
+    b += T(l, sub, M + 30, y, INK);
   });
 
-  // chân: logo màu trong thẻ kem + hashtag
-  const fh = 112, fy = H - M - fh + 12;
-  const lw = 330, lhh = lw * ratio(`${LOGO}/logo-ngang.svg`);
-  b += rect(M, fy, lw + 48, fh, fh / 2, C.background);
-  b += embed(`${LOGO}/logo-ngang.svg`, M + 20, fy + (fh - lhh) / 2, lw);
-  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, fy + fh / 2 + cap(H800, 44) / 2, C.background, 'end');
-  return doc(W, H, b, C.primary);
+  // chân: dải navy đặc full ngang — logo nền tối + hashtag xanh pastel (10.56)
+  const fh = 150, fy = H - fh;
+  b += rect(0, fy, W, fh, 0, C['dark-bg']);
+  const lw = 380, lhh = lw * ratio(`${LOGO}/logo-ngang-nen-toi.svg`);
+  b += embed(`${LOGO}/logo-ngang-nen-toi.svg`, M - 8, fy + (fh - lhh) / 2, lw, { noBg: true });
+  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, fy + fh / 2 + cap(H800, 44) / 2, BG, 'end');
+  return doc(W, H, b, BG);
 }
 
 // ================= CAROUSEL "8 prompt" 1080×1080 × 5 =================
-// Tóm 06-process/prompts.md. Nền kem, chữ nhỏ nhất 28px. [chỗ điền] tô primary.
+// Tóm 06-process/prompts.md. Nền trắng xanh, chữ nhỏ nhất 28px. [chỗ điền] tô primary.
 const CS = 1080, CM = 72;
 const PROMPTS = [
   ['Research đề bài', 'Đọc [thể lệ] và [trang cộng đồng]. Liệt kê hạng mục, điều kiện bị loại, cách nhóm nói chuyện.',
@@ -457,12 +460,14 @@ function carouselPrompts(page, from, to) {
     y = cy + ch + gap;
   }
   if (to === PROMPTS.length) {
-    // ô cuối: quy tắc làm việc (prompt 0) — chữ kem trên nền primary
+    // ô cuối: quy tắc làm việc (prompt 0) — chữ trắng xanh trên nền primary (6.68)
     const cw = CS - 2 * CM, chh = 210, ny = y - 20;
     b += rect(CM, ny, cw, chh, 24, C.primary);
     b += T('Đặt một lần trước bước 1', { ...H800, size: 36 }, CM + 36, ny + 40 + cap(H800, 36), C.background);
     b += para('Mỗi bước giao cho một subagent mới, rồi nhờ một subagent khác review.',
       { ...B500, size: 30 }, CM + 36, ny + 40 + cap(H800, 36) + 54, cw - 300, 42, C.background).svg;
+    // đĩa pastel sau sticker: dấu "?" xanh đậm không chìm vào nền primary
+    b += `<circle cx="${CS - CM - 125}" cy="${ny + 92}" r="92" fill="${C['primary-soft']}"/>`;
     b += embed(`${MASCOT}/y-sep-la.svg`, CS - CM - 250, ny - 40, 250);
   }
   return slideFrame(page, 5, b);
@@ -497,9 +502,9 @@ export const mockupJobs = () => [
   ['poster-nghe-phang', flatPoster(), 1080],
 ];
 
-/** Ảnh cho bài đăng: poster cam (ảnh đầu) + 5 trang carousel "8 prompt". */
+/** Ảnh cho bài đăng: poster xanh (ảnh đầu) + 5 trang carousel "8 prompt". */
 export const socialJobs = () => [
-  ['poster-nghe-cam', orangePoster(), 1080],
+  ['poster-nghe-xanh', bluePoster(), 1080],
   ...carouselSlides().map((svg, i) => [`carousel-0${i + 1}`, svg, 1080]),
 ];
 

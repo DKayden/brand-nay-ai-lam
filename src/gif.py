@@ -2,7 +2,7 @@
 import sys
 from PIL import Image
 
-BG = (255, 244, 228, 255)  # COLORS.background
+BG = (247, 250, 253, 255)  # COLORS.background #F7FAFD
 
 def frame(path: str, dy: int) -> Image.Image:
     im = Image.open(path).convert("RGBA")
