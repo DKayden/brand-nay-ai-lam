@@ -111,7 +111,7 @@ an toàn, cỡ tối thiểu, bản nào dùng trên nền nào, điều cấm. 
 lưu kết quả vào 06-process/designmd-lint.txt.
 ```
 
-**Mẹo:** lint sạch là bằng chứng rằng một Agent khác đọc DESIGN.md của bạn cũng hiểu đúng; lưu kết quả lint lại để đưa vào ảnh chụp quá trình.
+**Mẹo:** lint 0 lỗi (4 cảnh báo orphaned-tokens đã chấp nhận) là bằng chứng rằng một Agent khác đọc DESIGN.md của bạn cũng hiểu đúng; lưu kết quả lint lại để đưa vào ảnh chụp quá trình.
 
 ## Prompt 8. Brand board + một lệnh build
 

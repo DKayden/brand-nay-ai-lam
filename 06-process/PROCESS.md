@@ -32,7 +32,7 @@ Thư mục này là toàn bộ "hậu trường" của bài dự thi **Nghé —
 | 10:47 | Nghé dáng gốc + character sheet | `cec464f` |
 | 11:03, 11:11 | Hai vòng chỉnh Nghé theo góp ý của mình | `58f0f89`, `b146aa5` |
 | 11:19, 11:30 | 6 tư thế sticker, rồi sửa lỗi sau review | `914490c`, `39f5cbf` |
-| 11:32 - 11:35 | Slogan, font, brand voice, DESIGN.md (lint sạch) | `2ecd396` ... `acedb63` |
+| 11:32 - 11:35 | Slogan, font, brand voice, DESIGN.md (lint 0 lỗi (4 cảnh báo orphaned-tokens đã chấp nhận)) | `2ecd396` ... `acedb63` |
 | 11:41, 11:43 | Brand board, mockup, poster phẳng; sửa chồng chữ | `aecad2f`, `a45133f` |
 | 14:02 | Sửa móng Nghé che chữ trên biển | `f7266a3` |
 | 14:05 | Thử poster 3D bằng Gemini (không thành), ghi log | `4634d0b` |
@@ -103,6 +103,7 @@ Mỗi bước dưới đây có prompt điền chỗ trống trong [prompts.md](
   - sừng vểnh ngang, cong về sau, đúng dáng trâu Việt;
   - thêm dây đeo thẻ;
   - logo có wordmark thì mặt thẻ là khuôn mặt cười, để chữ "AI" không lặp lại.
+- Ảnh so sánh 3 hướng (bằng chứng quá trình): [logo-3-huong-so-sanh.png](logo-3-huong-so-sanh.png).
 - Prompt chính: *"Phác 3 hướng logo khác biệt thật cho group 'Đi làm với AI' theo concept Đồng nghiệp AI, vẽ bằng SVG code, so sánh ở cỡ 32px rồi tự phê bình từng hướng."*
 
 ## Bước 2 — Mascot Nghé (26/10)
@@ -125,6 +126,14 @@ So 4 đặc điểm (dáng · màu · đạo cụ · tên) với 5 nhân vật t
 | Tranh stock "cute bison/buffalo cartoon" (Adobe Stock, Alamy) | chibi bốn chân | nâu | không | không tên | 0 |
 
 *Lưu ý: không tìm được ảnh/mô tả hình của Trâu Vàng (SEA Games 22), nên dòng so sánh này dựa trên tên và bối cảnh (linh vật thể thao, màu vàng), không dựa trên hình.*
+
+Bổ sung (vòng review 1), tìm lại bằng WebSearch cho hai từ khoá "linh vật trâu Tết Tân Sửu 2021" và "linh vật trâu vàng SEA Games 22 hình ảnh". Cả hai lần đều không tìm được ảnh trực tiếp, chỉ có mô tả bằng chữ:
+
+| Nhân vật | Link | Dáng | Màu | Đạo cụ | Tên | Trùng |
+|---|---|---|---|---|---|---|
+| Đàn trâu linh vật đường hoa Nguyễn Huệ 2021 (60 con, cao ~1m, kèm mục đồng) | https://plo.vn/thiet-ke-doc-dao-cua-linh-vat-duong-hoa-tet-nguyen-hue-post609722.html | không tìm được ảnh; mô tả "gia đình trâu, phong cách hiện đại" | không tìm được ảnh | mục đồng (khác thẻ nhân viên) | không có tên riêng | 0 chắc chắn (dáng và màu chưa kiểm được bằng hình) |
+| Biểu tượng linh vật Tân Sửu 2021, quảng trường Nguyễn Tất Thành, Quy Nhơn | https://nongnghiepmoitruong.vn/linh-vat-tag2295/ | không tìm được ảnh | không tìm được ảnh | không rõ | không rõ | 0 (chưa kiểm được bằng hình) |
+| Trâu Vàng, SEA Games 22 (tìm lại) | https://vov.vn/chuyen-nam-mao/tan-man-ve-trau | nhân cách hoá, vui vẻ, mến khách; không tìm được ảnh | vàng | không rõ | Trâu Vàng | 1 (như bảng trên) |
 
 **Kết luận:** không nhân vật nào trùng từ 2 đặc điểm trở lên → giữ thiết kế. Thẻ nhân viên, thân xám, tên "Nghé" là phần riêng. Không tìm thấy mascot nào tên "Nghé".
 

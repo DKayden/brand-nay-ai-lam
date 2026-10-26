@@ -1,3 +1,6 @@
+npm notice run lint:design
+npm notice run npx -y -p @google/design.md@0.4.0 designmd lint DESIGN.md
+npm warn install-scripts .npmrc allow-scripts setting is being ignored because --allow-scripts was passed on the command line
 npm notice run npx
 npm notice run designmd lint DESIGN.md
 {

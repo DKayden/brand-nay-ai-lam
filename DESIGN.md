@@ -40,7 +40,7 @@ Tính cách hình ảnh: ấm, gần gũi, vui nhưng không lố. Màu đất v
 
 Tỉ lệ màu trên một bố cục: **60%** nền kem (`background`), **25%** `surface` và chữ `text`, **10%** cam đất `primary`, **5%** còn lại gồm `primary-soft`, `success` và màu mascot.
 
-Màu riêng của mascot (không dùng làm màu giao diện hay màu chữ): sừng kem `#FBE9CF`, mõm xám hồng và hai lỗ mũi `#BA8F89`, má hồng `#F2A99A`. Thân Nghé dùng `buffalo` `#8C7B70`.
+Màu riêng của mascot (không dùng làm màu giao diện hay màu chữ): sừng kem `#FBE9CF`, mõm xám hồng và hai lỗ mũi `#BA8F89`, má hồng `#F2A99A`, bụng `#A99A8F`. Thân Nghé dùng `buffalo` `#8C7B70`.
 
 Wordmark "Đi làm với AI": chữ "AI" màu `primary`, phần còn lại màu `text`.
 
@@ -102,7 +102,7 @@ Bộ logo gồm: `logo-ngang`, `logo-doc`, `mono-nau`, `mono-trang`, `nen-toi` v
 
 ### Mascot Nghé
 
-- Do: giữ đúng đặc điểm: hai sừng kem lưỡi liềm giống logo, mõm xám hồng `#BA8F89` với hai lỗ mũi hạt đậu, mắt tròn đen có một đốm sáng, má hồng, thân `#8C7B70`, viền `#3A2417` 6px ở khung 512px.
+- Do: giữ đúng đặc điểm: hai sừng kem lưỡi liềm giống logo, mõm xám hồng `#BA8F89` với hai lỗ mũi hạt đậu, mắt tròn đen có một đốm sáng, má hồng, bụng `#A99A8F`, thân `#8C7B70`, viền `#3A2417` 6px ở khung 512px.
 - Do: luôn cho Nghé đeo thẻ nhân viên cam đất "Nghé · Nhân sự AI".
 - Do: dùng 6 tư thế sticker trong `03-mascot/` cho các tình huống tương ứng.
 - Don't: đổi màu thân, sừng hay mũi.

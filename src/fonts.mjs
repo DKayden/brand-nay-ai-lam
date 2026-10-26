@@ -11,6 +11,11 @@ const SPECS = [
   ['Be Vietnam Pro', 600, 'BeVietnamPro-600.ttf'],
 ];
 
+const LICENSES = [
+  ['bricolagegrotesque', 'OFL-BricolageGrotesque.txt'],
+  ['bevietnampro', 'OFL-BeVietnamPro.txt'],
+];
+
 export const FONT_FILES = SPECS.map(([, , file]) => path.join(DIR, file));
 export const fontPath = (family, weight) =>
   path.join(DIR, SPECS.find(([f, w]) => f === family && w === weight)[2]);
@@ -24,6 +29,12 @@ async function download() {
     const url = css.match(/url\((https:[^)]+\.ttf)\)/)?.[1];
     if (!url) throw new Error(`Không thấy TTF cho ${family} ${weight}`);
     fs.writeFileSync(path.join(DIR, file), Buffer.from(await (await fetch(url)).arrayBuffer()));
+    console.log('ok', file);
+  }
+  for (const [dir, file] of LICENSES) {
+    const res = await fetch(`https://raw.githubusercontent.com/google/fonts/main/ofl/${dir}/OFL.txt`);
+    if (!res.ok) throw new Error(`Không tải được giấy phép ${file}: HTTP ${res.status}`);
+    fs.writeFileSync(path.join(DIR, file), await res.text());
     console.log('ok', file);
   }
 }
