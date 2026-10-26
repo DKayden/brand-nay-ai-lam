@@ -61,7 +61,7 @@ Wordmark chung: **"Đi làm với AI"**, viết bằng Bricolage Grotesque Extra
 
 | Token | Tên | HEX | Dùng cho |
 |---|---|---|---|
-| primary | Cam Đất | `#C2521C` | Nhấn, nút, chữ "AI", thẻ nhân viên |
+| primary | Cam Đất | `#B54A17` | Nhấn, nút, chữ "AI", thẻ nhân viên |
 | primary-soft | Cam Bình Minh | `#F59A52` | Minh hoạ, highlight, nền sticker |
 | background | Kem Sữa | `#FFF4E4` | Nền chính |
 | surface | Sữa Đá | `#F3E2CA` | Thẻ, khối phụ |
