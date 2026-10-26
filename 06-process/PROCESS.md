@@ -70,10 +70,10 @@ Bộ 4 ảnh bằng chứng, đặt tên đúng như sau:
 
 | Tệp | Chụp gì |
 |---|---|
-| `01-logo-3-huong.png` | Bảng 3 hướng logo A/B/C ở cỡ 96/48/32px |
-| `02-character-sheet.png` | Character sheet của Nghé |
-| `03-designmd-lint.png` | Kết quả `designmd lint DESIGN.md` (bản chữ: [designmd-lint.txt](designmd-lint.txt)) |
-| `04-brand-board.png` | Brand board hoàn chỉnh |
+| [`01-logo-claude-design.png`](screenshots/01-logo-claude-design.png) | Canvas Claude Design với các hướng logo (A, A2 ba mặt thẻ, B, C) cạnh khung chat: Agent đề xuất, mình chốt "A2 phương án 1 (dấu nhắc lệnh)" |
+| [`02-agent-review-sua-loi.png`](screenshots/02-agent-review-sua-loi.png) | 6 sticker bản đầu, subagent review bắt 2 lỗi (ly che thẻ tên, laptop khó nhận ra), Agent sửa xong và review lại |
+
+Bằng chứng dạng chữ đi kèm: [designmd-lint.txt](designmd-lint.txt) (lint DESIGN.md 0 lỗi), [logo-3-huong-so-sanh.png](logo-3-huong-so-sanh.png) (vòng logo đầu tiên).
 
 ## Khung quy trình dùng lại được
 
