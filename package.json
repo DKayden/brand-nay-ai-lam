@@ -1,0 +1,15 @@
+{
+  "name": "brand-nay-ai-lam",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fonts": "node src/fonts.mjs",
+    "test": "node --test \"tests/**/*.mjs\"",
+    "build": "node src/build.mjs",
+    "lint:design": "npx -y -p @google/design.md@0.4.0 designmd lint DESIGN.md"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "opentype.js": "1.3.4"
+  }
+}
