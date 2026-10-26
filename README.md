@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="board/poster-nghe-phang.png" alt="Poster Nghé, nhân sự AI mới của Đi làm với AI" width="640">
+  <img src="board/poster-nghe-xanh.png" alt="Poster Nghé, nhân sự AI mới của Đi làm với AI" width="640">
 </p>
 
 # Nghé — nhân sự AI mới của Đi làm với AI
