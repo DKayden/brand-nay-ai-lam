@@ -181,8 +181,9 @@ export function arm(side = 'left', { angle = 20, length = 72, bend = 0.2, from =
 export const ARM = {
   tucked: { from: [208, 348], to: [174, 398], ctrl: [176, 360], w: 40, hoof: 0.5 }, // buông, ép sát thân
   raised: { from: [200, 352], to: [112, 282], ctrl: [150, 340] }, // giơ "Dạ!"
+  down: { from: [206, 340], to: [160, 420], ctrl: [170, 362] }, // buông cạnh thân, cùng dày + móng với tay giơ
 };
-function armDown(side = 'left') { return arm(side, ARM.tucked); }
+function armDown(side = 'left') { return arm(side, ARM.down); }
 function armUp(side = 'right') { return arm(side, ARM.raised); }
 
 // Chân. stance: 'stand' (đứng chụm) | 'wide' (dạng rộng) | 'step' (nhấc chân phải người xem).
@@ -222,7 +223,7 @@ export { mirror };
 // armL / armR: tuỳ chọn của arm() (+ front: true để vẽ trước thân), chuỗi SVG có sẵn, hoặc false để bỏ.
 // legs: tuỳ chọn của legs() ({ stance }) hoặc chuỗi SVG. under: đạo cụ nằm sau tay trước (cốc, laptop).
 // extras: vẽ trên cùng (vạch hào hứng, dấu "?", biển cầm tay...).
-export function compose({ head: h = {}, armL = ARM.tucked, armR = ARM.tucked, legs: lg = {}, extras = '', under = '' } = {}) {
+export function compose({ head: h = {}, armL = ARM.down, armR = ARM.down, legs: lg = {}, extras = '', under = '' } = {}) {
   const { transform, ...face } = h;
   const tg = (svg) => (transform ? `<g transform="${transform}">${svg}</g>` : svg);
   const back = [], front = [];
@@ -247,7 +248,7 @@ export function compose({ head: h = {}, armL = ARM.tucked, armR = ARM.tucked, le
 const BUILDERS = {
   'nghe-nghe': () => compose({
     head: { eyes: 'open', mouth: 'open' },
-    armL: ARM.tucked,
+    armL: ARM.down,
     armR: ARM.raised,
     extras: sparks(sideX('right', 108), 276),
   }),

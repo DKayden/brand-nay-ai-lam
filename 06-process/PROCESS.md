@@ -54,3 +54,4 @@ Nguồn:
 
 ### Góp ý của người dùng (26/10)
 - Mõm hồng to trông như bò sữa → đổi mõm sang xám-hồng (#BA8F89, nằm giữa thân #8C7B70 và hồng), lỗ mũi hạt đậu to hơn một chút; má vẫn hồng. Tay trái (phía người xem) gọn lại: ngắn, tròn, ép sát thân, móng nhỏ gọn cùng kiểu tay giơ.
+- 26/10 (vòng 2): tay trái chỉnh giống tay phải, móng rõ — mình duyệt Nghé.

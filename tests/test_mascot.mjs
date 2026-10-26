@@ -75,3 +75,10 @@ test('arm tham số theo angle/to, legs theo stance, helper xuất ra đủ', ()
   assert.match(sparks(10, 10), /<path/);
   assert.match(limb(0, 0, 10, 10, 20, 20), /<path/);
 });
+
+test('ARM.down: tay buông cùng dày với tay giơ, render được hai phía', () => {
+  assert.match(arm('left', ARM.down), /class="arm-left"/);
+  assert.notEqual(arm('left', ARM.down), arm('right', ARM.down));
+  assert.equal(ARM.down.w, ARM.raised.w);
+  assert.ok(pose('nghe-nghe').includes(arm('left', ARM.down)), 'nghe-nghe dùng ARM.down cho tay trái');
+});
