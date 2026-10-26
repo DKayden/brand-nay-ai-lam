@@ -179,7 +179,6 @@ export function arm(side = 'left', { angle = 20, length = 72, bend = 0.2, from =
 }
 // Hai tư thế tay dùng sẵn.
 export const ARM = {
-  tucked: { from: [208, 348], to: [174, 398], ctrl: [176, 360], w: 40, hoof: 0.5 }, // buông, ép sát thân
   raised: { from: [200, 352], to: [112, 282], ctrl: [150, 340] }, // giơ "Dạ!"
   down: { from: [206, 340], to: [160, 420], ctrl: [170, 362] }, // buông cạnh thân, cùng dày + móng với tay giơ
 };
@@ -245,6 +244,98 @@ export function compose({ head: h = {}, armL = ARM.down, armR = ARM.down, legs: 
   );
 }
 
+// ---------- Đạo cụ cho sticker (khung 512, viền nâu như thân) ----------
+const SOFT = COLORS['primary-soft'];
+
+// Laptop mở, màn hình quay ra người xem: vòng loading đang quay. Đáy (bàn phím) là tấm mỏng phía dưới.
+export function laptop(cx = 256, top = 400, w = 212, h = 82) {
+  const x = cx - w / 2, sy = top + 10, sh = h - 24, ry = sy + sh / 2, r = 17;
+  const arc = `M ${cx} ${ry - r} A ${r} ${r} 0 1 1 ${cx - r} ${ry}`; // 3/4 vòng
+  const deckY = top + h;
+  return '<g class="laptop">'
+    + `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="12" fill="${COLORS.surface}" ${LINE}/>`
+    + `<rect x="${x + 12}" y="${sy}" width="${w - 24}" height="${sh}" rx="6" fill="${INK}"/>`
+    + `<circle cx="${cx}" cy="${ry}" r="${r}" fill="none" stroke="${SOFT}" stroke-width="7" opacity=".3"/>`
+    + `<path d="${arc}" fill="none" stroke="${SOFT}" stroke-width="7" stroke-linecap="round"/>`
+    + `<path d="M ${x - 22} ${deckY} L ${x + w + 22} ${deckY} L ${x + w + 10} ${deckY + 16} L ${x - 10} ${deckY + 16} Z" fill="${COLORS.surface}" ${LINE}/>`
+    + '</g>';
+}
+
+// Cà phê sữa đá: cốc trong viền nâu, nâu dưới + sữa trên, 3 viên đá, ống hút cam đất.
+export const straw = (x1, y1, x2, y2) => [[INK, 12 + SW * 2], [COLORS.primary, 12]]
+  .map(([c, w]) => `<path d="M ${x1} ${y1} L ${x2} ${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`).join('');
+
+// withStraw=false: không vẽ ống hút (tư thế tự vẽ ống hút lên trên đầu để chạm miệng).
+export function icedCoffee(cx = 256, top = 336, h = 104, withStraw = true) {
+  const tw = 54, bw = 42; // nửa rộng miệng / đáy cốc
+  const at = (y) => tw - ((tw - bw) * (y - top)) / h; // nửa rộng tại độ cao y
+  const band = (y1, y2, fill) => `<path d="M ${cx - at(y1) + 3} ${y1} L ${cx + at(y1) - 3} ${y1} L ${cx + at(y2) - 3} ${y2 - 4} Q ${cx} ${y2 + 2} ${cx - at(y2) + 3} ${y2 - 4} Z" fill="${fill}"/>`;
+  const b = top + h;
+  const glass = `M ${cx - tw} ${top} L ${cx + tw} ${top} L ${cx + bw} ${b - 8} Q ${cx + bw - 2} ${b} ${cx + bw - 12} ${b} L ${cx - bw + 12} ${b} Q ${cx - bw + 2} ${b} ${cx - bw} ${b - 8} Z`;
+  const ice = (x, y, a) => `<rect x="${x - 13}" y="${y - 13}" width="26" height="26" rx="5" transform="rotate(${a} ${x} ${y})" fill="#fff" fill-opacity=".85" stroke="${INK}" stroke-width="3"/>`;
+  return '<g class="iced-coffee">'
+    + (withStraw ? straw(cx + 14, top + 50, cx + 4, top - 62) : '')
+    + `<path d="${glass}" fill="#fff" fill-opacity=".55"/>`
+    + band(top + 14, top + 62, '#E8CFA8')
+    + band(top + 60, b, '#6B4226')
+    + ice(cx - 22, top + 32, -12) + ice(cx + 20, top + 28, 14) + ice(cx - 2, top + 54, 6)
+    + `<path d="M ${cx - tw + 12} ${top + 16} L ${cx - bw + 10} ${b - 14}" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>`
+    + `<path d="${glass}" fill="none" ${LINE}/>`
+    + '</g>';
+}
+
+// Ngôi sao lấp lánh 4 cánh.
+export const sparkle = (x, y, r) => {
+  const k = r * 0.2;
+  return `<path d="M ${x} ${y - r} Q ${x + k} ${y - k} ${x + r} ${y} Q ${x + k} ${y + k} ${x} ${y + r} Q ${x - k} ${y + k} ${x - r} ${y} Q ${x - k} ${y - k} ${x} ${y - r} Z" fill="${SOFT}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>`;
+};
+
+// Nắm tay giơ ngón cái tại (x,y): nắm tròn màu thân + ngón cái dựng đứng, đầu là móng nâu.
+export function thumbsUp(x, y) {
+  return '<g class="thumbs-up">'
+    + `<rect x="${x - 9}" y="${y - 58}" width="26" height="50" rx="13" fill="${C.buffalo}" ${LINE}/>`
+    + `<path d="M ${x - 6} ${y - 44} A 13 13 0 0 1 ${x + 14} ${y - 44} Z" fill="${INK}"/>`
+    + `<rect x="${x - 28}" y="${y - 22}" width="60" height="50" rx="22" fill="${C.buffalo}" ${LINE}/>`
+    + `<path d="M ${x - 22} ${y - 2} L ${x + 4} ${y - 2} M ${x - 22} ${y + 12} L ${x + 4} ${y + 12}" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`
+    + '</g>';
+}
+
+// Chữ đậm có viền nâu (đọc rõ trên nền sáng lẫn tối khi dán vào bình luận).
+const outlinedText = (s, opts, stroke = 10) => {
+  const { d } = textPath(s, opts);
+  return `<path d="${d}" fill="none" stroke="${INK}" stroke-width="${stroke}" stroke-linejoin="round"/>`
+    + `<path d="${d}" fill="${opts.fill}"/>`;
+};
+export const questionMark = (x, y, size = 90) =>
+  outlinedText('?', { family: 'Bricolage Grotesque', weight: 800, size, x, y, fill: COLORS.primary, anchor: 'middle' });
+
+// Giọt mồ hôi.
+export const sweatDrop = (x, y, s = 1) => `<path transform="translate(${x} ${y}) scale(${s})" d="M 0 -22 C 6 -10 14 0 14 9 C 14 18 7 23 0 23 C -7 23 -14 18 -14 9 C -14 0 -6 -10 0 -22 Z" fill="#fff" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>`;
+
+// Vạch chuyển động (vẫy tay): cung nhỏ đồng tâm quanh (x,y).
+// dir = 1: vạch ở phía phải (x lớn), -1: phía trái.
+const waveLines = (x, y, dir = 1) => [36, 54]
+  .map((r) => {
+    const p = (deg) => {
+      const a = (deg * Math.PI) / 180;
+      return `${(x + dir * Math.cos(a) * r).toFixed(1)} ${(y + Math.sin(a) * r).toFixed(1)}`;
+    };
+    return `<path d="M ${p(-30)} A ${r} ${r} 0 0 ${dir > 0 ? 1 : 0} ${p(40)}" fill="none" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>`;
+  }).join('');
+
+// "z Z" buồn ngủ.
+const zzz = (x, y) => outlinedText('z', { family: 'Bricolage Grotesque', weight: 800, size: 38, x, y, fill: SOFT }, 8)
+  + outlinedText('Z', { family: 'Bricolage Grotesque', weight: 800, size: 52, x: x + 30, y: y - 14, fill: SOFT }, 8);
+
+// Bảng cầm tay ghi chữ.
+export function sign(text, cx = 256, top = 432, w = 300, h = 62) {
+  const x = cx - w / 2;
+  return `<g class="sign" transform="rotate(-3 ${cx} ${top + h / 2})">`
+    + `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="14" fill="${COLORS.background}" ${LINE}/>`
+    + textPath(text, { family: 'Be Vietnam Pro', weight: 600, size: 38, x: cx, y: top + h / 2 + 14, fill: INK, anchor: 'middle' }).svg
+    + '</g>';
+}
+
 const BUILDERS = {
   'nghe-nghe': () => compose({
     head: { eyes: 'open', mouth: 'open' },
@@ -252,14 +343,62 @@ const BUILDERS = {
     armR: ARM.raised,
     extras: sparks(sideX('right', 108), 276),
   }),
+  // Đang chạy: chăm chú gõ laptop, màn hình đang loading.
+  'dang-chay': () => compose({
+    head: { eyes: 'open', mouth: 'o' },
+    armL: { from: [206, 346], ctrl: [146, 424], to: [170, 480], front: true },
+    armR: { from: [206, 346], ctrl: [146, 424], to: [170, 480], front: true },
+    under: laptop(256, 410, 236, 68),
+    extras: sweatDrop(384, 128, 0.9),
+  }),
+  // Xong rồi sếp: cười tít, giơ ngón cái, lấp lánh.
+  'xong-roi-sep': () => compose({
+    head: { eyes: 'happy', mouth: 'open' },
+    armL: ARM.down,
+    armR: { from: [204, 350], ctrl: [150, 364], to: [130, 324], front: true },
+    extras: thumbsUp(sideX('right', 130) - 2, 318)
+      + sparkle(470, 236, 28) + sparkle(54, 124, 22) + sparkle(470, 404, 17),
+  }),
+  // Ý sếp là...?: đầu nghiêng, mắt lệch, tay gãi má, dấu "?" to + giọt mồ hôi.
+  'y-sep-la': () => compose({
+    head: { eyes: 'confused', mouth: 'o', transform: 'rotate(-8 256 200)' },
+    armL: false,
+    armR: ARM.down,
+    extras: arm('left', { from: [206, 346], ctrl: [116, 352], to: [116, 256] })
+      + questionMark(456, 356, 150) + questionMark(482, 222, 62) + sweatDrop(388, 136),
+  }),
+  // Cà phê sáng: lim dim, hai tay ôm ly cà phê sữa đá, ống hút tới miệng.
+  'ca-phe-sang': () => compose({
+    head: { eyes: 'sleepy', mouth: 'smile' },
+    armL: { from: [206, 346], ctrl: [168, 428], to: [206, 434], front: true },
+    armR: { from: [206, 346], ctrl: [168, 428], to: [206, 434], front: true },
+    under: icedCoffee(256, 352, 124, false),
+    extras: straw(272, 392, 262, 284) + zzz(318, 64),
+  }),
+  // Chào member mới: vẫy tay cao, tay kia cầm bảng "Chào cả nhà!".
+  'chao-member-moi': () => compose({
+    head: { eyes: 'happy', mouth: 'open' },
+    armL: { from: [206, 346], ctrl: [160, 380], to: [156, 430], front: true },
+    armR: { from: [200, 350], ctrl: [136, 326], to: [86, 240] },
+    under: sign('Chào cả nhà!'),
+    extras: waveLines(sideX('right', 86), 240),
+  }),
 };
 
 export function pose(name) {
   if (!POSES.includes(name)) throw new Error(`Không có tư thế: ${name}`);
-  const b = BUILDERS[name];
-  if (!b) throw new Error(`Tư thế "${name}" not implemented in Task 6`);
-  return b();
+  return BUILDERS[name]();
 }
+
+// ---------- Stickers sheet 1600 × 1160: lưới 3×2 ----------
+export const STICKER_LABELS = {
+  'nghe-nghe': 'Nghé nghe!',
+  'dang-chay': 'Đang chạy...',
+  'xong-roi-sep': 'Xong rồi sếp!',
+  'y-sep-la': 'Ý sếp là...?',
+  'ca-phe-sang': 'Cà phê sáng',
+  'chao-member-moi': 'Chào member mới',
+};
 
 // ---------- Character sheet 1600×1000 ----------
 const H800 = { family: 'Bricolage Grotesque', weight: 800 };
@@ -320,15 +459,33 @@ export function characterSheet() {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${b}</svg>\n`;
 }
 
+export function stickersSheet() {
+  const W = 1600, H = 1160, cw = 500, ch = 540, gx = 25, top = 40, k = 0.86;
+  let b = `<rect width="${W}" height="${H}" fill="${COLORS.background}"/>`;
+  POSES.forEach((name, i) => {
+    const x = gx + (i % 3) * (cw + gx), y = top + Math.floor(i / 3) * (ch + gx), cx = x + cw / 2;
+    b += `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="24" fill="${COLORS.surface}"/>`;
+    b += place(pose(name).replace(/^<svg[^>]*>|<\/svg>\n?$/g, ''), cx - 256 * k, y + 14, k);
+    b += T(STICKER_LABELS[name], { ...H800, size: 30, x: cx, y: y + ch - 28, fill: INK, anchor: 'middle' });
+  });
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">${b}</svg>\n`;
+}
+
+// Ghi 6 SVG + PNG (nghe-nghe 512/1024/2048, các pose khác 512/1024) + stickers sheet + character sheet.
 export function buildMascot(dir = '03-mascot') {
   fs.mkdirSync(`${dir}/svg`, { recursive: true });
-  const f = `${dir}/svg/nghe-nghe.svg`;
-  fs.writeFileSync(f, pose('nghe-nghe'));
-  const out = [f, ...renderSizes(f, `${dir}/png/nghe-nghe`)];
-  const sheet = characterSheet();
-  fs.writeFileSync(`${dir}/character-sheet.svg`, sheet);
-  fs.writeFileSync(`${dir}/character-sheet.png`, renderPng(sheet, 1600));
-  return [...out, `${dir}/character-sheet.svg`, `${dir}/character-sheet.png`];
+  const out = [];
+  for (const name of POSES) {
+    const f = `${dir}/svg/${name}.svg`;
+    fs.writeFileSync(f, pose(name));
+    out.push(f, ...renderSizes(f, `${dir}/png/${name}`, name === 'nghe-nghe' ? [512, 1024, 2048] : [512, 1024]));
+  }
+  for (const [file, svg] of [['stickers-sheet', stickersSheet()], ['character-sheet', characterSheet()]]) {
+    fs.writeFileSync(`${dir}/${file}.svg`, svg);
+    fs.writeFileSync(`${dir}/${file}.png`, renderPng(svg, 1600));
+    out.push(`${dir}/${file}.svg`, `${dir}/${file}.png`);
+  }
+  return out;
 }
 
 if (path.basename(process.argv[1] ?? '') === 'mascot.mjs') {

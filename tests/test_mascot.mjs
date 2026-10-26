@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { part, pose, POSES, characterSheet, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX } from '../src/mascot.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { part, pose, POSES, characterSheet, stickersSheet, buildMascot, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX } from '../src/mascot.mjs';
 import { COLORS } from '../src/tokens.mjs';
 
 test('POSES đúng 6 tên theo kế hoạch', () => {
@@ -37,9 +40,55 @@ test('armUp/armDown đối xứng theo side', () => {
   assert.notEqual(part.armDown('left'), part.armDown('right'));
 });
 
-test('tư thế chưa làm báo "not implemented", tên lạ báo lỗi', () => {
-  assert.throws(() => pose('dang-chay'), /not implemented in Task 6/);
+test('tên tư thế lạ báo lỗi', () => {
   assert.throws(() => pose('khong-co'), /Không có tư thế/);
+});
+
+test('mọi tư thế: svg khung 512, không <text>, giữ đủ đặc điểm khoá, khác nhau', () => {
+  const seen = new Set();
+  for (const name of POSES) {
+    const s = pose(name);
+    assert.match(s, /^<svg[^>]*viewBox="0 0 512 512"/, name);
+    assert.doesNotMatch(s, /<text/, name);
+    for (const cls of ['horns', 'ears', 'head', 'body', 'badge']) assert.ok(s.includes(`class="${cls}"`), `${name}: ${cls}`);
+    for (const c of [COLORS.horn, COLORS.nose, COLORS.buffalo, COLORS.primary]) assert.ok(s.includes(`fill="${c}"`), `${name}: ${c}`);
+    seen.add(s);
+  }
+  assert.equal(seen.size, POSES.length);
+});
+
+test('đạo cụ theo brief từng tư thế', () => {
+  const lap = pose('dang-chay');
+  assert.ok(lap.includes('class="laptop"') && lap.includes(`fill="${COLORS.surface}"`) && lap.includes(`stroke="${COLORS['primary-soft']}"`));
+  assert.match(pose('xong-roi-sep'), /class="thumbs-up"/);
+  assert.equal((pose('xong-roi-sep').match(new RegExp(`fill="${COLORS['primary-soft']}" stroke`, 'g')) || []).length, 3, '3 tia lấp lánh');
+  assert.match(pose('y-sep-la'), /rotate\(-8 256 200\)/);
+  const cafe = pose('ca-phe-sang');
+  for (const c of ['#6B4226', '#E8CFA8']) assert.ok(cafe.includes(`fill="${c}"`), c);
+  assert.equal((cafe.match(/<rect[^>]*fill="#fff"[^>]*stroke/g) || []).length, 3, '3 viên đá');
+  assert.ok(cafe.includes(`stroke="${COLORS.primary}"`), 'ống hút');
+  assert.match(pose('chao-member-moi'), /class="sign"/);
+});
+
+test('nghe-nghe giữ nguyên bản đã duyệt', () => {
+  assert.equal(pose('nghe-nghe'), fs.readFileSync('03-mascot/svg/nghe-nghe.svg', 'utf8'));
+});
+
+test('stickers sheet: lưới 6 ô, chữ là path', () => {
+  const s = stickersSheet();
+  assert.match(s, /viewBox="0 0 1600 1160"/);
+  assert.doesNotMatch(s, /<text/);
+  assert.equal((s.match(/class="badge"/g) || []).length, 6);
+});
+
+test('buildMascot ghi 23 tệp (6 SVG, 13 PNG, 2 sheet × SVG/PNG)', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'nghe-'));
+  try {
+    const out = buildMascot(dir);
+    assert.equal(out.length, 23);
+    for (const f of out) assert.ok(fs.statSync(f).size > 0, f);
+    assert.ok(out.includes(`${dir}/png/nghe-nghe-2048.png`));
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
 test('character sheet 1600×1000, mọi chữ là path', () => {
@@ -79,6 +128,10 @@ test('arm tham số theo angle/to, legs theo stance, helper xuất ra đủ', ()
 test('ARM.down: tay buông cùng dày với tay giơ, render được hai phía', () => {
   assert.match(arm('left', ARM.down), /class="arm-left"/);
   assert.notEqual(arm('left', ARM.down), arm('right', ARM.down));
-  assert.equal(ARM.down.w, ARM.raised.w);
+  // Không preset nào tự đặt bề dày/móng → cả hai dùng mặc định của arm(); nét vẽ ra phải cùng bộ stroke-width.
+  for (const p of [ARM.down, ARM.raised]) assert.ok(!('w' in p) && !('hoof' in p));
+  const widths = (s) => [...s.matchAll(/stroke-width="([\d.]+)"/g)].map((m) => m[1]).join(',');
+  assert.equal(widths(arm('left', ARM.down)), widths(arm('left', ARM.raised)));
+  assert.equal(ARM.tucked, undefined);
   assert.ok(pose('nghe-nghe').includes(arm('left', ARM.down)), 'nghe-nghe dùng ARM.down cho tay trái');
 });
