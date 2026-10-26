@@ -317,6 +317,177 @@ export function flatPoster() {
   return doc(W, H, b, C.background);
 }
 
+// ================= POSTER CAM 1080×1350 (ảnh đầu bài đăng) =================
+// Nền primary để nổi trên feed trắng của Facebook. Chữ trên nền cam chỉ dùng kem (4.88:1);
+// chữ primary chỉ nằm trong bong bóng/thẻ nền kem.
+const DEEP = '#9A3D12'; // mảng tối hơn cùng tông cam, chỉ làm nền trang trí (kem trên nền này còn cao hơn 4.88)
+export function orangePoster() {
+  const W = 1080, H = 1350, M = 64;
+  let b = '';
+  // mảng tông tối phía sau Nghé
+  b += `<circle cx="${W / 2 + 40}" cy="900" r="430" fill="${DEEP}"/>`;
+
+  // thẻ mã nhân viên
+  const tag = pill('Mã NV: AI-001', { ...B600, size: 30 }, M, M, { fill: C.background, ink: INK, padX: 26, h: 58 });
+  b += tag.svg;
+
+  // tiêu đề móc tò mò
+  const hs = { ...H800, size: 100 }, lh = 104;
+  const h1 = M + 58 + 40 + cap(hs);
+  ['Group mình vừa', 'tuyển nhân sự AI', 'đầu tiên'].forEach((l, i) => { b += T(l, hs, M - 4, h1 + i * lh, C.background); });
+
+  // Nghé + bong bóng thoại
+  const nS = 660, nX = 370, nY = 560;
+  b += embed(`${MASCOT}/nghe-nghe.svg`, nX, nY, nS);
+  const bs = { ...H800, size: 46 };
+  const parts = [['Nói là ', INK], ['Nghé', C.primary], [' nghe!', INK]];
+  const tw = parts.reduce((a, [s]) => a + W_(s, bs), 0);
+  const bw = tw + 80, bh = 96, bx = M, by = h1 + 2 * lh + 64;
+  const tx = bx + bw - 120; // đuôi chỉ xuống phải về phía Nghé
+  b += rect(bx, by + 8, bw, bh, bh / 2, INK);
+  b += `<path d="M ${tx - 24} ${by + bh + 4} L ${tx + 40} ${by + bh + 56} L ${tx + 24} ${by + bh + 4} Z" fill="${INK}"/>`;
+  b += rect(bx, by, bw, bh, bh / 2, C.background, OUTLINE(5));
+  b += `<path d="M ${tx - 24} ${by + bh - 8} L ${tx + 40} ${by + bh + 48} L ${tx + 24} ${by + bh - 8}" fill="${C.background}" ${OUTLINE(5)}/>`;
+  b += runs(parts, bs, bx + bw / 2, by + bh / 2 + cap(bs) / 2, 'middle');
+
+  // dòng mô tả trái
+  const sub = { ...B600, size: 32 };
+  const subY = by + bh + 120;
+  ['Nhân viên mới', 'chăm, hơi ngáo', 'nghe lời sếp'].forEach((l, i) => {
+    const y = subY + i * 58;
+    b += `<circle cx="${M + 9}" cy="${y - cap(sub) / 2}" r="7" fill="${C.background}"/>`;
+    b += T(l, sub, M + 30, y, C.background);
+  });
+
+  // chân: logo màu trong thẻ kem + hashtag
+  const fh = 112, fy = H - M - fh + 12;
+  const lw = 330, lhh = lw * ratio(`${LOGO}/logo-ngang.svg`);
+  b += rect(M, fy, lw + 48, fh, fh / 2, C.background);
+  b += embed(`${LOGO}/logo-ngang.svg`, M + 20, fy + (fh - lhh) / 2, lw);
+  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, fy + fh / 2 + cap(H800, 44) / 2, C.background, 'end');
+  return doc(W, H, b, C.primary);
+}
+
+// ================= CAROUSEL "8 prompt" 1080×1080 × 5 =================
+// Tóm 06-process/prompts.md. Nền kem, chữ nhỏ nhất 28px. [chỗ điền] tô primary.
+const CS = 1080, CM = 72;
+const PROMPTS = [
+  ['Research đề bài', 'Đọc [thể lệ] và [trang cộng đồng]. Liệt kê hạng mục, điều kiện bị loại, cách nhóm nói chuyện.',
+    'Ghi nguồn, chỗ chưa chắc ghi “chưa xác minh”.'],
+  ['Chốt concept qua phỏng vấn', 'Phỏng vấn tôi bằng câu trắc nghiệm theo nhóm, rồi viết đề bài 6 mục cho [tên cộng đồng].',
+    'Subagent “đọc lạnh” brief tới khi trả NO GAPS.'],
+  ['Phác 3 hướng logo', 'Vẽ 3 hướng logo khác hẳn nhau bằng SVG theo [concept], so ở 96, 48, 32px.',
+    'Luôn xem ở 32px, cỡ avatar thật.'],
+  ['Bộ logo hoàn chỉnh', 'Chọn hướng [A/B/C], làm bản ngang, dọc, 1 màu, nền tối, icon. SVG + PNG.',
+    'Chữ logo đổi thành path, test cả tương phản.'],
+  ['Mascot + character sheet', 'Vẽ [con vật] tên [tên], chốt đặc điểm khoá, tách bộ phận để ghép tư thế.',
+    'So 5 nhân vật gần nhất, trùng 2 điểm thì sửa.'],
+  ['Bộ sticker nhiều tư thế', 'Ghép bộ phận thành [6] tư thế, mỗi tư thế có SVG + PNG nền trong suốt.',
+    'Test pixel: thẻ tên không bị tay che.'],
+  ['DESIGN.md + lint', 'Viết DESIGN.md theo spec @google/design.md, lấy giá trị từ [file token], lint tới 0 lỗi.',
+    'Lưu kết quả lint làm bằng chứng.'],
+  ['Brand board + một lệnh build', 'Dựng board từ file thật trong repo, thêm [mockup], viết một lệnh build dựng lại mọi ảnh.',
+    'Chạy thử ở thư mục sạch cho chắc.'],
+];
+
+/** Đoạn văn mà phần trong [ ] tô màu riêng (giữ trạng thái mở ngoặc qua các dòng). */
+function richPara(text, style, x, y, maxW, lh, fill, hot) {
+  const lines = wrap(text, style, maxW);
+  let open = false, svg = '';
+  lines.forEach((line, i) => {
+    const parts = [];
+    let cur = '';
+    for (const ch of line) {
+      if (ch === '[' && !open) { if (cur) parts.push([cur, fill]); cur = ch; open = true; }
+      else if (ch === ']' && open) { parts.push([cur + ch, hot]); cur = ''; open = false; }
+      else cur += ch;
+    }
+    if (cur) parts.push([cur, open ? hot : fill]);
+    svg += runs(parts, style, x, y + i * lh);
+  });
+  return { svg, bottom: y + (lines.length - 1) * lh };
+}
+
+function slideFrame(n, total, body) {
+  const meta = { ...B600, size: 28 };
+  let b = T('8 PROMPT LÀM BRAND', meta, CM, CM + cap(meta), C.primary);
+  b += T(`${n}/${total}`, meta, CS - CM, CM + cap(meta), C['text-muted'], 'end');
+  const fy = CS - CM - 8;
+  const lw = 250;
+  b += embed(`${LOGO}/logo-ngang.svg`, CM - 4, fy - lw * ratio(`${LOGO}/logo-ngang.svg`) + 18, lw);
+  b += T('#BrandNayAiLam', { ...H800, size: 30 }, CS - CM, fy, INK, 'end');
+  return doc(CS, CS, b + body, C.background);
+}
+
+function carouselCover() {
+  let b = '';
+  b += `<circle cx="790" cy="700" r="250" fill="${C.surface}"/>`;
+  b += embed(`${MASCOT}/dang-chay.svg`, 530, 430, 520);
+  const ts = { ...H800, size: 96 }, lh = 102, y0 = 190 + cap(ts);
+  b += T('8 prompt', ts, CM - 4, y0, C.primary);
+  b += T('làm brand cho', ts, CM - 4, y0 + lh, INK);
+  b += T('cộng đồng', ts, CM - 4, y0 + 2 * lh, INK);
+  b += T('của bạn', ts, CM - 4, y0 + 3 * lh, INK);
+  b += T('bằng AI Agent', { ...H700, size: 52 }, CM, y0 + 3 * lh + 78, C['text-muted']);
+  const p = pill('Lưu lại để dùng', { ...B600, size: 32 }, CM, y0 + 3 * lh + 128, { fill: C.primary, ink: C.background, padX: 30, h: 68 });
+  b += p.svg;
+  return slideFrame(1, 5, b);
+}
+
+function carouselPrompts(page, from, to) {
+  let b = '';
+  let y = 150;
+  const title = { ...H800, size: 42 }, body = { ...B400, size: 28 }, tip = { ...B500, size: 28 };
+  const numR = 34, cx = CM + numR, tx = CM + 2 * numR + 28, tw = CS - CM - tx;
+  const gap = to - from === 2 ? 64 : 38;
+  for (let i = from; i < to; i++) {
+    const [name, gist, hint] = PROMPTS[i];
+    const tBase = y + cap(title);
+    b += `<circle cx="${cx}" cy="${tBase - cap(title) / 2}" r="${numR}" fill="${C.primary}"/>`;
+    b += T(String(i + 1), { ...H800, size: 40 }, cx, tBase - cap(title) / 2 + cap(H800, 40) / 2, C.background, 'middle');
+    b += T(name, title, tx, tBase, INK);
+    const g = richPara(gist, body, tx, tBase + 50, tw, 40, C['text-muted'], C.primary);
+    b += g.svg;
+    const label = 'Mẹo: ', lW = W_(label, { ...B600, size: 28 });
+    const lines = wrap(hint, tip, tw - 48 - lW);
+    const cy = g.bottom + 22, ch = 28 + lines.length * 40;
+    b += rect(tx, cy, tw, ch, 14, C.surface);
+    b += T(label, { ...B600, size: 28 }, tx + 24, cy + 14 + 30, INK);
+    lines.forEach((l, k) => { b += T(l, tip, tx + 24 + lW, cy + 14 + 30 + k * 40, INK); });
+    y = cy + ch + gap;
+  }
+  if (to === PROMPTS.length) {
+    // ô cuối: quy tắc làm việc (prompt 0) — chữ kem trên nền primary
+    const cw = CS - 2 * CM, chh = 210, ny = y - 20;
+    b += rect(CM, ny, cw, chh, 24, C.primary);
+    b += T('Đặt một lần trước bước 1', { ...H800, size: 36 }, CM + 36, ny + 40 + cap(H800, 36), C.background);
+    b += para('Mỗi bước giao cho một subagent mới, rồi nhờ một subagent khác review.',
+      { ...B500, size: 30 }, CM + 36, ny + 40 + cap(H800, 36) + 54, cw - 300, 42, C.background).svg;
+    b += embed(`${MASCOT}/y-sep-la.svg`, CS - CM - 250, ny - 40, 250);
+  }
+  return slideFrame(page, 5, b);
+}
+
+function carouselClosing() {
+  let b = '';
+  b += `<circle cx="${CS / 2}" cy="560" r="230" fill="${C.surface}"/>`;
+  b += embed(`${MASCOT}/xong-roi-sep.svg`, CS / 2 - 240, 330, 480);
+  const ts = { ...H800, size: 64 };
+  b += T('Toàn bộ prompt + file', ts, CS / 2, 160 + cap(ts), INK, 'middle');
+  const p = pill('Link ở bình luận đầu', { ...B600, size: 34 }, 0, 0, { fill: C.primary, ink: C.background, padX: 32, h: 70 });
+  b += `<g transform="translate(${(CS - p.w) / 2},250)">${p.svg}</g>`;
+  b += runs([['AI làm việc, ', INK], ['mình làm chủ.', C.primary]], { ...H800, size: 52 }, CS / 2, 880, 'middle');
+  return slideFrame(5, 5, b);
+}
+
+export const carouselSlides = () => [
+  carouselCover(),
+  carouselPrompts(2, 0, 3),
+  carouselPrompts(3, 3, 6),
+  carouselPrompts(4, 6, 8),
+  carouselClosing(),
+];
+
 // ================= build =================
 export const mockupJobs = () => [
   ['mockup-cover-group', coverGroup(), 1640],
@@ -326,13 +497,19 @@ export const mockupJobs = () => [
   ['poster-nghe-phang', flatPoster(), 1080],
 ];
 
+/** Ảnh cho bài đăng: poster cam (ảnh đầu) + 5 trang carousel "8 prompt". */
+export const socialJobs = () => [
+  ['poster-nghe-cam', orangePoster(), 1080],
+  ...carouselSlides().map((svg, i) => [`carousel-0${i + 1}`, svg, 1080]),
+];
+
 export function buildBoard(dir = OUT) {
   fs.mkdirSync(dir, { recursive: true });
   const out = [];
   const board = brandBoard();
   fs.writeFileSync(`${dir}/brand-board.svg`, board);
   out.push(`${dir}/brand-board.svg`);
-  const jobs = [['brand-board', board, 2160], ...mockupJobs()];
+  const jobs = [['brand-board', board, 2160], ...mockupJobs(), ...socialJobs()];
   for (const [name, svg, w] of jobs) {
     const f = `${dir}/${name}.png`;
     fs.writeFileSync(f, renderPng(svg, w));

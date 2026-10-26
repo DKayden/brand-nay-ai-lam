@@ -135,7 +135,7 @@ Bổ sung (vòng review 1), tìm lại bằng WebSearch cho hai từ khoá "linh
 | Biểu tượng linh vật Tân Sửu 2021, quảng trường Nguyễn Tất Thành, Quy Nhơn | https://nongnghiepmoitruong.vn/linh-vat-tag2295/ | không tìm được ảnh | không tìm được ảnh | không rõ | không rõ | 0 (chưa kiểm được bằng hình) |
 | Trâu Vàng, SEA Games 22 (tìm lại) | https://vov.vn/chuyen-nam-mao/tan-man-ve-trau | nhân cách hoá, vui vẻ, mến khách; không tìm được ảnh | vàng | không rõ | Trâu Vàng | 1 (như bảng trên) |
 
-**Kết luận:** không nhân vật nào trùng từ 2 đặc điểm trở lên → giữ thiết kế. Thẻ nhân viên, thân xám, tên "Nghé" là phần riêng. Không tìm thấy mascot nào tên "Nghé".
+**Kết luận:** không phát hiện trùng từ 2 đặc điểm trở lên trong phạm vi tìm được (một số so sánh chỉ dựa trên mô tả chữ) → giữ thiết kế. Thẻ nhân viên, thân xám, tên "Nghé" là phần riêng. Không tìm thấy mascot nào tên "Nghé".
 
 Nguồn:
 - https://en.wikipedia.org/wiki/List_of_SEA_Games_mascots
