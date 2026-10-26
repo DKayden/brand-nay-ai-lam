@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
-import { part, pose, POSES, characterSheet, stickersSheet, buildMascot, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX, BADGE_TEXT_BOX } from '../src/mascot.mjs';
+import { part, pose, POSES, characterSheet, stickersSheet, buildMascot, compose, arm, legs, ARM, limb, mirror, wrap, sparks, sideX, BADGE_TEXT_BOX, CHAO_SIGN } from '../src/mascot.mjs';
+import { measure } from '../src/textpath.mjs';
 import { COLORS } from '../src/tokens.mjs';
 
 test('POSES đúng 6 tên theo kế hoạch', () => {
@@ -158,4 +159,15 @@ test('ARM.down: tay buông cùng dày với tay giơ, render được hai phía'
   assert.equal(widths(arm('left', ARM.down)), widths(arm('left', ARM.raised)));
   assert.equal(ARM.tucked, undefined);
   assert.ok(pose('nghe-nghe').includes(arm('left', ARM.down)), 'nghe-nghe dùng ARM.down cho tay trái');
+});
+
+test('chao-member-moi: móng tay trái nằm ngoài vùng chữ trên bảng, bảng cách đáy khung ≥ 16px', () => {
+  const { text, textX, top, h, hoof: [hx, hy] } = CHAO_SIGN;
+  const width = measure(text, { family: 'Be Vietnam Pro', weight: 600, size: 38 });
+  const HOOF_R = 26; // bán kính móng + viền, dư an toàn
+  const box = { x1: textX - width / 2, x2: textX + width / 2, y1: top + h / 2 + 14 - 38, y2: top + h / 2 + 14 + 10 };
+  const overlaps = hx + HOOF_R > box.x1 && hx - HOOF_R < box.x2 && hy + HOOF_R > box.y1 && hy - HOOF_R < box.y2;
+  assert.ok(!overlaps, 'móng không chạm bbox chữ ' + JSON.stringify(box));
+  assert.ok(hx - HOOF_R >= CHAO_SIGN.cx - CHAO_SIGN.w / 2 - 40 && hx < box.x1, 'móng ở đầu trái bảng');
+  assert.ok(512 - (top + h + 12) >= 16, 'đáy bảng (nghiêng) cách đáy khung ≥ 16px');
 });

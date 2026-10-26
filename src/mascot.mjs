@@ -350,13 +350,17 @@ const zzz = (x, y) => outlinedText('z', { family: 'Bricolage Grotesque', weight:
   + outlinedText('Z', { family: 'Bricolage Grotesque', weight: 800, size: 52, x: x + 30, y: y - 14, fill: SOFT }, 8);
 
 // Bảng cầm tay ghi chữ.
-export function sign(text, cx = 256, top = 432, w = 300, h = 62) {
+// textX: tâm chữ (mặc định = cx) — dồn chữ sang phải để chừa chỗ cho móng bám mép trái bảng.
+export function sign(text, cx = 256, top = 432, w = 300, h = 62, textX = cx) {
   const x = cx - w / 2;
   return `<g class="sign" transform="rotate(-3 ${cx} ${top + h / 2})">`
     + `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="14" fill="${COLORS.background}" ${LINE}/>`
-    + textPath(text, { family: 'Be Vietnam Pro', weight: 600, size: 38, x: cx, y: top + h / 2 + 14, fill: INK, anchor: 'middle' }).svg
+    + textPath(text, { family: 'Be Vietnam Pro', weight: 600, size: 38, x: textX, y: top + h / 2 + 14, fill: INK, anchor: 'middle' }).svg
     + '</g>';
 }
+
+// Bảng "Chào cả nhà!": rộng sang trái 75..425, chữ dồn phải; móng tay trái bám mép trái bảng, ngoài vùng chữ.
+export const CHAO_SIGN = { text: 'Chào cả nhà!', cx: 250, top: 430, w: 350, h: 54, textX: 285, hoof: [115, 432] };
 
 const BUILDERS = {
   'nghe-nghe': () => compose({
@@ -403,9 +407,9 @@ const BUILDERS = {
   // Chào member mới: vẫy tay cao, tay kia cầm bảng "Chào cả nhà!".
   'chao-member-moi': () => compose({
     head: { eyes: 'happy', mouth: 'open' },
-    armL: { from: [206, 346], ctrl: [160, 380], to: [156, 430], front: true },
+    armL: { from: [206, 346], ctrl: [150, 380], to: CHAO_SIGN.hoof, front: true },
     armR: { from: [200, 350], ctrl: [136, 326], to: [86, 240] },
-    under: sign('Chào cả nhà!', 256, 430, 300, 54), // đáy bảng (cả khi nghiêng) cách mép khung ≥ 16px
+    under: sign(CHAO_SIGN.text, CHAO_SIGN.cx, CHAO_SIGN.top, CHAO_SIGN.w, CHAO_SIGN.h, CHAO_SIGN.textX), // đáy bảng (cả khi nghiêng) cách mép khung ≥ 16px
     extras: waveLines(sideX('right', 86), 240),
   }),
 };
