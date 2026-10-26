@@ -48,8 +48,8 @@ Tổng: khoảng 4 giờ từ commit đầu đến commit sản phẩm cuối, t
 | Nghé, vòng 1 | Xem dáng gốc | Agent góp ý mõm hồng to dễ bị nhìn thành bò sữa và tay trái hơi cụt. Mình đồng ý: "Chỉnh 2 điểm bạn đề xuất (mõm xám-hồng cho ra trâu, tay trái gọn lại)" |
 | Nghé, vòng 2 | Xem bản sửa | "Tay trái vẫn hơi cụt, chỉnh thêm cho giống tay phải (tay tròn có móng rõ) rồi duyệt luôn." |
 | Bảng màu | Xem bộ hình bản cam đất | "Tôi không thích màu cam, đổi sang màu blue pastel hơn" → chọn **xanh pastel + trắng + navy** trong 3 phương án. Đổi toàn bộ brand trong một lượt (xem Bước — Đổi bảng màu) |
-| Duyệt cuối | Xem toàn bộ trước khi đăng | Chưa xong tại thời điểm viết (sẽ cập nhật) |
-| Công khai repo | Đồng ý tạo repo GitHub public | Chưa tới bước này |
+| Duyệt cuối | Xem toàn bộ trước khi đăng | "Mình duyệt chốt logo A2, slogan, Nghé." (26/10) |
+| Công khai repo | Đồng ý tạo repo GitHub public | "Chuyển sang bước công khai repo." (26/10) |
 | Đăng bài | Mình tự đăng lên group | Chưa tới bước này |
 
 ## Lỗi bắt được trong lúc làm
