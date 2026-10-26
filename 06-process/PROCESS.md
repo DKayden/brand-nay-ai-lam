@@ -47,6 +47,7 @@ Tổng: khoảng 4 giờ từ commit đầu đến commit sản phẩm cuối, t
 | Hướng logo | Chọn 1 trong 3 | Chọn **A** (thẻ nhân viên mọc sừng) |
 | Nghé, vòng 1 | Xem dáng gốc | Agent góp ý mõm hồng to dễ bị nhìn thành bò sữa và tay trái hơi cụt. Mình đồng ý: "Chỉnh 2 điểm bạn đề xuất (mõm xám-hồng cho ra trâu, tay trái gọn lại)" |
 | Nghé, vòng 2 | Xem bản sửa | "Tay trái vẫn hơi cụt, chỉnh thêm cho giống tay phải (tay tròn có móng rõ) rồi duyệt luôn." |
+| Bảng màu | Xem bộ hình bản cam đất | "Tôi không thích màu cam, đổi sang màu blue pastel hơn" → chọn **xanh pastel + trắng + navy** trong 3 phương án. Đổi toàn bộ brand trong một lượt (xem Bước — Đổi bảng màu) |
 | Duyệt cuối | Xem toàn bộ trước khi đăng | Chưa xong tại thời điểm viết (sẽ cập nhật) |
 | Công khai repo | Đồng ý tạo repo GitHub public | Chưa tới bước này |
 | Đăng bài | Mình tự đăng lên group | Chưa tới bước này |
@@ -151,3 +152,28 @@ Nguồn:
 ### Góp ý của người dùng (26/10)
 - Agent nhận xét mõm hồng to dễ bị nhìn thành bò sữa, mình đồng ý → đổi mõm sang xám-hồng (#BA8F89, nằm giữa thân #8C7B70 và hồng), lỗ mũi hạt đậu to hơn một chút; má vẫn hồng. Tay trái (phía người xem) gọn lại: ngắn, tròn, ép sát thân, móng nhỏ gọn cùng kiểu tay giơ.
 - 26/10 (vòng 2): tay trái chỉnh giống tay phải, móng rõ — mình duyệt Nghé.
+
+## Bước — Đổi bảng màu (26/10)
+
+Xem bộ hình bản đầu (cam đất + kem + nâu cà phê), mình nói thẳng: *"Tôi không thích màu cam, đổi sang màu blue pastel hơn."* Agent đưa 3 phương án xanh, phương án nào cũng đã tính sẵn tỉ số tương phản. Mình chọn **xanh pastel + trắng + navy** vì nhìn mát, gọn, hiện đại.
+
+| Token | Trước | Sau |
+|---|---|---|
+| primary | `#B54A17` cam đất | `#2B5C8A` xanh đậm |
+| primary-soft | `#F59A52` cam nhạt | `#B8D8F5` xanh pastel (thành màu chủ đạo) |
+| background | `#FFF4E4` kem | `#F7FAFD` trắng xanh |
+| surface | `#F3E2CA` be | `#E3EEF9` xanh nhạt |
+| text (cũng là màu viền) | `#3A2417` nâu cà phê | `#1F3A5F` navy |
+| text-muted | `#7A5A45` | `#4F6B8A` |
+| dark-bg | `#22150E` | `#13243B` navy đêm |
+
+Cách làm: vì mọi file ảnh đều sinh từ code đọc chung một file token (`src/tokens.mjs`), đổi màu chỉ là sửa token, chỉnh vài vai màu (thẻ nhân viên từ nền đậm chữ sáng sang nền pastel chữ navy; dây đeo sang xanh đậm), rồi chạy lại `npm run build`. Logo, 6 tư thế Nghé, brand board, 4 mockup, 2 poster, 5 trang carousel và GIF đổi màu cùng lúc trong một lượt, không vẽ lại tay tấm nào. Test tương phản tự kiểm lại các cặp chữ/nền mới (thêm 3 cặp: navy trên pastel 7.75, xanh đậm trên xanh nhạt 5.95, xanh đậm trên pastel 4.73). Đây là lợi ích rõ nhất của việc dựng brand bằng token: đổi cả bảng màu chỉ cần sửa token rồi chạy lại một lệnh build, không phải vẽ lại từ đầu.
+
+Giữ nguyên những gì mình đã duyệt ở Nghé: thân xám `#8C7B70`, bụng, sừng kem, mõm xám-hồng, má và tai hồng. Chỉ đổi màu viền (nâu → navy), thẻ nhân viên và đạo cụ (lấp lánh, dấu hỏi, "zZ", ống hút, logo trên nắp laptop). Ly cà phê sữa đá vẫn màu cà phê vì đó là đồ uống, không phải màu giao diện.
+
+Vài chỗ phải chỉnh tay sau khi đổi màu:
+- Poster ảnh đầu bài đăng đổi từ nền cam sang nền xanh pastel, tên file thành `board/poster-nghe-xanh.png`. Pastel nhạt dễ chìm trên feed trắng của Facebook, nên poster có tiêu đề navy cỡ 100px, nhãn "Mã NV" nền navy, mảng tròn xanh đậm hơn một tông sau Nghé và dải chân navy đặc full ngang. Đã xem lại ở bề rộng 400px trên nền trắng.
+- Bản logo một màu đổi tên `mono-nau` → `mono-navy` cho đúng màu.
+- Trang carousel 4: thêm đĩa pastel sau sticker "Ý sếp là...?" để dấu hỏi xanh đậm không chìm vào khối nền primary.
+- Màu `success` `#5E8C3A` giữ nguyên vì không dùng làm chữ (3.79:1 trên nền mới).
+

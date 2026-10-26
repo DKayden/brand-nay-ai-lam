@@ -64,7 +64,7 @@ chỗ nào giống logo có sẵn. Chưa chọn hộ tôi.
 
 ```
 Tôi chọn hướng [A/B/C], chỉnh theo góp ý: [góp ý của bạn]. Làm bộ logo đầy đủ:
-ngang, dọc, 1 màu nâu, 1 màu trắng, nền tối, icon vuông. Với mỗi bản xuất SVG và PNG nền trong suốt.
+ngang, dọc, 1 màu đậm (màu chữ chính), 1 màu trắng, nền tối, icon vuông. Với mỗi bản xuất SVG và PNG nền trong suốt.
 Chữ trong logo phải chuyển thành path (dùng opentype.js với file font thật trong assets/fonts)
 để SVG mở ở đâu cũng không lỗi font. Viết test kiểm: file nào cũng có đủ cả SVG lẫn PNG,
 PNG có kênh alpha, và tương phản chữ/nền đạt 4.5:1.

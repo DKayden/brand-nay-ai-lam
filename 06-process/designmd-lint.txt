@@ -7,12 +7,6 @@ npm notice run designmd lint DESIGN.md
   "findings": [
     {
       "severity": "warning",
-      "path": "colors.primary-soft",
-      "message": "'primary-soft' is defined but never referenced by any component.",
-      "rule": "orphaned-tokens"
-    },
-    {
-      "severity": "warning",
       "path": "colors.text-muted",
       "message": "'text-muted' is defined but never referenced by any component.",
       "rule": "orphaned-tokens"
@@ -37,7 +31,7 @@ npm notice run designmd lint DESIGN.md
   ],
   "summary": {
     "errors": 0,
-    "warnings": 4,
+    "warnings": 3,
     "infos": 1
   }
 }

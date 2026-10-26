@@ -18,10 +18,10 @@
 | Thuộc tính | Quy định |
 |---|---|
 | Loài | Trâu con (nghé), chibi: đầu chiếm khoảng 55% chiều cao, thân tròn, chân ngắn |
-| Đặc điểm khoá (giữ ở mọi tư thế) | 2 sừng cong ngắn màu kem · mũi to màu hồng đất có 2 lỗ mũi hình hạt đậu · mắt tròn đen có 1 đốm sáng · má hồng · thân xám-nâu ấm · **thẻ nhân viên đeo cổ** (cam đất, chữ "Nghé · Nhân sự AI") |
+| Đặc điểm khoá (giữ ở mọi tư thế) | 2 sừng cong ngắn màu kem · mũi to màu hồng đất có 2 lỗ mũi hình hạt đậu · mắt tròn đen có 1 đốm sáng · má hồng · thân xám-nâu ấm · **thẻ nhân viên đeo cổ** (xanh pastel, chữ navy "Nghé · Nhân sự AI"; trước 26/10 là cam đất) |
 | Tính cách | Chăm, siêng, nhận việc là làm tới; đôi khi hiểu sai ý vì prompt mơ hồ, nên Nghé là cách dạy giao việc rõ ràng |
 | Đạo cụ | Thẻ nhân viên (luôn có) · ly cà phê sữa đá · laptop |
-| Nét vẽ | Viền nâu cà phê 6px đều (ở khung 512px), tô phẳng + 1 lớp bóng mềm, không gradient phức tạp |
+| Nét vẽ | Viền navy `#1F3A5F` 6px đều ở khung 512px (trước 26/10 là nâu), tô phẳng + 1 lớp bóng mềm, không gradient phức tạp |
 
 **Tư thế (6, dùng làm sticker, PNG nền trong suốt + SVG):**
 
@@ -36,7 +36,7 @@
 
 ## 3. Logo: Agent phác 3 hướng, người dự thi chọn 1
 
-Wordmark chung: **"Đi làm với AI"**, viết bằng Bricolage Grotesque ExtraBold. "AI" đổi sang màu cam đất.
+Wordmark chung: **"Đi làm với AI"**, viết bằng Bricolage Grotesque ExtraBold. "AI" đổi sang màu primary (xanh đậm `#2B5C8A` từ 26/10; ban đầu là cam đất).
 
 - **A. Thẻ + sừng** (Agent nghiêng về hướng này): thẻ nhân viên bo góc, có lỗ đeo dây; hai sừng nghé cong nhô lên từ mép trên; giữa thẻ là chữ "AI". Nhìn là hiểu "nhân viên AI", và vẫn đọc được ở cỡ 32px.
 - **B. Đầu Nghé tối giản:** mặt Nghé rút gọn thành icon tròn. Thân thiện nhất, nhưng logo lẫn với mascot.
@@ -48,7 +48,7 @@ Wordmark chung: **"Đi làm với AI"**, viết bằng Bricolage Grotesque Extra
 - mỗi bản có SVG + PNG trong suốt (512, 1024, 2048px).
 
 **Điểm cộng:**
-- bản một màu (nâu, trắng);
+- bản một màu (navy, trắng; ban đầu là nâu);
 - bản trên nền tối;
 - icon vuông cho avatar group.
 
@@ -57,21 +57,25 @@ Wordmark chung: **"Đi làm với AI"**, viết bằng Bricolage Grotesque Extra
 - bản ngang nhỏ nhất 120px, icon nhỏ nhất 24px;
 - không kéo méo, không đổi màu ngoài bảng, không đặt lên nền rối, không xoay.
 
-## 4. Màu sắc (bản nháp, sẽ kiểm bằng `designmd lint` với ngưỡng tương phản 4.5:1)
+## 4. Màu sắc (đổi ngày 26/10 theo yêu cầu người dùng)
+
+> **Đã đổi 26/10.** Bảng nháp ban đầu là tông cam đất + kem + nâu cà phê (primary `#B54A17`). Người dùng duyệt xong bộ hình thì nói *"Tôi không thích màu cam, đổi sang màu blue pastel hơn"* và chọn hướng **xanh pastel + trắng + navy** ("mát, gọn, hiện đại") trong 3 phương án đã kiểm tương phản. Toàn bộ brand được dựng lại từ token trong một lượt. Ngưỡng tương phản vẫn là 4.5:1 (kiểm bằng `designmd lint` và `tests/test_tokens.mjs`).
 
 | Token | Tên | HEX | Dùng cho |
 |---|---|---|---|
-| primary | Cam Đất | `#B54A17` | Nhấn, nút, chữ "AI", thẻ nhân viên |
-| primary-soft | Cam Bình Minh | `#F59A52` | Minh hoạ, highlight, nền sticker |
-| background | Kem Sữa | `#FFF4E4` | Nền chính |
-| surface | Sữa Đá | `#F3E2CA` | Thẻ, khối phụ |
-| text | Nâu Cà Phê | `#3A2417` | Chữ chính, viền mascot |
-| text-muted | Cà Phê Sữa | `#7A5A45` | Chữ phụ |
-| buffalo | Xám Nghé | `#8C7B70` | Thân mascot |
-| success | Lá Mạ | `#5E8C3A` | Trạng thái "xong" (dùng tiết kiệm) |
-| dark-bg | Đêm Cà Phê | `#22150E` | Nền tối |
+| primary | Xanh đậm | `#2B5C8A` | Chữ "AI", nút, dây đeo thẻ, điểm nhấn |
+| primary-soft | Xanh pastel | `#B8D8F5` | Màu chủ đạo: thẻ nhân viên, thân thẻ trong logo, nền ảnh bìa/poster |
+| background | Trắng xanh | `#F7FAFD` | Nền chính |
+| surface | Xanh nhạt | `#E3EEF9` | Thẻ, khối phụ |
+| text | Navy | `#1F3A5F` | Chữ chính, viền mascot và sticker |
+| text-muted | Navy nhạt | `#4F6B8A` | Chữ phụ |
+| buffalo | Xám Nghé | `#8C7B70` | Thân mascot (giữ nguyên) |
+| success | Lá Mạ | `#5E8C3A` | Trạng thái "xong" (dùng tiết kiệm, không làm chữ) |
+| dark-bg | Navy đêm | `#13243B` | Nền tối |
 
-Tỉ lệ dùng: kem 60%, nâu 25%, cam 10%, còn lại 5%.
+Tương phản đã kiểm: text/background 10.96 · text/primary-soft 7.75 · primary/background 6.68 · primary/surface 5.95 · primary/primary-soft 4.73 · primary-soft/dark-bg 10.56.
+
+Tỉ lệ dùng: nền trắng xanh 60%, xanh nhạt + navy 25%, xanh pastel + xanh đậm 10%, còn lại 5%.
 
 ## 5. Chữ
 

@@ -27,21 +27,21 @@ Kèm: quy trình làm việc với Agent và ảnh chụp quá trình ở [06-pr
 
 ![Brand board Nghé](board/brand-board.png)
 
-Mockup (thẻ nhân viên, ly cà phê, slide webinar, ảnh bìa group) và GIF nằm trong [board](board/).
+Mockup (thẻ nhân viên, ly cà phê, slide webinar, ảnh bìa group), poster xanh pastel cho ảnh đầu bài đăng (`poster-nghe-xanh.png`), 5 trang carousel "8 prompt" và GIF nằm trong [board](board/).
 
 ## Màu
 
 | Tên | HEX | Dùng cho |
 |---|---|---|
-| Cam đất (primary) | `#B54A17` | Nút, thẻ nhân viên, điểm nhấn. Chữ trên nền kem đạt 4.88:1 |
-| Cam nhạt (primary-soft) | `#F59A52` | Viền, chi tiết phụ |
-| Kem (background) | `#FFF4E4` | Nền chính |
-| Be (surface) | `#F3E2CA` | Thẻ, khung nội dung |
-| Nâu cà phê (text) | `#3A2417` | Chữ chính, nét viền |
-| Nâu nhạt (text-muted) | `#7A5A45` | Chữ phụ |
+| Xanh đậm (primary) | `#2B5C8A` | Chữ "AI", nút, dây đeo thẻ, điểm nhấn. Chữ trên nền chính đạt 6.68:1 |
+| Xanh pastel (primary-soft) | `#B8D8F5` | Màu chủ đạo: thẻ nhân viên, nền ảnh bìa và poster. Chữ navy trên nền này đạt 7.75:1 |
+| Trắng xanh (background) | `#F7FAFD` | Nền chính |
+| Xanh nhạt (surface) | `#E3EEF9` | Thẻ, khung nội dung |
+| Navy (text) | `#1F3A5F` | Chữ chính, nét viền |
+| Navy nhạt (text-muted) | `#4F6B8A` | Chữ phụ |
 | Xám trâu (buffalo) | `#8C7B70` | Thân Nghé |
-| Xanh lá (success) | `#5E8C3A` | Trạng thái "xong rồi sếp" |
-| Nâu đậm (dark-bg) | `#22150E` | Nền tối |
+| Xanh lá (success) | `#5E8C3A` | Trạng thái "xong rồi sếp" (không dùng làm chữ) |
+| Navy đêm (dark-bg) | `#13243B` | Nền tối |
 
 ## Font
 

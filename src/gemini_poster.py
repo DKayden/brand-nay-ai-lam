@@ -15,12 +15,12 @@ USD_PER_IMAGE = 0.07  # ~$0.067 / ảnh 1K (giá niêm yết, xem đầu log) l�
 
 PROMPT = """Render this exact character as a soft 3D clay-style mascot poster, 4:5 vertical.
 Keep EVERY locked trait identical to the reference: baby water buffalo (nghé), chibi proportions (big head ~55% of height),
-warm grey-brown body #8C7B70 with a dark-brown outline feel, a small tuft of hair on the forehead,
+warm grey-brown body #8C7B70 with a navy (#1F3A5F) outline feel, a small tuft of hair on the forehead,
 cream crescent horns that sweep out sideways then curve up, droopy side ears with pink inner,
 broad rounded grey-pink (mauve, #BA8F89) water-buffalo muzzle with two bean-shaped nostrils, small open smiling mouth,
 round black eyes with one white highlight, pink cheeks,
-orange (#B54A17) employee ID badge on a light-orange lanyard, the badge reads "Nghé" in large cream letters.
-Pose: waving hello with one raised hoof, cheerful. Background: warm cream #FFF4E4 with soft orange sunrise glow, a small iced milk coffee cup beside.
+pastel blue (#B8D8F5) employee ID badge on a deep blue (#2B5C8A) lanyard, the badge reads "Nghé" in large navy letters.
+Pose: waving hello with one raised hoof, cheerful. Background: airy pastel blue #B8D8F5 fading to white #F7FAFD, a small iced milk coffee cup beside.
 No text other than the badge. No other characters. Do not change the design."""
 
 CALL_RE = re.compile(r"^- call (\d+): (ok|error)", re.M)

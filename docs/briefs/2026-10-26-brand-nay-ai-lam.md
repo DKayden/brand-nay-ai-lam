@@ -36,7 +36,7 @@
 - Ba mục tiêu cùng lúc: "Cả 3 cùng lúc" (giải chính, giải quy trình, được dùng chính thức).
 - Một bộ nhận diện mà người ngoài group cũng muốn share: dễ thương, chất Việt, đúng tinh thần "đồng nghiệp AI", có thứ để lưu về dùng lại.
 - Câu chuyện chân thật: người không biết vẽ vẫn làm được brand nhờ biết giao việc cho Agent.
-- Định hướng đã chốt qua phỏng vấn (input cho bước thiết kế, chưa phải giải pháp hoàn chỉnh): concept **Đồng nghiệp AI**, mascot **Nghé** (trâu con, chơi chữ "nghe"; chăm nhưng hơi ngáo; chibi tròn mềm; đeo thẻ nhân viên, cầm cà phê sữa đá, có laptop), slogan **"AI làm việc, mình làm chủ."**, màu cam đất + kem + nâu cà phê, font Bricolage Grotesque + Be Vietnam Pro, wordmark "Đi làm với AI", xưng "group – cả nhà", Nghé có giọng riêng, mức hài "vui vừa, có duyên", giữ thuật ngữ tiếng Anh thông dụng.
+- Định hướng đã chốt qua phỏng vấn (input cho bước thiết kế, chưa phải giải pháp hoàn chỉnh): concept **Đồng nghiệp AI**, mascot **Nghé** (trâu con, chơi chữ "nghe"; chăm nhưng hơi ngáo; chibi tròn mềm; đeo thẻ nhân viên, cầm cà phê sữa đá, có laptop), slogan **"AI làm việc, mình làm chủ."**, màu cam đất + kem + nâu cà phê (26/10 người dùng đổi sang xanh pastel + trắng + navy, xem spec mục 4), font Bricolage Grotesque + Be Vietnam Pro, wordmark "Đi làm với AI", xưng "group – cả nhà", Nghé có giọng riêng, mức hài "vui vừa, có duyên", giữ thuật ngữ tiếng Anh thông dụng.
 
 ## 5. Ràng buộc
 
