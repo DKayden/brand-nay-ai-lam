@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { buildBoard, embed } from '../src/board.mjs';
+import { buildBoard, embed, brandBoard, mockupJobs } from '../src/board.mjs';
 
 const pngSize = (f) => {
   const b = fs.readFileSync(f);
@@ -31,4 +31,10 @@ test('embed đổi tên id mỗi lần nhúng, không đụng nhau', () => {
   const idA = a.match(/id="([^"]+)"/)[1], idB = b.match(/id="([^"]+)"/)[1];
   assert.notEqual(idA, idB);
   assert.ok(a.includes(`url(#${idA})`) && !a.includes('url(#the-smile)'));
+});
+
+test('mọi SVG nguồn của mockup đều không có <text>', () => {
+  const all = [['brand-board', brandBoard()], ...mockupJobs()];
+  assert.equal(all.length, 6);
+  for (const [name, svg] of all) assert.ok(!svg.includes('<text'), name);
 });

@@ -104,14 +104,14 @@ export function brandBoard() {
   // --- Hero: trái logo + slogan, phải Nghé + 3 sticker ---
   const eyebrow = { ...B600, size: 20 };
   b += T('BỘ NHẬN DIỆN THƯƠNG HIỆU', eyebrow, M, M + cap(eyebrow), C.primary);
-  const logoW = 500, logoY = 100;
+  const logoW = 500, logoY = 116;
   b += embed(`${LOGO}/logo-ngang.svg`, M - 4, logoY, logoW);
   const sl = { ...H800, size: 44 };
-  const s1 = logoY + logoW * ratio(`${LOGO}/logo-ngang.svg`) + 40 + cap(sl);
+  const s1 = logoY + logoW * ratio(`${LOGO}/logo-ngang.svg`) + 52 + cap(sl);
   b += T('AI làm việc,', sl, M, s1);
   b += T('mình làm chủ.', sl, M, s1 + 52, C.primary);
   const desc = para('Group cho người đi làm muốn giao việc cho AI, và Nghé là nhân sự AI mới của group.',
-    { ...B400, size: 22 }, M, s1 + 52 + 58, 470, 34, C['text-muted']);
+    { ...B400, size: 22 }, M, s1 + 52 + 74, 470, 36, C['text-muted']);
   b += desc.svg;
 
   const nX = W - M - 380, nY = 40;
@@ -191,17 +191,16 @@ export function coverGroup() {
   // Nghé bên phải trên đĩa kem
   const nS = 600, nX = W - 140 - nS, nY = SAFE_TOP - 4;
   b += `<circle cx="${nX + nS / 2}" cy="${nY + nS / 2 + 10}" r="${nS * 0.44}" fill="${C.background}"/>`;
-  b += embed(`${MASCOT}/chao-member-moi.svg`, nX, nY, nS);
+  b += embed(`${MASCOT}/nghe-nghe.svg`, nX, nY, nS);
   // Trái: wordmark trên tấm nền tối + slogan kem
   const X = 120, lw = 600, lh = lw * ratio(`${LOGO}/logo-ngang-nen-toi.svg`);
-  const panelY = SAFE_TOP + 74, pad = 28;
+  const panelY = SAFE_TOP + 118, pad = 28;
   b += stickerCard(X, panelY, lw + pad * 2, lh + pad, 28, C['dark-bg'], { sw: 0, drop: 0 });
   b += embed(`${LOGO}/logo-ngang-nen-toi.svg`, X + pad, panelY + pad / 2, lw, { noBg: true });
   const sl = { ...H800, size: 64 };
   const sy = panelY + lh + pad + 56 + cap(sl);
   b += T('AI làm việc,', sl, X, sy, C.background);
   b += T('mình làm chủ.', sl, X, sy + 74, C.background);
-  b += T('Chào cả nhà! Nghé là nhân sự AI mới của group.', { ...B500, size: 28 }, X, sy + 74 + 64, C.background);
   return doc(W, H, b, C.primary);
 }
 
@@ -319,20 +318,21 @@ export function flatPoster() {
 }
 
 // ================= build =================
+export const mockupJobs = () => [
+  ['mockup-cover-group', coverGroup(), 1640],
+  ['mockup-the-nhan-vien', badgeMockup(), 1200],
+  ['mockup-ly-ca-phe', cupMockup(), 1200],
+  ['mockup-slide-webinar', webinarSlide(), 1920],
+  ['poster-nghe-phang', flatPoster(), 1080],
+];
+
 export function buildBoard(dir = OUT) {
   fs.mkdirSync(dir, { recursive: true });
   const out = [];
   const board = brandBoard();
   fs.writeFileSync(`${dir}/brand-board.svg`, board);
   out.push(`${dir}/brand-board.svg`);
-  const jobs = [
-    ['brand-board', board, 2160],
-    ['mockup-cover-group', coverGroup(), 1640],
-    ['mockup-the-nhan-vien', badgeMockup(), 1200],
-    ['mockup-ly-ca-phe', cupMockup(), 1200],
-    ['mockup-slide-webinar', webinarSlide(), 1920],
-    ['poster-nghe-phang', flatPoster(), 1080],
-  ];
+  const jobs = [['brand-board', board, 2160], ...mockupJobs()];
   for (const [name, svg, w] of jobs) {
     const f = `${dir}/${name}.png`;
     fs.writeFileSync(f, renderPng(svg, w));
