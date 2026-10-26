@@ -8,6 +8,10 @@ import { COLORS as C } from './tokens.mjs';
 import { textPath, measure } from './textpath.mjs';
 import { fontPath } from './fonts.mjs';
 import { renderPng } from './render.mjs';
+import { ngangBaseline } from './logo.mjs';
+
+// Chân chữ wordmark trong logo-ngang*.svg, tính theo tỉ lệ bề rộng viewBox (để canh hashtag cùng hàng).
+const baseOf = (file, w) => w * ngangBaseline() / Number(fs.readFileSync(file, 'utf8').match(/viewBox="0 0 ([\d.]+)/)[1]);
 
 const LOGO = '01-logo/svg', MASCOT = '03-mascot/svg', OUT = 'board';
 const H800 = { family: 'Bricolage Grotesque', weight: 800 };
@@ -365,9 +369,10 @@ export function bluePoster() {
   // chân: dải navy đặc full ngang — logo nền tối + hashtag xanh pastel (10.56)
   const fh = 150, fy = H - fh;
   b += rect(0, fy, W, fh, 0, C['dark-bg']);
-  const lw = 380, lhh = lw * ratio(`${LOGO}/logo-ngang-nen-toi.svg`);
-  b += embed(`${LOGO}/logo-ngang-nen-toi.svg`, M - 8, fy + (fh - lhh) / 2, lw, { noBg: true });
-  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, fy + fh / 2 + cap(H800, 44) / 2, BG, 'end');
+  // Logo A2 có cà vạt thả dưới thẻ: đặt logo gọn trong dải, hashtag canh cùng chân chữ wordmark.
+  const lf = `${LOGO}/logo-ngang-nen-toi.svg`, lw = 340, lhh = lw * ratio(lf), ly = fy + (fh - lhh) / 2;
+  b += embed(lf, M - 8, ly, lw, { noBg: true });
+  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, ly + baseOf(lf, lw), BG, 'end');
   return doc(W, H, b, BG);
 }
 
@@ -416,9 +421,10 @@ function slideFrame(n, total, body) {
   let b = T('8 PROMPT LÀM BRAND', meta, CM, CM + cap(meta), C.primary);
   b += T(`${n}/${total}`, meta, CS - CM, CM + cap(meta), C['text-muted'], 'end');
   const fy = CS - CM - 8;
-  const lw = 250;
-  b += embed(`${LOGO}/logo-ngang.svg`, CM - 4, fy - lw * ratio(`${LOGO}/logo-ngang.svg`) + 18, lw);
-  b += T('#BrandNayAiLam', { ...H800, size: 30 }, CS - CM, fy, INK, 'end');
+  const lf = `${LOGO}/logo-ngang.svg`, lw = 250, ly = fy - lw * ratio(lf) + 18;
+  b += embed(lf, CM - 4, ly, lw);
+  // hashtag cùng chân chữ với wordmark (cà vạt của logo thả xuống dưới hàng chữ)
+  b += T('#BrandNayAiLam', { ...H800, size: 30 }, CS - CM, ly + baseOf(lf, lw), INK, 'end');
   return doc(CS, CS, b + body, C.background);
 }
 
