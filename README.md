@@ -10,7 +10,7 @@ Bộ nhận diện cho group **Đi làm với AI**, bài dự thi minigame *#Bra
 
 > Bản dự thi hiện hành: Nghé chồi sừng, thắt cà vạt giống logo, thêm màu nhấn cam nắng. Bản đầu (sừng to, đeo thẻ) giữ ở tag [v1-nop-bai](https://github.com/DKayden/brand-nay-ai-lam/tree/v1-nop-bai); ảnh so sánh: [06-process/so-sanh-v1-v2.png](06-process/so-sanh-v1-v2.png).
 
-Bản sao Google Drive (file zip): https://drive.google.com/file/d/1b0NVDBWXCa9yrvcUSXn7C5zqt7OyYLTn/view?usp=sharing
+Bản sao Google Drive (file zip): https://drive.google.com/file/d/1xitHixZ7_yhgzAuj4Ta1NWnFVtXXp5t3/view?usp=sharing
 
 ## 6 hạng mục
 
