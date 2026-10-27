@@ -199,3 +199,16 @@ Cách làm: Claude chép nguyên hình học đã duyệt trên canvas vào `src
 - Khung lockup tính từ hộp mực thật của chữ (kể cả dấu tiếng Việt), test render kiểm mép không bị cắt.
 - Cà vạt thả xuống dưới hàng chữ, nên ở chân poster và carousel, hashtag được canh theo chân chữ wordmark thay vì canh giữa cả khối logo.
 - Sừng chỉ còn ở Nghé. Hình học sừng vẫn nằm trong `src/mascot.mjs`; test xác nhận bản `nghe-nghe` không đổi một byte.
+
+## Bước — Vòng 2: bản v2 thành bản dự thi (27/10)
+
+Sau khi nộp bản đầu (tag `v1-nop-bai`), mình nhờ Claude đánh giá lại logo và mascot bằng các skill thiết kế, rồi sửa theo thứ tự ưu tiên. Ảnh so sánh bản đầu với v2: `so-sanh-v1-v2.png`.
+
+Những điểm đổi:
+- **Nối logo với mascot:** Nghé thắt đúng cà vạt của logo, bỏ thẻ đeo cổ. Mình thử cả hai hướng (bỏ thẻ giữ cà vạt, hoặc bỏ cà vạt) và chọn giữ cà vạt.
+- **Nghé thành nghé con:** chồi sừng tròn nhỏ thay cho sừng lớn (bản sừng non lưỡi liềm giữ làm bản phụ ở `03-mascot-sung-non/`), thân nâu ấm, mõm be sáng, hết hồng xám.
+- **Logo đọc được ở 32px:** bỏ cổ áo, cà vạt có nút to và thân rộng hơn, wordmark canh giữa theo tấm thẻ, `icon-avatar` có nền xanh nhạt và chừa lề an toàn khi cắt tròn.
+- **Brand board:** thêm màu nhấn cam nắng `#F4A259` (nút, gạch chân, số chú giải, hashtag trên nền tối), hàng màu mascot, panel dựng hình logo. Mockup, poster, carousel dựng lại theo v2.
+- **Pose:** "Cà phê sáng" đổi thành Nghé bưng cốc thuỷ tinh, hơi nóng bốc lên; giọt mồ hôi và bảng "Chào cả nhà!" được dời để không đè lên chi tiết khác.
+
+Cách kiểm: mỗi lượt dựng xong, Claude giao cho các subagent soi từng file (logo, mascot, board, mã nguồn). Subagent bắt được lỗi như chữ carousel còn nhắc "thẻ", tai Nghé bị cắt trong mockup thẻ, hashtag dính bệ laptop ở carousel bìa, giãn dòng làm dấu tiếng Việt chạm dòng trên. Claude sửa rồi giao lại cho đến khi không còn lỗi nặng. Test gốc được cập nhật cho khớp v2 (không còn thẻ đeo, brand board dài hơn); `npm test` pass 43 bài và `check_submission` báo OK.
