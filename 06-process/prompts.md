@@ -29,7 +29,7 @@ Tất cả ảnh vẽ bằng code (SVG), không dùng ảnh AI raster cho bản 
 2. Cộng đồng này nói chuyện kiểu gì, hay dùng từ gì, đang thiếu gì về hình ảnh.
 3. Ràng buộc kỹ thuật cần biết trước: định dạng file, font phải có dấu tiếng Việt và miễn phí
    thương mại, [spec design system nếu có, ví dụ DESIGN.md].
-Ghi vào RESEARCH.md, mỗi ý kèm nguồn. Chỗ nào không chắc thì ghi "chưa xác minh".
+Ghi vào một file ghi chú research, mỗi ý kèm nguồn. Chỗ nào không chắc thì ghi "chưa xác minh".
 ```
 
 **Mẹo:** bắt Agent ghi nguồn và đánh dấu "chưa xác minh", để về sau biết chỗ nào dựa vào được.
@@ -41,7 +41,7 @@ Tôi muốn làm bộ nhận diện cho [tên cộng đồng], mục tiêu [th�
 Hãy phỏng vấn tôi, mỗi lượt 3-4 câu trắc nghiệm gom theo nhóm (mục tiêu, concept, nhân vật,
 giọng điệu, màu). Mỗi câu có đủ ngữ cảnh và một lựa chọn bạn đề xuất kèm lý do. Đừng hỏi
 từng câu một. Khi đủ thông tin, viết đề bài thành 6 mục: mục tiêu, hiện trạng, vấn đề,
-mong muốn, ràng buộc, KHÔNG đưa giải pháp. Lưu vào docs/briefs/.
+mong muốn, ràng buộc, KHÔNG đưa giải pháp. Lưu thành một file đề bài.
 Sau đó gọi một subagent "đọc lạnh" chỉ có file brief, bắt nó liệt kê chỗ còn thiếu hoặc mâu thuẫn.
 Sửa brief và gọi lại cho tới khi nó trả "NO GAPS".
 ```

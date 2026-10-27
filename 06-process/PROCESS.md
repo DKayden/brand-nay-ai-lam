@@ -5,18 +5,20 @@ Thư mục này là toàn bộ "hậu trường" của bài dự thi **Nghé —
 ## Agent dùng
 
 - **Claude Code** (Anthropic), chạy theo kiểu *subagent-driven development*:
-  - một Agent điều phối (Claude Opus) chia việc thành 16 task theo [plan](../docs/superpowers/plans/2026-10-26-nghe-brand-production.md);
+  - một Agent điều phối (Claude Opus) chia việc thành 16 task theo một bản plan sản xuất;
   - mỗi task giao cho một subagent mới (Haiku/Sonnet/Opus tuỳ độ khó), subagent chỉ thấy phần brief của task đó;
   - xong task, một **subagent review độc lập** đọc lại kết quả và bắt lỗi, rồi mới sang task tiếp theo.
-- Công cụ phụ: Node (`opentype.js` đổi chữ thành path, `@resvg/resvg-js` xuất PNG), Python + Pillow (GIF), `designmd lint` (kiểm DESIGN.md), Gemini API (thử làm poster 3D, không thành, xem [gemini-log.md](gemini-log.md)).
+- Công cụ phụ: Node (`opentype.js` đổi chữ thành path, `@resvg/resvg-js` xuất PNG), Python + Pillow (GIF), `designmd lint` (kiểm DESIGN.md), Gemini API (thử làm poster 3D, không thành nên dùng poster SVG phẳng).
 - **Người dự thi** không phải designer. Việc của mình: trả lời phỏng vấn, chọn hướng, duyệt hoặc chê. Việc của Agent: nghiên cứu, vẽ, kiểm tra, viết tài liệu.
 
 ## Tài liệu nền (theo thứ tự ra đời)
 
-1. [RESEARCH.md](../RESEARCH.md): đọc thể lệ, group, spec DESIGN.md, font có dấu Việt.
-2. [Đề bài đã làm rõ](../docs/briefs/2026-10-26-brand-nay-ai-lam.md): 6 mục (mục tiêu, hiện trạng, vấn đề, mong muốn, ràng buộc), chưa có lời giải.
-3. [Spec ý tưởng](../docs/superpowers/specs/2026-10-26-nghe-brand-design.md): concept, mascot, màu, chữ, giọng.
-4. [Plan sản xuất](../docs/superpowers/plans/2026-10-26-nghe-brand-production.md): 16 task, có 4 cổng để mình duyệt.
+1. Ghi chú research: đọc thể lệ, group, spec DESIGN.md, font có dấu Việt.
+2. Đề bài đã làm rõ: 6 mục (mục tiêu, hiện trạng, vấn đề, mong muốn, ràng buộc), chưa có lời giải.
+3. Spec ý tưởng: concept, mascot, màu, chữ, giọng.
+4. Plan sản xuất: 16 task, có 4 cổng để mình duyệt.
+
+(Các tài liệu nội bộ này đã được gỡ khỏi repo để chỉ giữ phần bộ nhận diện; lịch sử vẫn xem được ở tag `v1-nop-bai`.)
 
 ## Dòng thời gian thực tế (giờ commit trong git, ngày 26/10/2026)
 
@@ -188,7 +190,7 @@ Sau khi đổi màu, mình xem lại logo thẻ mọc sừng và góp ý theo t�
 4. *"Chốt A2 phương án 1 (dấu nhắc lệnh)"*
 
 Diễn biến:
-- Khi sừng bị gạch, Claude thử vài hướng lấy hình não làm biểu tượng (các file `explore/logo2-*`). Mình thấy hình não sáo, nên bỏ.
+- Khi sừng bị gạch, Claude thử vài hướng lấy hình não làm biểu tượng. Mình thấy hình não sáo, nên bỏ.
 - Claude chuyển sang một canvas Claude Design (riêng tư), dựng 3 hướng khác hẳn nhau để so cạnh nhau: **A "AI thắt cà vạt"**, **B "Chữ A là người"**, **C "Ghế sếp"**.
 - Mình thích A nhưng muốn bỏ chữ "AI" trong biểu tượng. Claude làm tiếp A2: giữ thẻ thắt cà vạt, thay chữ bằng 3 gương mặt khác nhau: dấu nhắc lệnh, mặt cười, lấp lánh.
 - Mình chọn **dấu nhắc lệnh**. Ý nghĩa: AI là một đồng nghiệp cấp cao (thắt cà vạt), gương mặt là dấu nhắc lệnh `>_`, đúng chỗ mình gõ để giao việc cho Agent.
