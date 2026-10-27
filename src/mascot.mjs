@@ -1,6 +1,7 @@
+// Mascot Nghé (sau đánh giá lại: chồi sừng, nâu ấm, mõm sáng, đeo cà vạt cùng logo).
 // Mascot Nghé — nghé (trâu con) Việt, "nhân sự AI" của group. Chibi tròn mềm, viền navy đều.
 // Mọi bộ phận vẽ trong khung 512×512, nét viền 6px màu COLORS.text.
-// Chạy: node src/mascot.mjs → 03-mascot/svg/*.svg, 03-mascot/png/*, 03-mascot/character-sheet.{svg,png}
+// Chạy (từ thư mục gốc repo): node src/mascot.mjs → 03-mascot/...
 import fs from 'node:fs';
 import path from 'node:path';
 import { COLORS } from './tokens.mjs';
@@ -13,13 +14,12 @@ const SW = 6;
 const LINE = `stroke="${INK}" stroke-width="${SW}" stroke-linejoin="round"`;
 export const MASCOT_COLORS = {
   buffalo: COLORS.buffalo, // thân
-  belly: '#A99A8F', // bụng, mõm dưới sáng hơn thân
+  belly: COLORS.belly, // bụng, sáng hơn thân
   horn: COLORS.horn,
   nose: COLORS.nose,
   cheek: COLORS.cheek,
   ink: INK,
-  badge: COLORS['primary-soft'], // thẻ xanh pastel, chữ navy (7.75)
-  strap: COLORS.primary,
+  tie: COLORS.primary, // cà vạt: cùng màu và hình với logo v2
 };
 const C = MASCOT_COLORS;
 
@@ -28,13 +28,12 @@ const HEAD = { cx: 256, cy: 196, rx: 150, ry: 124 };
 const EYE = { dx: 64, y: 180, r: 23 };
 const MUZZLE = { cx: 256, top: 226, bottom: 302, half: 92 };
 const BODY = { x: 186, y: 300, w: 140, h: 146, rx: 62 };
-const CARD = { cx: 256, top: 350, w: 76, h: 86, rx: 13 };
-// Vùng chữ "Nghé · Nhân sự AI" trên thẻ (khung 512): đạo cụ không được che vùng này.
-export const BADGE_TEXT_BOX = { x1: CARD.cx - 34, y1: CARD.top + 28, x2: CARD.cx + 34, y2: CARD.top + 74 };
+// Vị trí cà vạt trong khung 512 (cx = trục giữa, top = đỉnh vùng bụng).
+const CARD = { cx: 256, top: 350 };
 
 const mirror = (svg) => `<g transform="translate(512 0) scale(-1 1)">${svg}</g>`;
 
-// Sừng trâu nước của Nghé (logo A2 từ 26/10 không còn sừng; hình học sừng giữ nguyên tại đây), phóng k lần:
+// Sừng non của nghé (nghé = trâu con: sừng chỉ là hai chồi nhỏ), cùng hình học lưỡi liềm nhưng thu nhỏ:
 // thân dày quét ngang ra ngoài rồi vút lên thành lưỡi liềm, chóp quặp vào.
 const hornLeft = (rx, ry, kx, ky = kx) => {
   const p = (dx, dy) => `${rx + dx * kx} ${ry + dy * ky}`;
@@ -45,7 +44,10 @@ const hornLeft = (rx, ry, kx, ky = kx) => {
 };
 
 function horns() {
-  const one = `<path d="${hornLeft(160, 108, 1.75, 1.2)}" fill="${C.horn}" ${LINE}/>`;
+  // Mặc định: chồi sừng tròn nhỏ (bản chính). HORN=sung-non: sừng non lưỡi liềm (bản phụ, thư mục 03-mascot-sung-non).
+  const one = process.env.HORN !== 'sung-non'
+    ? `<ellipse cx="148" cy="94" rx="16" ry="25" transform="rotate(-28 148 94)" fill="${C.horn}" ${LINE}/>`
+    : `<path d="${hornLeft(166, 104, 0.95, 0.8)}" fill="${C.horn}" ${LINE}/>`;
   return `<g class="horns">${one}${mirror(one)}</g>`;
 }
 
@@ -126,20 +128,13 @@ function body() {
     + '</g>';
 }
 
-// Thẻ nhân viên — thân xanh pastel viền navy như thẻ trong logo A2; dây xanh đậm viền navy, kẹp navy, khe navy, chữ navy.
+// Bỏ thẻ nhân viên (v2): chỉ còn cà vạt cùng kiểu logo — nút dưới cằm, thân loe dài xuống bụng, mũi nhọn.
+// Giữ tên hàm badge()/class "badge" để compose() không phải đổi.
 function badge() {
-  const { cx, top, w, h, rx } = CARD;
-  const x = cx - w / 2;
-  const strapD = `M ${cx - 34} ${top - 52} L ${cx} ${top - 4} L ${cx + 34} ${top - 52}`;
-  const strap = (color, width) => `<path d="${strapD}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const name = textPath('Nghé', { family: 'Bricolage Grotesque', weight: 800, size: 22, x: cx, y: top + 50, fill: INK, anchor: 'middle' }).svg;
-  const role = textPath('Nhân sự AI', { family: 'Be Vietnam Pro', weight: 600, size: 11, x: cx, y: top + 70, fill: INK, anchor: 'middle' }).svg;
+  const { cx, top } = CARD;
   return '<g class="badge">'
-    + strap(INK, 8 + SW * 2) + strap(C.strap, 8)
-    + `<rect x="${x}" y="${top}" width="${w}" height="${h}" rx="${rx}" fill="${C.badge}" ${LINE}/>`
-    + `<rect x="${cx - 16}" y="${top + 9}" width="32" height="8" rx="4" fill="${INK}"/>`
-    + `<rect x="${cx - 7}" y="${top - 12}" width="14" height="26" rx="5" fill="${INK}"/>`
-    + name + role
+    + `<path d="M ${cx - 17} ${top - 36} L ${cx + 17} ${top - 36} L ${cx + 12} ${top - 8} L ${cx - 12} ${top - 8} Z" fill="${C.tie}" ${LINE}/>`
+    + `<path d="M ${cx - 12} ${top - 12} L ${cx + 12} ${top - 12} L ${cx + 27} ${top + 32} L ${cx} ${top + 62} L ${cx - 27} ${top + 32} Z" fill="${C.tie}" ${LINE}/>`
     + '</g>';
 }
 
@@ -224,7 +219,7 @@ export const sparks = (x, y, flip = false) => [[8, -32, 16, -52], [22, -22, 40, 
 export { mirror };
 
 // Ghép một tư thế — thứ tự lớp cố định ở đây, Task 7 chỉ khai báo bộ phận:
-//   sừng+tai (theo đầu) → chân → tay sau thân → thân → thẻ → under → tay trước thân → đầu → extras
+//   sừng+tai (theo đầu) → chân → tay sau thân → thân → cà vạt → under → tay trước thân → đầu → extras
 // head: { eyes, mouth, transform } — transform (vd "rotate(-10 256 200)") áp cho cả sừng, tai, đầu.
 // armL / armR: tuỳ chọn của arm() (+ front: true để vẽ trước thân), chuỗi SVG có sẵn, hoặc false để bỏ.
 // legs: tuỳ chọn của legs() ({ stance }) hoặc chuỗi SVG. under: đạo cụ nằm sau tay trước (cốc, laptop).
@@ -283,28 +278,19 @@ export function typingBubble(x, y, w = 84, h = 44) {
     + dots + '</g>';
 }
 
-// Cà phê sữa đá: cốc trong viền navy, cà phê dưới + sữa trên, 3 viên đá, ống hút xanh đậm.
-export const straw = (x1, y1, x2, y2) => [[INK, 12 + SW * 2], [COLORS.primary, 12]]
-  .map(([c, w]) => `<path d="M ${x1} ${y1} L ${x2} ${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`).join('');
-
-// withStraw=false: không vẽ ống hút (tư thế tự vẽ ống hút lên trên đầu để chạm miệng).
-// tw/bw: nửa rộng miệng / đáy cốc; cube: cạnh viên đá.
-export function icedCoffee(cx = 256, top = 336, h = 104, withStraw = true, { tw = 54, bw = 42, cube = 26 } = {}) {
-  const q = tw / 54; // vị trí đá theo tỉ lệ cốc
-  const at = (y) => tw - ((tw - bw) * (y - top)) / h; // nửa rộng tại độ cao y
-  const band = (y1, y2, fill) => `<path d="M ${cx - at(y1) + 3} ${y1} L ${cx + at(y1) - 3} ${y1} L ${cx + at(y2) - 3} ${y2 - 4} Q ${cx} ${y2 + 2} ${cx - at(y2) + 3} ${y2 - 4} Z" fill="${fill}"/>`;
-  const b = top + h;
-  const glass = `M ${cx - tw} ${top} L ${cx + tw} ${top} L ${cx + bw} ${b - 8} Q ${cx + bw - 2} ${b} ${cx + bw - 12} ${b} L ${cx - bw + 12} ${b} Q ${cx - bw + 2} ${b} ${cx - bw} ${b - 8} Z`;
-  const ice = (x, y, a) => `<rect x="${x - cube / 2}" y="${y - cube / 2}" width="${cube}" height="${cube}" rx="5" transform="rotate(${a} ${x} ${y})" fill="#fff" fill-opacity=".85" stroke="${INK}" stroke-width="3"/>`;
-  return '<g class="iced-coffee">'
-    + (withStraw ? straw(cx + 14, top + 50, cx + 4, top - 62) : '')
-    + `<path d="${glass}" fill="#fff" fill-opacity=".55"/>`
-    + band(top + 14, top + 62, '#E8CFA8')
-    + band(top + 60, b, '#6B4226')
-    + ice(cx - 22 * q, top + 32 * q, -12) + ice(cx + 20 * q, top + 28 * q, 14) + ice(cx - 2 * q, top + 54 * q, 6)
-    + `<path d="M ${cx - tw + 12} ${top + 16} L ${cx - bw + 10} ${b - 14}" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".7"/>`
+// Cốc cà phê thuỷ tinh có quai bên trái, bưng sát miệng; hơi nóng 2 vệt. top = mép cốc.
+export function coffeeCup(cx = 256, top = 282, tw = 34, bw = 28, h = 56) {
+  const b = top + h, at = (y) => tw - ((tw - bw) * (y - top)) / h;
+  const glass = `M ${cx - tw} ${top} L ${cx + tw} ${top} L ${cx + bw} ${b - 8} Q ${cx + bw - 2} ${b} ${cx + bw - 10} ${b} L ${cx - bw + 10} ${b} Q ${cx - bw + 2} ${b} ${cx - bw} ${b - 8} Z`;
+  const steam = [cx - 14, cx + 12].map((x, i) => `<path d="M ${x} ${top - 6} q ${i ? -8 : 8} -12 0 -22 q ${i ? 8 : -8} -10 0 -20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"/>`).join('');
+  return '<g class="coffee-cup">'
+    + `<path d="M ${cx - tw + 2} ${top + 10} C ${cx - tw - 22} ${top + 8} ${cx - tw - 20} ${top + 38} ${cx - bw + 2} ${top + 38}" fill="none" stroke="${INK}" stroke-width="${SW + 6}" stroke-linecap="round"/>`
+    + `<path d="M ${cx - tw + 2} ${top + 10} C ${cx - tw - 22} ${top + 8} ${cx - tw - 20} ${top + 38} ${cx - bw + 2} ${top + 38}" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>`
+    + `<path d="${glass}" fill="#fff" fill-opacity=".6"/>`
+    + `<path d="M ${cx - at(top + 8)} ${top + 8} L ${cx + at(top + 8)} ${top + 8} L ${cx + bw - 2} ${b - 6} Q ${cx} ${b + 2} ${cx - bw + 2} ${b - 6} Z" fill="#6B4226"/>`
+    + `<ellipse cx="${cx}" cy="${top + 9}" rx="${tw - 5}" ry="5" fill="#E8CFA8"/>`
     + `<path d="${glass}" fill="none" ${LINE}/>`
-    + '</g>';
+    + steam + '</g>';
 }
 
 // Ngôi sao lấp lánh 4 cánh.
@@ -346,10 +332,6 @@ const waveLines = (x, y, dir = 1) => [36, 54]
     return `<path d="M ${p(-30)} A ${r} ${r} 0 0 ${dir > 0 ? 1 : 0} ${p(40)}" fill="none" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>`;
   }).join('');
 
-// "z Z" buồn ngủ.
-const zzz = (x, y) => outlinedText('z', { family: 'Bricolage Grotesque', weight: 800, size: 38, x, y, fill: SOFT }, 8)
-  + outlinedText('Z', { family: 'Bricolage Grotesque', weight: 800, size: 52, x: x + 30, y: y - 14, fill: SOFT }, 8);
-
 // Bảng cầm tay ghi chữ.
 // textX: tâm chữ (mặc định = cx) — dồn chữ sang phải để chừa chỗ cho móng bám mép trái bảng.
 export function sign(text, cx = 256, top = 432, w = 300, h = 62, textX = cx) {
@@ -361,7 +343,7 @@ export function sign(text, cx = 256, top = 432, w = 300, h = 62, textX = cx) {
 }
 
 // Bảng "Chào cả nhà!": rộng sang trái 75..425, chữ dồn phải; móng tay trái bám mép trái bảng, ngoài vùng chữ.
-export const CHAO_SIGN = { text: 'Chào cả nhà!', cx: 250, top: 430, w: 350, h: 54, textX: 285, hoof: [115, 432] };
+export const CHAO_SIGN = { text: 'Chào cả nhà!', cx: 262, top: 438, w: 320, h: 46, textX: 280, hoof: [118, 446] };
 
 const BUILDERS = {
   'nghe-nghe': () => compose({
@@ -394,16 +376,18 @@ const BUILDERS = {
     armL: false,
     armR: ARM.down,
     extras: arm('left', { from: [206, 346], ctrl: [116, 352], to: [116, 256] })
-      + questionMark(456, 356, 150) + questionMark(484, 140, 54) + sweatDrop(388, 136),
+      + questionMark(456, 356, 150) + questionMark(484, 140, 54) + sweatDrop(432, 92, 0.85),
   }),
-  // Cà phê sáng: lim dim, hai móng ôm ly cà phê sữa đá nhỏ lệch phải (thẻ vẫn đọc được), ống hút tới miệng.
-  // Ly vẽ sau tay → hai móng nằm sau thành ly, như đang ôm.
+  // Cà phê sáng: mắt tròn sáng, hai móng bưng cốc cà phê thuỷ tinh sát miệng như đang nhấp, hơi nóng bốc lên, lấp lánh.
+  // Cốc + tay vẽ trên đầu (extras) để cốc che miệng; cà vạt vẫn lộ dưới cốc.
   'ca-phe-sang': () => compose({
-    head: { eyes: 'sleepy', mouth: 'smile' },
-    armL: { from: [194, 350], ctrl: [170, 512], to: [318, 440], front: true }, // vai lùi ra ngoài để tay không chạm mép thẻ
-    armR: { from: [206, 348], ctrl: [118, 372], to: [140, 420], front: true },
-    extras: icedCoffee(348, 362, 92, false, { tw: 40, bw: 31, cube: 20 })
-      + straw(340, 380, 272, 284) + zzz(318, 64),
+    head: { eyes: 'open', mouth: 'smile' },
+    armL: false,
+    armR: false,
+    extras: coffeeCup(256, 282)
+      + arm('left', { from: [206, 350], ctrl: [190, 372], to: [222, 330] })
+      + arm('right', { from: [206, 350], ctrl: [190, 372], to: [222, 330] })
+      + sparkle(458, 64, 22) + sparkle(62, 78, 16),
   }),
   // Chào member mới: vẫy tay cao, tay kia cầm bảng "Chào cả nhà!".
   'chao-member-moi': () => compose({
@@ -468,7 +452,7 @@ export function characterSheet() {
   // Bảng màu
   b += T('BẢNG MÀU MASCOT', { ...B600, size: 14, x: X, y: 530, fill: COLORS['text-muted'] });
   const sw = [['Thân', C.buffalo], ['Bụng', C.belly], ['Sừng', C.horn], ['Mõm', C.nose],
-    ['Má / tai', C.cheek], ['Viền', INK], ['Thẻ', C.badge], ['Dây thẻ', C.strap]];
+    ['Má / tai', C.cheek], ['Viền', INK], ['Cà vạt', C.tie]];
   sw.forEach(([name, hex], i) => {
     const x = X + (i % 4) * 186, y = 560 + Math.floor(i / 4) * 84;
     b += `<circle cx="${x + 26}" cy="${y + 26}" r="24" fill="${hex}" stroke="${INK}" stroke-width="3"/>`;
@@ -479,11 +463,11 @@ export function characterSheet() {
   // Đặc điểm khoá
   b += T('ĐẶC ĐIỂM KHOÁ (giữ ở mọi tư thế)', { ...B600, size: 14, x: X, y: 762, fill: COLORS['text-muted'] });
   [
-    '2 sừng kem lưỡi liềm quét ngang',
-    'Mõm rộng xám-hồng (trâu nước), 2 lỗ mũi hạt đậu · má hồng',
+    process.env.HORN === 'sung-non' ? '2 sừng non nhỏ màu kem (nghé con), hơi quặp ra sau' : '2 chồi sừng tròn nhỏ màu kem (nghé con)',
+    'Mõm rộng màu be, 2 lỗ mũi hạt đậu · má hồng',
     'Mắt tròn đen, đốm sáng · tai cụp ngang · xoáy lông trán',
-    'Thân xám #8C7B70, viền navy #1F3A5F dày 6px (khung 512)',
-    'Thẻ nhân viên xanh pastel, chữ navy "Nghé · Nhân sự AI"',
+    `Thân nâu ấm ${C.buffalo}, viền navy #1F3A5F dày 6px (khung 512)`,
+    'Cà vạt xanh đậm như logo (không đeo thẻ)',
   ].forEach((s, i) => {
     const y = 798 + i * 34;
     b += `<circle cx="${X + 6}" cy="${y - 6}" r="5" fill="${COLORS.primary}"/>`;
@@ -505,7 +489,7 @@ export function stickersSheet() {
 }
 
 // Ghi 6 SVG + PNG (nghe-nghe 512/1024/2048, các pose khác 512/1024) + stickers sheet + character sheet.
-export function buildMascot(dir = '03-mascot') {
+export function buildMascot(dir = process.env.HORN === 'sung-non' ? '03-mascot-sung-non' : '03-mascot') {
   fs.mkdirSync(`${dir}/svg`, { recursive: true });
   const out = [];
   for (const name of POSES) {

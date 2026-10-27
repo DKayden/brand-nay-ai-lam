@@ -1,7 +1,8 @@
-// Bộ logo "Đi làm với AI" — A2 "Thẻ thắt cà vạt, dấu nhắc lệnh" (người dùng duyệt 26/10).
+// Bộ logo "Đi làm với AI" — A2 sau đánh giá lại: bỏ cổ áo, cà vạt to-dày để đọc được ở 32px,
+// wordmark canh theo tâm thẻ lệnh, cà vạt sáng hơn ở nền tối.
 // AI là một đồng nghiệp cấp cao (cà vạt) có gương mặt là dấu nhắc lệnh — nơi mình giao việc cho Agent.
 // Không sừng, không não, không chữ "AI" trong biểu tượng.
-// Chạy: node src/logo.mjs → 01-logo/svg/*.svg + 01-logo/png/*-{512,1024,2048}.png + 01-logo/preview-all.png
+// Chạy (từ thư mục gốc repo): node src/logo.mjs → 01-logo/...
 import fs from 'node:fs';
 import path from 'node:path';
 import opentype from 'opentype.js';
@@ -16,15 +17,14 @@ const capRatio = (headFont.tables.os2.sCapHeight || headFont.charToGlyph('H').ge
 
 // Hình học đã duyệt trên canvas, khung 0 0 200 220 (vẽ đúng thứ tự này).
 export const MARK = { w: 200, h: 220 };
-const COLLAR_L = 'M64 126 L100 146 L84 170 Z';
-const COLLAR_R = 'M136 126 L100 146 L116 170 Z';
-const TIE_BODY = 'M94 162 L106 162 L117 196 L100 212 L83 196 Z';
-const TIE_KNOT = 'M89 145 L111 145 L107 163 L93 163 Z';
+// v2: không cổ áo. Nút to (34 rộng), thân rộng tới 50 — ở cao 32px vẫn thấy rõ hình cà vạt.
+const TIE_KNOT = 'M83 132 L117 132 L111 158 L89 158 Z';
+const TIE_BODY = 'M89 154 L111 154 L125 190 L100 216 L75 190 Z';
 const TAG = { x: 18, y: 18, w: 164, h: 112, rx: 30 };
 export const CHEVRON = 'M58 52 L84 74 L58 96';
 const CURSOR = { x: 98, y: 86, w: 48, h: 13, rx: 6.5 };
-// Hộp mực thật của biểu tượng (gồm nửa nét viền): x 14..186, y 14..~215.
-export const INK_BOX = { x1: 14, y1: 14, x2: 186, y2: 215 };
+// Hộp mực thật của biểu tượng (gồm nửa nét viền): x 14..186, y 14..219.
+export const INK_BOX = { x1: 14, y1: 14, x2: 186, y2: 219 };
 
 const tagRect = (attrs) => `<rect x="${TAG.x}" y="${TAG.y}" width="${TAG.w}" height="${TAG.h}" rx="${TAG.rx}" ${attrs}/>`;
 const cursorRect = (fill) => `<rect x="${CURSOR.x}" y="${CURSOR.y}" width="${CURSOR.w}" height="${CURSOR.h}" rx="${CURSOR.rx}" fill="${fill}"/>`;
@@ -33,9 +33,9 @@ const chevron = (stroke) => `<path d="${CHEVRON}" fill="none" stroke="${stroke}"
 let maskSeq = 0;
 /**
  * Biểu tượng A2 khung 200×220, thu về rộng `size` (cao = 1.1 × size).
- * Mọi màu lấy từ palette `c` (outline, collar, tie, tag, prompt).
- * c.knockout = true → bản 1 màu: mọi hình tô mực, rồi đục thủng (mask) dấu nhắc lệnh,
- * lòng cổ áo và một khe giữa nút cà vạt với thân cà vạt.
+ * Mọi màu lấy từ palette `c` (outline, tie, tag, prompt).
+ * c.knockout = true → bản 1 màu: mọi hình tô mực, rồi đục thủng (mask) dấu nhắc lệnh
+ * và hai khe: thẻ / nút cà vạt, nút / thân cà vạt.
  */
 export function icon(c, { size = MARK.w } = {}) {
   const line = `stroke="${c.outline}" stroke-width="6" stroke-linejoin="round"`;
@@ -44,25 +44,22 @@ export function icon(c, { size = MARK.w } = {}) {
     const ink = c.outline;
     const id = `a2-${++maskSeq}`;
     const white = 'fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"';
-    const hole = 'fill="#000" stroke="#fff" stroke-width="6" stroke-linejoin="round"';
     const mask = `<mask id="${id}" maskUnits="userSpaceOnUse" x="0" y="0" width="${MARK.w}" height="${MARK.h}">`
       + `<rect width="${MARK.w}" height="${MARK.h}" fill="#fff"/>`
-      + `<path d="${COLLAR_L}" ${hole}/><path d="${COLLAR_R}" ${hole}/>` // lòng cổ áo (giữ nguyên nét 6)
-      + `<path d="${TIE_BODY}" ${white}/><path d="${TIE_KNOT}" ${white}/>`
-      + '<path d="M89 165.5 L111 165.5" stroke="#000" stroke-width="3.5"/>' // khe nút / thân cà vạt
+      + `<path d="${TIE_KNOT}" ${white}/><path d="${TIE_BODY}" ${white}/>`
       + tagRect('fill="#fff" stroke="#fff" stroke-width="8"')
+      + '<path d="M78 136.4 L122 136.4" stroke="#000" stroke-width="3.8"/>' // khe thẻ / nút cà vạt
+      + '<path d="M80 156 L120 156" stroke="#000" stroke-width="3.5"/>' // khe nút / thân cà vạt
       + chevron('#000') + cursorRect('#000')
       + '</mask>';
     const solid = (d) => `<path d="${d}" fill="${ink}" ${line}/>`;
     body = mask + `<g mask="url(#${id})">`
-      + solid(COLLAR_L) + solid(COLLAR_R) + solid(TIE_BODY) + solid(TIE_KNOT)
+      + solid(TIE_KNOT) + solid(TIE_BODY)
       + tagRect(`fill="${ink}" stroke="${ink}" stroke-width="8"`)
       + '</g>';
   } else {
-    body = `<path d="${COLLAR_L}" fill="${c.collar}" ${line}/>`
-      + `<path d="${COLLAR_R}" fill="${c.collar}" ${line}/>`
+    body = `<path d="${TIE_KNOT}" fill="${c.tie}" ${line}/>`
       + `<path d="${TIE_BODY}" fill="${c.tie}" ${line}/>`
-      + `<path d="${TIE_KNOT}" fill="${c.tie}" ${line}/>`
       + tagRect(`fill="${c.tag}" stroke="${c.outline}" stroke-width="8"`)
       + chevron(c.prompt) + cursorRect(c.prompt);
   }
@@ -108,8 +105,8 @@ function wordmark(c, x, y, anchor = 'start') {
 }
 
 const FULL = {
-  // Thẻ xanh pastel viền navy, dấu nhắc navy (7.75 trên pastel); cổ áo trắng xanh, cà vạt xanh đậm.
-  outline: COLORS.text, collar: COLORS.background, tie: COLORS.primary, tag: COLORS['primary-soft'], prompt: COLORS.text,
+  // Thẻ xanh pastel viền navy, dấu nhắc navy (7.75 trên pastel); cà vạt xanh đậm.
+  outline: COLORS.text, tie: COLORS.primary, tag: COLORS['primary-soft'], prompt: COLORS.text,
   // Wordmark: chữ navy, "AI" xanh đậm trên viên thuốc pastel (4.73, chữ lớn).
   lead: COLORS.text, accent: COLORS.primary, pill: COLORS['primary-soft'],
 };
@@ -119,7 +116,7 @@ export const PALETTES = {
   'mono-navy': mono(COLORS.text),
   'mono-trang': mono('#FFFFFF'),
   // Nền tối: chữ dẫn trắng; "AI" navy trên viên thuốc pastel (7.75), viên thuốc pastel trên dark-bg (10.56).
-  'nen-toi': { ...FULL, lead: COLORS.background, accent: COLORS.text },
+  'nen-toi': { ...FULL, tie: COLORS['tie-dark'], lead: COLORS.background, accent: COLORS.text }, // cà vạt sáng: tách khỏi nền tối (>3:1)
 };
 
 const svg = (w, h, body, bg) =>
@@ -130,8 +127,8 @@ const WM_GAP = 30; // khoảng hở mực icon → mực wordmark
 const PAD = 14; // lề quanh mực
 function n2(v) { return Math.round(v * 100) / 100; }
 
-// Bản ngang: icon trái, wordmark phải; wordmark canh giữa theo thẻ (gương mặt), cà vạt thả xuống dưới.
-const NGANG_BASE = TAG.y + TAG.h / 2 + (capRatio * WM.size) / 2;
+// Bản ngang: icon trái, wordmark phải; wordmark canh giữa theo tâm THẺ lệnh (cà vạt thả dưới như cà vạt thật).
+const NGANG_BASE = 74 + (capRatio * WM.size) / 2;
 function ngang(c, bg) {
   const wm = wordmark(c, INK_BOX.x2 + WM_GAP, NGANG_BASE);
   const top = Math.min(INK_BOX.y1, wm.box.y1), bottom = Math.max(INK_BOX.y2, wm.box.y2);
@@ -157,9 +154,9 @@ function doc(c, bg) {
   return svg(W, H, `<g transform="translate(0 ${n2(dy)})"><g transform="translate(${n2(W / 2 - MARK.w / 2)} 0)">${icon(c)}</g>${wm.svg}</g>`, bg);
 }
 
-// Icon vuông: mực biểu tượng (172×201) canh giữa ô vuông.
+// Icon vuông: mực biểu tượng (172×205) canh giữa ô vuông.
 const MARK_CX = (INK_BOX.x1 + INK_BOX.x2) / 2, MARK_CY = (INK_BOX.y1 + INK_BOX.y2) / 2;
-const centered = (S) => `<g transform="translate(${n2(S / 2 - MARK_CX)} ${n2(S / 2 - MARK_CY)})">${icon(PALETTES.full)}</g>`;
+const centered = (S, k = 1) => `<g transform="translate(${n2(S / 2 - MARK_CX * k)} ${n2(S / 2 - MARK_CY * k)}) scale(${k})">${icon(PALETTES.full)}</g>`;
 
 export function variants() {
   const S = 220, A = 240;
@@ -173,7 +170,7 @@ export function variants() {
     'logo-ngang-nen-toi': fresh(() => ngang(PALETTES['nen-toi'], COLORS['dark-bg'])),
     'logo-doc-nen-toi': fresh(() => doc(PALETTES['nen-toi'], COLORS['dark-bg'])),
     icon: svg(S, S, centered(S)),
-    'icon-avatar': svg(A, A, `<rect width="${A}" height="${A}" rx="${ROUNDED.lg}" fill="${COLORS.background}"/>` + centered(A)),
+    'icon-avatar': svg(A, A, `<rect width="${A}" height="${A}" rx="${ROUNDED.lg}" fill="${COLORS.surface}"/>` + centered(A, 0.88)), // v2: nền xanh nhạt tách khỏi nền trắng, biểu tượng 88% để an toàn khi cắt avatar tròn
   };
 }
 

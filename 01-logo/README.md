@@ -1,10 +1,10 @@
 # Logo "Đi làm với AI"
 
-Ý tưởng (bản A2, người dùng chốt ngày 26/10): **thẻ thắt cà vạt, mặt là dấu nhắc lệnh**. AI là một đồng nghiệp cấp cao, đi làm có thắt cà vạt hẳn hoi. Gương mặt của "đồng nghiệp" ấy là dấu nhắc lệnh `>_`, chỗ mình gõ để giao việc cho Agent. Logo gồm ba phần:
+Ý tưởng (bản A2, người dùng chốt ngày 26/10): **thẻ thắt cà vạt, mặt là dấu nhắc lệnh**. AI là một đồng nghiệp cấp cao, đi làm có thắt cà vạt hẳn hoi. Gương mặt của "đồng nghiệp" ấy là dấu nhắc lệnh `>_`, chỗ mình gõ để giao việc cho Agent. Logo gồm ba phần (Nghé thắt đúng cà vạt này, nên logo và mascot là cùng một nhân viên):
 
 - Tấm thẻ màu xanh pastel `#B8D8F5`, viền navy `#1F3A5F`, bo góc tròn.
 - Dấu nhắc lệnh navy trên mặt thẻ: một chữ `>` và một con trỏ `_`.
-- Cổ áo trắng xanh `#F7FAFD` và cà vạt xanh đậm `#2B5C8A`, viền navy, thả xuống dưới thẻ.
+- Cà vạt xanh đậm `#2B5C8A`, viền navy, thả xuống dưới thẻ: nút nhỏ và thân loe, đủ rộng để đọc được ở 32px.
 
 Biểu tượng không có sừng, không có hình não và không có chữ "AI". Chữ "AI" chỉ nằm trong wordmark: **"Đi làm với AI"** viết bằng Bricolage Grotesque ExtraBold màu navy, riêng "AI" nằm trên một viên thuốc tô nền xanh pastel.
 
@@ -18,7 +18,7 @@ Sinh lại toàn bộ bằng lệnh `node src/logo.mjs`. Lệnh này ghi 8 file 
 | `logo-doc` | Nền sáng, khung vuông hoặc khung đứng như poster, slide bìa, sticker. |
 | `logo-ngang-nen-toi` | Nền tối, có sẵn nền navy đêm `#13243B`. Chữ màu trắng xanh, "AI" màu navy trên viên thuốc xanh pastel (7.75:1). |
 | `logo-doc-nen-toi` | Như trên, bố cục dọc. |
-| `logo-ngang-mono-navy` | In một màu navy `#1F3A5F` trên nền sáng: khắc, đóng dấu, in lụa. Dấu nhắc lệnh, lòng cổ áo, khe giữa nút và thân cà vạt, chữ "AI" trong viên thuốc đều được đục thủng để lộ nền. |
+| `logo-ngang-mono-navy` | In một màu navy `#1F3A5F` trên nền sáng: khắc, đóng dấu, in lụa. Dấu nhắc lệnh, khe giữa thẻ và nút, khe giữa nút và thân cà vạt, chữ "AI" trong viên thuốc đều được đục thủng để lộ nền. |
 | `logo-ngang-mono-trang` | Một màu trắng trên nền tối hoặc trên ảnh đã làm tối. |
 | `icon` | Favicon, emoji, chỗ chật. Ô vuông 220, nền trong suốt. |
 | `icon-avatar` | Ảnh đại diện group, nằm trên ô vuông màu trắng xanh bo góc 24. Facebook cắt tròn vẫn giữ đủ thẻ và cà vạt. |

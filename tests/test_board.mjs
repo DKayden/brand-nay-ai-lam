@@ -15,7 +15,7 @@ test('buildBoard ghi đủ 13 tệp, đúng kích thước, không có <text>', 
   for (const f of out) assert.ok(fs.existsSync(f), f);
   assert.ok(!fs.readFileSync('board/brand-board.svg', 'utf8').includes('<text'));
   const expect = {
-    'board/brand-board.png': [2160, 2700],
+    'board/brand-board.png': [2160, 3844],
     'board/mockup-cover-group.png': [1640, 856],
     'board/mockup-the-nhan-vien.png': [1200, 900],
     'board/mockup-ly-ca-phe.png': [1200, 900],

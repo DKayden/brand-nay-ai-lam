@@ -5,13 +5,16 @@ export const COLORS = {
   surface: '#E3EEF9',
   text: '#1F3A5F',
   'text-muted': '#4F6B8A',
-  buffalo: '#8C7B70',
+  buffalo: '#8A6A56', // nâu ấm (v2)
   success: '#5E8C3A',
   'dark-bg': '#13243B',
   // mascot-only (không dùng cho chữ)
   horn: '#FBE9CF',
-  nose: '#BA8F89',
+  nose: '#D6B39B', // mõm be sáng, hết hồng xám
+  belly: '#A98A72',
   cheek: '#F2A99A',
+  accent: '#F4A259', // cam nắng, màu nhấn ấm duy nhất; chữ navy trên nền này 5.56:1; không dùng làm màu chữ trên nền sáng
+  'tie-dark': '#6FA3D6', // cà vạt trên nền tối: 5.87:1 so với dark-bg
 };
 
 const H = 'Bricolage Grotesque', B = 'Be Vietnam Pro';

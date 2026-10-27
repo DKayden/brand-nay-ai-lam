@@ -1,6 +1,7 @@
-// Brand board 1080×1350 + 4 mockup + poster phẳng cho bài dự thi "Nghé — nhân sự AI mới của Đi làm với AI".
+// Dựng lại theo logo/mascot v2 + màu nhấn cam nắng + panel dựng hình logo.
+// Brand board 1080×(cao theo nội dung) + 4 mockup + poster phẳng cho bài dự thi "Nghé — nhân sự AI mới của Đi làm với AI".
 // Tái dùng SVG logo/mascot đã duyệt (nhúng thẳng, không vẽ lại). Mọi chữ là path (textPath), không có <text>.
-// Chạy: node src/board.mjs → board/*.svg|png
+// Chạy (từ thư mục gốc repo): node src/board.mjs → board/*.svg|png
 import fs from 'node:fs';
 import path from 'node:path';
 import opentype from 'opentype.js';
@@ -100,9 +101,10 @@ const pill = (label, style, x, y, { fill, ink, padX = 20, h = 44 }) => {
   return { w, svg: rect(x, y, w, h, h / 2, fill) + T(label, style, x + padX, y + h / 2 + cap(style) / 2, ink) };
 };
 
-// ================= BRAND BOARD 1080×1350 =================
+// ================= BRAND BOARD 1080×(theo nội dung) =================
+const MARK_K = 300 / 220; // icon.svg (220×220) nhúng rộng 300
 export function brandBoard() {
-  const W = 1080, H = 1350, M = 56, colW = W - 2 * M;
+  const W = 1080, M = 56, colW = W - 2 * M;
   let b = '';
 
   // --- Hero: trái logo + slogan, phải Nghé + 3 sticker ---
@@ -114,8 +116,9 @@ export function brandBoard() {
   const s1 = logoY + logoW * ratio(`${LOGO}/logo-ngang.svg`) + 52 + cap(sl);
   b += T('AI làm việc,', sl, M, s1);
   b += T('mình làm chủ.', sl, M, s1 + 52, C.primary);
+  b += rect(M, s1 + 52 + 14, W_('mình làm chủ.', sl), 8, 4, C.accent); // gạch chân cam nắng
   const desc = para('Group cho người đi làm muốn giao việc cho AI, và Nghé là nhân sự AI mới của group.',
-    { ...B400, size: 22 }, M, s1 + 52 + 74, 470, 36, C['text-muted']);
+    { ...B400, size: 22 }, M, s1 + 52 + 82, 470, 36, C['text-muted']);
   b += desc.svg;
 
   const nX = W - M - 380, nY = 40;
@@ -134,56 +137,104 @@ export function brandBoard() {
     + T(title, { ...H700, size: 26 }, M + 44, y + 24 + cap(H700, 22), INK);
   const secTitleBase = (y) => y + 24 + cap(H700, 22);
 
-  // --- 01 Màu ---
+  // --- 01 Dựng hình logo ---
   let y = 576;
-  b += secHead('01', 'Màu sắc', y);
+  b += secHead('01', 'Dựng hình logo', y);
+  const cardY = secTitleBase(y) + 24, cardH = 340;
+  b += stickerCard(M, cardY, colW, cardH, 24, C.surface, { sw: 2, drop: 6 });
+  const x0 = M + 20, y0 = cardY + 14;
+  // toạ độ biểu tượng (khung 200×220) → board; icon.svg dịch tâm mực về giữa ô 220×220
+  const P = (mx, my) => [x0 + (mx + 10) * MARK_K, y0 + (my - 6) * MARK_K];
+  b += embed(`${LOGO}/icon.svg`, x0, y0, 300);
+  const f1 = (v) => v.toFixed(1);
+  const L = (p, q) => `M ${P(...p).map(f1).join(' ')} L ${P(...q).map(f1).join(' ')}`;
+  const guide = (d) => `<path d="${d}" fill="none" stroke="${C.accent}" stroke-width="2.5" stroke-dasharray="7 6" stroke-linecap="round"/>`;
+  b += guide(L([100, 6], [100, 224])); // trục giữa
+  b += guide(L([6, 130], [194, 130])); // đáy thẻ = chỗ cà vạt bắt đầu
+  b += guide(L([75, 150], [75, 218]) + ' ' + L([125, 150], [125, 218])); // bề rộng thân cà vạt
+  const dot = (n, x, yy) => `<circle cx="${x}" cy="${yy}" r="15" fill="${C.accent}"/>`
+    + T(String(n), { ...H800, size: 20 }, x, yy + cap(H800, 20) / 2, INK, 'middle');
+  const [n1x, n1y] = P(190, 22), [n2x, n2y] = P(134, 186);
+  b += dot(1, n1x + 8, n1y - 4) + dot(2, n2x + 14, n2y);
+  // lời chú giải
+  const tx = M + 20 + 300 + 36, tw = 340;
+  const notes = [
+    ['Thẻ lệnh', 'Dấu nhắc >_ trên thẻ bo tròn: chỗ giao việc cho AI.'],
+    ['Cà vạt', 'AI là đồng nghiệp đi làm. Thân rộng, đọc được ở 32px.'],
+    ['Nghé', 'Đeo đúng cà vạt này: cùng một nhân viên.'],
+  ];
+  notes.forEach(([t, d], i) => {
+    const ny = cardY + 44 + i * 96;
+    b += dot(i + 1, tx + 15, ny + 4);
+    b += T(t, { ...H700, size: 24 }, tx + 44, ny + cap(H700, 24) / 2 + 4, INK);
+    b += para(d, { ...B400, size: 19 }, tx + 44, ny + 34, tw - 44, 26, C['text-muted']).svg;
+  });
+  // Nghé đeo cà vạt (cạnh chú giải số 3)
+  const nW = 170, nXX = M + colW - nW - 20, nYY = cardY + cardH - nW * 0.9 - 24;
+  b += embed(`${MASCOT}/nghe-nghe.svg`, nXX, nYY, nW);
+  b += dot(3, nXX - 8, nYY + nW * (360 / 512));
+  y = cardY + cardH + 6 + 32;
+
+  // --- 02 Màu ---
+  b += secHead('02', 'Màu sắc', y);
   const sw = [['Xanh đậm', 'primary'], ['Xanh pastel', 'primary-soft'], ['Trắng xanh', 'background'],
-    ['Xanh nhạt', 'surface'], ['Navy', 'text'], ['Navy đêm', 'dark-bg']];
-  const cw = colW / 6, cy = secTitleBase(y) + 26 + 44;
+    ['Xanh nhạt', 'surface'], ['Navy', 'text'], ['Navy đêm', 'dark-bg'], ['Cam nắng', 'accent']];
+  const cw = colW / 7, cy = secTitleBase(y) + 26 + 40;
   sw.forEach(([name, key], i) => {
     const cx = M + cw * i + cw / 2;
-    b += `<circle cx="${cx}" cy="${cy}" r="44" fill="${C[key]}" ${OUTLINE(3)}/>`;
-    b += T(name, { ...B600, size: 21 }, cx, cy + 44 + 34, INK, 'middle');
-    b += T(C[key], { ...B500, size: 18 }, cx, cy + 44 + 60, C['text-muted'], 'middle');
+    b += `<circle cx="${cx}" cy="${cy}" r="40" fill="${C[key]}" ${OUTLINE(3)}/>`;
+    b += T(name, { ...B600, size: 19 }, cx, cy + 40 + 32, INK, 'middle');
+    b += T(C[key], { ...B500, size: 17 }, cx, cy + 40 + 56, C['text-muted'], 'middle');
+  });
+  // màu mascot: bản cũ bỏ sót khỏi board
+  const my = cy + 40 + 56 + 40;
+  b += T('MÀU MASCOT NGHÉ · CAM NẮNG CHỈ LÀM MÀU NHẤN (NÚT, NHÃN, GẠCH CHÂN, HASHTAG NỀN TỐI, SỐ CHÚ GIẢI)', { ...B600, size: 15 }, M, my, C['text-muted']);
+  const mc = [['Thân', 'buffalo'], ['Bụng', 'belly'], ['Mõm', 'nose'], ['Sừng', 'horn'], ['Má / tai', 'cheek']];
+  const mw = colW / 5;
+  mc.forEach(([name, key], i) => {
+    const x = M + mw * i, yy = my + 40;
+    b += `<circle cx="${x + 26}" cy="${yy}" r="24" fill="${C[key]}" ${OUTLINE(3)}/>`;
+    b += T(name, { ...B600, size: 19 }, x + 62, yy - 2, INK);
+    b += T(C[key].toUpperCase(), { ...B500, size: 16 }, x + 62, yy + 20, C['text-muted']);
   });
 
-  // --- 02 Chữ ---
-  y = cy + 44 + 60 + 32;
-  b += secHead('02', 'Kiểu chữ', y);
+  // --- 03 Chữ ---
+  y = my + 40 + 24 + 34;
+  b += secHead('03', 'Kiểu chữ', y);
   const aaBase = secTitleBase(y) + 28 + cap(H800, 88);
   const half = colW / 2;
   [[H800, 'Bricolage Grotesque', 'Tiêu đề · 700–800'], [B600, 'Be Vietnam Pro', 'Nội dung · 400–600']].forEach(([st, name, use], i) => {
     const x = M + i * half;
     b += T('Aa', { ...st, size: 88 }, x, aaBase, i === 0 ? C.primary : INK);
-    const tx = x + W_('Aa', { ...st, size: 88 }) + 24;
-    b += T(name, { ...B600, size: 22 }, tx, aaBase - 34, INK);
-    b += T(use, { ...B500, size: 18 }, tx, aaBase, C['text-muted']);
+    const tx2 = x + W_('Aa', { ...st, size: 88 }) + 24;
+    b += T(name, { ...B600, size: 22 }, tx2, aaBase - 34, INK);
+    b += T(use, { ...B500, size: 18 }, tx2, aaBase, C['text-muted']);
   });
   const sample = aaBase + 44;
   b += T('Học AI bằng việc thật: giao rõ, duyệt kỹ, làm chủ.', { ...B500, size: 22 }, M, sample, INK);
 
-  // --- 03 Giọng ---
+  // --- 04 Giọng ---
   y = sample + 30;
-  b += secHead('03', 'Giọng thương hiệu', y);
-  const cardY = secTitleBase(y) + 24, cardH = 140, gap = 24, cardW = (colW - gap) / 2;
+  b += secHead('04', 'Giọng thương hiệu', y);
+  const vY = secTitleBase(y) + 24, vH = 140, gap = 24, vW = (colW - gap) / 2;
   const voice = [
     ['Giọng Group', 'Mang theo một việc lặp đi lặp lại, mình cùng biến nó thành quy trình.', C.surface],
     ['Giọng Nghé', 'Nghé nghe! Việc này để Nghé lo, cả nhà cứ đi pha cà phê ạ.', C.background],
   ];
   voice.forEach(([tag, line, fill], i) => {
-    const x = M + i * (cardW + gap);
-    b += stickerCard(x, cardY, cardW, cardH, 24, fill, { sw: 2, drop: 6 });
-    b += T(tag.toUpperCase(), { ...B600, size: 16 }, x + 24, cardY + 24 + cap(B600, 16), i ? C.primary : C['text-muted']);
-    b += para(`“${line}”`, { ...B500, size: 21 }, x + 24, cardY + 24 + cap(B600, 16) + 40, cardW - 48, 31, INK).svg;
+    const x = M + i * (vW + gap);
+    b += stickerCard(x, vY, vW, vH, 24, fill, { sw: 2, drop: 6 });
+    b += T(tag.toUpperCase(), { ...B600, size: 16 }, x + 24, vY + 24 + cap(B600, 16), i ? C.primary : C['text-muted']);
+    b += para(`“${line}”`, { ...B500, size: 21 }, x + 24, vY + 24 + cap(B600, 16) + 40, vW - 48, 31, INK).svg;
   });
 
   // --- chân trang nền tối ---
-  const fY = H - 88;
-  b += rect(0, fY, W, 88, 0, C['dark-bg']);
-  const ldW = 104, ldH = ldW * ratio(`${LOGO}/logo-doc-nen-toi.svg`);
-  b += embed(`${LOGO}/logo-doc-nen-toi.svg`, M - 12, fY + (88 - ldH) / 2, ldW);
-  b += T('Bài dự thi · Đi làm với AI', { ...B500, size: 18 }, M + ldW + 8, fY + 44 + cap(B500, 18) / 2, C.surface);
-  b += T('#BrandNayAiLam', { ...H800, size: 30 }, W - M, fY + 44 + cap(H800, 30) / 2, C['primary-soft'], 'end');
+  const fY = vY + vH + 6 + 48, FH = 112, H = fY + FH;
+  b += rect(0, fY, W, FH, 0, C['dark-bg']);
+  const ldW = 88, ldH = ldW * ratio(`${LOGO}/logo-doc-nen-toi.svg`);
+  b += embed(`${LOGO}/logo-doc-nen-toi.svg`, M - 4, fY + (FH - ldH) / 2, ldW);
+  b += T('Bài dự thi · bộ nhận diện', { ...B500, size: 18 }, M + ldW + 20, fY + FH / 2 + cap(B500, 18) / 2, C.surface);
+  b += T('#BrandNayAiLam', { ...H800, size: 30 }, W - M, fY + FH / 2 + cap(H800, 30) / 2, C.accent, 'end');
 
   return doc(W, H, b, C.background);
 }
@@ -205,6 +256,7 @@ export function coverGroup() {
   const sy = panelY + lh + pad + 56 + cap(sl);
   b += T('AI làm việc,', sl, X, sy, INK);
   b += T('mình làm chủ.', sl, X, sy + 74, INK);
+  b += rect(X, sy + 74 + 16, W_('mình làm chủ.', sl), 10, 5, C.accent);
   return doc(W, H, b, C['primary-soft']);
 }
 
@@ -218,9 +270,8 @@ export function badgeMockup() {
   const strap = (color, w) => `<path d="M ${cx - 150} -20 L ${cx - 14} ${cardY - 44} M ${cx + 150} -20 L ${cx + 14} ${cardY - 44}" stroke="${color}" stroke-width="${w}" stroke-linecap="round" fill="none"/>`;
   b += strap(INK, 46) + strap(C.primary, 34);
   b += rect(cx - 30, cardY - 62, 60, 44, 12, INK);
-  b += rect(cx - 16, cardY - 28, 32, 56, 8, C.buffalo, OUTLINE(4));
-  // thân thẻ
-  // thân thẻ xanh pastel như thẻ của Nghé, chữ navy (7.75)
+  b += rect(cx - 16, cardY - 28, 32, 56, 8, C.primary, OUTLINE(4));
+  // thân thẻ xanh pastel, chữ navy (7.75)
   b += stickerCard(cardX, cardY, cardW, cardH, 36, C['primary-soft'], { sw: 6, drop: 12 });
   b += rect(cx - 50, cardY + 22, 100, 18, 9, INK); // khe đeo
   // đầu thẻ: icon + wordmark navy, "AI" xanh đậm (4.73 trên pastel, chữ lớn)
@@ -230,13 +281,13 @@ export function badgeMockup() {
   const phX = cardX + 40, phY = cardY + 136, phW = cardW - 80, phH = 300;
   b += rect(phX, phY, phW, phH, 20, C.background, OUTLINE(4));
   b += `<clipPath id="anh-nghe"><rect x="${phX + 2}" y="${phY + 2}" width="${phW - 4}" height="${phH - 4}" rx="18"/></clipPath>`;
-  b += `<g clip-path="url(#anh-nghe)">${embed(`${MASCOT}/nghe-nghe.svg`, cx - 256, phY - 40, 512)}</g>`;
+  b += `<g clip-path="url(#anh-nghe)">${embed(`${MASCOT}/nghe-nghe.svg`, cx - 220, phY - 28, 440)}</g>`;
   // tên + chức danh + mã NV
   b += T('Nghé', { ...H800, size: 72 }, cx, phY + phH + 84, INK, 'middle');
   b += T('Nhân sự AI', { ...B600, size: 28 }, cx, phY + phH + 128, INK, 'middle');
   const code = 'Mã NV: AI-001', cs = { ...B600, size: 22 };
   const cw = W_(code, cs) + 48;
-  b += rect(cx - cw / 2, phY + phH + 152, cw, 48, 24, C.background);
+  b += rect(cx - cw / 2, phY + phH + 152, cw, 48, 24, C.accent);
   b += T(code, cs, cx, phY + phH + 152 + 24 + cap(cs) / 2, INK, 'middle');
   return doc(W, H, b, C.background);
 }
@@ -284,7 +335,7 @@ export function webinarSlide() {
   b += embed(`${LOGO}/logo-ngang.svg`, M - 6, 72, 300);
   // nội dung trái
   const ey = { ...B600, size: 26 };
-  const p = pill('WEBINAR · TỐI THỨ NĂM · 20:00', ey, M, 330, { fill: C.primary, ink: C.background, padX: 28, h: 56 });
+  const p = pill('WEBINAR · TỐI THỨ NĂM · 20:00', ey, M, 330, { fill: C.accent, ink: INK, padX: 28, h: 56 });
   b += p.svg;
   const ttl = { ...H800, size: 128 };
   const t1 = 330 + 56 + 64 + cap(ttl);
@@ -319,6 +370,8 @@ export function flatPoster() {
   const ly = 1024;
   b += embed(`${LOGO}/logo-ngang.svg`, (W - lw) / 2, ly, lw);
   b += runs([['AI làm việc, ', INK], ['mình làm chủ.', C.primary]], { ...H800, size: 44 }, W / 2, ly + lh + 52, 'middle');
+  const full = { ...H800, size: 44 }, uw = W_('mình làm chủ.', full);
+  b += rect(W / 2 + W_('AI làm việc, mình làm chủ.', full) / 2 - uw, ly + lh + 52 + 14, uw, 8, 4, C.accent);
   return doc(W, H, b, C.background);
 }
 
@@ -339,7 +392,7 @@ export function bluePoster() {
   b += tag.svg;
 
   // tiêu đề móc tò mò — navy đậm, cỡ lớn
-  const hs = { ...H800, size: 100 }, lh = 104;
+  const hs = { ...H800, size: 100 }, lh = 116;
   const h1 = M + 58 + 40 + cap(hs);
   ['Group mình vừa', 'tuyển nhân sự AI', 'đầu tiên'].forEach((l, i) => { b += T(l, hs, M - 4, h1 + i * lh, INK); });
 
@@ -360,10 +413,11 @@ export function bluePoster() {
   // dòng mô tả trái
   const sub = { ...B600, size: 32 };
   const subY = by + bh + 110;
+  b += rect(M, subY - 52, 330, 58 * 3 + 12, 28, C.background, OUTLINE(4)); // thẻ nền sáng: chữ không vắt qua mép mảng tròn
   ['Nhân viên mới', 'chăm, hơi ngáo', 'nghe lời sếp'].forEach((l, i) => {
     const y = subY + i * 58;
-    b += `<circle cx="${M + 9}" cy="${y - cap(sub) / 2}" r="7" fill="${INK}"/>`;
-    b += T(l, sub, M + 30, y, INK);
+    b += `<circle cx="${M + 26}" cy="${y - cap(sub) / 2}" r="7" fill="${INK}"/>`;
+    b += T(l, sub, M + 46, y, INK);
   });
 
   // chân: dải navy đặc full ngang — logo nền tối + hashtag xanh pastel (10.56)
@@ -372,7 +426,7 @@ export function bluePoster() {
   // Logo A2 có cà vạt thả dưới thẻ: đặt logo gọn trong dải, hashtag canh cùng chân chữ wordmark.
   const lf = `${LOGO}/logo-ngang-nen-toi.svg`, lw = 340, lhh = lw * ratio(lf), ly = fy + (fh - lhh) / 2;
   b += embed(lf, M - 8, ly, lw, { noBg: true });
-  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, ly + baseOf(lf, lw), BG, 'end');
+  b += T('#BrandNayAiLam', { ...H800, size: 44 }, W - M, ly + baseOf(lf, lw), C.accent, 'end');
   return doc(W, H, b, BG);
 }
 
@@ -391,7 +445,7 @@ const PROMPTS = [
   ['Mascot + character sheet', 'Vẽ [con vật] tên [tên], chốt đặc điểm khoá, tách bộ phận để ghép tư thế.',
     'So 5 nhân vật gần nhất, trùng 2 điểm thì sửa.'],
   ['Bộ sticker nhiều tư thế', 'Ghép bộ phận thành [6] tư thế, mỗi tư thế có SVG + PNG nền trong suốt.',
-    'Test pixel: thẻ tên không bị tay che.'],
+    'Test pixel: cà vạt không bị tay che.'],
   ['DESIGN.md + lint', 'Viết DESIGN.md theo spec @google/design.md, lấy giá trị từ [file token], lint tới 0 lỗi.',
     'Lưu kết quả lint làm bằng chứng.'],
   ['Brand board + một lệnh build', 'Dựng board từ file thật trong repo, thêm [mockup], viết một lệnh build dựng lại mọi ảnh.',
@@ -430,15 +484,15 @@ function slideFrame(n, total, body) {
 
 function carouselCover() {
   let b = '';
-  b += `<circle cx="790" cy="700" r="250" fill="${C.surface}"/>`;
-  b += embed(`${MASCOT}/dang-chay.svg`, 530, 430, 520);
-  const ts = { ...H800, size: 96 }, lh = 102, y0 = 190 + cap(ts);
+  b += `<circle cx="790" cy="676" r="250" fill="${C.surface}"/>`;
+  b += embed(`${MASCOT}/dang-chay.svg`, 530, 406, 520);
+  const ts = { ...H800, size: 96 }, lh = 114, y0 = 176 + cap(ts); // dòng thưa để dấu tiếng Việt không chạm dòng trên
   b += T('8 prompt', ts, CM - 4, y0, C.primary);
   b += T('làm brand cho', ts, CM - 4, y0 + lh, INK);
   b += T('cộng đồng', ts, CM - 4, y0 + 2 * lh, INK);
   b += T('của bạn', ts, CM - 4, y0 + 3 * lh, INK);
   b += T('bằng AI Agent', { ...H700, size: 52 }, CM, y0 + 3 * lh + 78, C['text-muted']);
-  const p = pill('Lưu lại để dùng', { ...B600, size: 32 }, CM, y0 + 3 * lh + 128, { fill: C.primary, ink: C.background, padX: 30, h: 68 });
+  const p = pill('Lưu lại để dùng', { ...B600, size: 32 }, CM, y0 + 3 * lh + 128, { fill: C.accent, ink: INK, padX: 30, h: 68 });
   b += p.svg;
   return slideFrame(1, 5, b);
 }
@@ -460,7 +514,7 @@ function carouselPrompts(page, from, to) {
     const label = 'Mẹo: ', lW = W_(label, { ...B600, size: 28 });
     const lines = wrap(hint, tip, tw - 48 - lW);
     const cy = g.bottom + 22, ch = 28 + lines.length * 40;
-    b += rect(tx, cy, tw, ch, 14, C.surface);
+    b += rect(tx, cy, tw, ch, 14, C.surface) + rect(tx, cy + 10, 6, ch - 20, 3, C.accent);
     b += T(label, { ...B600, size: 28 }, tx + 24, cy + 14 + 30, INK);
     lines.forEach((l, k) => { b += T(l, tip, tx + 24 + lW, cy + 14 + 30 + k * 40, INK); });
     y = cy + ch + gap;
@@ -473,8 +527,8 @@ function carouselPrompts(page, from, to) {
     b += para('Mỗi bước giao cho một subagent mới, rồi nhờ một subagent khác review.',
       { ...B500, size: 30 }, CM + 36, ny + 40 + cap(H800, 36) + 54, cw - 300, 42, C.background).svg;
     // đĩa pastel sau sticker: dấu "?" xanh đậm không chìm vào nền primary
-    b += `<circle cx="${CS - CM - 125}" cy="${ny + 92}" r="92" fill="${C['primary-soft']}"/>`;
-    b += embed(`${MASCOT}/y-sep-la.svg`, CS - CM - 250, ny - 40, 250);
+    b += `<circle cx="${CS - CM - 126}" cy="${ny + 105}" r="84" fill="${C['primary-soft']}"/>`;
+    b += embed(`${MASCOT}/y-sep-la.svg`, CS - CM - 236, ny - 6, 220);
   }
   return slideFrame(page, 5, b);
 }
@@ -485,7 +539,7 @@ function carouselClosing() {
   b += embed(`${MASCOT}/xong-roi-sep.svg`, CS / 2 - 240, 330, 480);
   const ts = { ...H800, size: 64 };
   b += T('Toàn bộ prompt + file', ts, CS / 2, 160 + cap(ts), INK, 'middle');
-  const p = pill('Link ở bình luận đầu', { ...B600, size: 34 }, 0, 0, { fill: C.primary, ink: C.background, padX: 32, h: 70 });
+  const p = pill('Link ở bình luận đầu', { ...B600, size: 34 }, 0, 0, { fill: C.accent, ink: INK, padX: 32, h: 70 });
   b += `<g transform="translate(${(CS - p.w) / 2},250)">${p.svg}</g>`;
   b += runs([['AI làm việc, ', INK], ['mình làm chủ.', C.primary]], { ...H800, size: 52 }, CS / 2, 880, 'middle');
   return slideFrame(5, 5, b);

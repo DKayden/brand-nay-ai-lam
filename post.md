@@ -8,11 +8,11 @@
 Slogan: AI làm việc, mình làm chủ.
 AI Agent đã dùng: Claude Code
 
-Ý tưởng: 📣 Thông báo nhân sự: group mình vừa tuyển nhân viên mới, một chú nghé (trâu con) đeo thẻ "Nhân sự AI". Người Việt hay gọi đi làm là "đi cày", và trâu là bạn cày giỏi nhất; còn "Nghé" đọc gần "nghe": giao việc rõ ràng là Nghé nghe liền. Logo là một tấm thẻ thắt cà vạt, mặt thẻ là dấu nhắc lệnh ›_ : AI là đồng nghiệp cấp cao, và chỗ mình giao việc cho nó chính là khung lệnh. Bảng màu xanh pastel + navy cho cảm giác mát, gọn, dễ dùng lâu dài.
+Ý tưởng: 📣 Thông báo nhân sự: group mình vừa tuyển nhân viên mới, một chú nghé (trâu con) thắt cà vạt, "nhân sự AI" của group. Người Việt hay gọi đi làm là "đi cày", và trâu là bạn cày giỏi nhất; còn "Nghé" đọc gần "nghe": giao việc rõ ràng là Nghé nghe liền. Logo là một tấm thẻ thắt cà vạt, mặt thẻ là dấu nhắc lệnh ›_ : AI là đồng nghiệp cấp cao, và chỗ mình giao việc cho nó chính là khung lệnh. Bảng màu xanh pastel + navy cho cảm giác mát, gọn, dễ dùng lâu dài.
 
 Cách mình làm: Mình không biết vẽ, nên mình làm "sếp" giao việc cho Claude Code. Agent đọc thể lệ, phỏng vấn mình bằng các câu trắc nghiệm để chốt ý tưởng, rồi vẽ logo, Nghé và 6 sticker hoàn toàn bằng code SVG, viết DESIGN.md và tự kiểm bằng công cụ lint của Google. Mỗi phần việc có một Agent làm và một Agent khác soi lỗi; mình chỉ chọn, chê và duyệt (đổi màu từ cam sang xanh, làm lại logo 4 lần). Toàn bộ prompt để trong repo, ai cũng copy về làm brand cho cộng đồng của mình được.
 
-Link file đầy đủ: https://github.com/DKayden/brand-nay-ai-lam/tree/v1-nop-bai
+Link file đầy đủ: https://github.com/DKayden/brand-nay-ai-lam/tree/main
 Bản xem nhanh trên web: https://dkayden.github.io/brand-nay-ai-lam/
 Bản Google Drive: https://drive.google.com/file/d/1b0NVDBWXCa9yrvcUSXn7C5zqt7OyYLTn/view?usp=sharing
 
@@ -37,7 +37,7 @@ Thấy bộ prompt có ích thì cả nhà cứ share về tường để lưu n
 
 ```
 Nghé báo cáo: file đầy đủ và bộ 8 prompt "làm brand bằng AI Agent" ở đây nha cả nhà 👇
-https://github.com/DKayden/brand-nay-ai-lam/tree/v1-nop-bai
+https://github.com/DKayden/brand-nay-ai-lam/tree/main
 ```
 
 ## Kế hoạch sau đăng

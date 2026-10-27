@@ -9,7 +9,8 @@ colors:
   surface: "#E3EEF9"
   text: "#1F3A5F"
   text-muted: "#4F6B8A"
-  buffalo: "#8C7B70"
+  buffalo: "#8A6A56"
+  accent: "#F4A259"
   success: "#5E8C3A"
   dark-bg: "#13243B"
 typography:
@@ -34,13 +35,13 @@ components:
 
 ## Overview
 
-**Đi làm với AI** là nhóm cộng đồng cho người đi làm muốn dùng AI vào việc hằng ngày. Ý tưởng hình ảnh: group vừa tuyển một "nhân viên" mới tên **Nghé**, chú nghé trâu nước đeo thẻ nhân sự AI. Nghé làm việc cùng mọi người, không làm thay mọi người. Slogan: **"AI làm việc, mình làm chủ."**
+**Đi làm với AI** là nhóm cộng đồng cho người đi làm muốn dùng AI vào việc hằng ngày. Ý tưởng hình ảnh: group vừa tuyển một "nhân viên" mới tên **Nghé**, chú nghé trâu nước thắt cà vạt xanh giống logo. Nghé làm việc cùng mọi người, không làm thay mọi người. Slogan: **"AI làm việc, mình làm chủ."**
 
 Tính cách hình ảnh: mát, gọn, hiện đại, vui nhưng không lố. Xanh pastel và trắng như một văn phòng sáng sủa, navy giữ cho mọi thứ rõ nét. Hình khối tròn, viền navy dày kiểu sticker. Chữ tiếng Việt đầy đủ dấu, dễ đọc.
 
-Tỉ lệ màu trên một bố cục: **60%** nền trắng xanh (`background`), **25%** `surface` và chữ navy `text`, **10%** xanh pastel `primary-soft` và xanh đậm `primary`, **5%** còn lại gồm `success` và màu mascot. Mảng lớn cần nổi (ảnh bìa, poster đầu bài) dùng nền `primary-soft` kèm chữ navy.
+Tỉ lệ màu trên một bố cục: **60%** nền trắng xanh (`background`), **25%** `surface` và chữ navy `text`, **10%** xanh pastel `primary-soft` và xanh đậm `primary`, **5%** còn lại gồm màu nhấn `accent` (cam nắng), `success` và màu mascot. Mảng lớn cần nổi (ảnh bìa, poster đầu bài) dùng nền `primary-soft` kèm chữ navy.
 
-Màu riêng của mascot (không dùng làm màu giao diện hay màu chữ): sừng kem `#FBE9CF`, mõm xám hồng và hai lỗ mũi `#BA8F89`, má hồng `#F2A99A`, bụng `#A99A8F`. Thân Nghé dùng `buffalo` `#8C7B70`.
+Màu riêng của mascot (không dùng làm màu giao diện hay màu chữ): sừng kem `#FBE9CF`, mõm be `#D6B39B` với hai lỗ mũi navy, má hồng `#F2A99A`, bụng `#A98A72`. Thân Nghé dùng `buffalo` `#8A6A56`.
 
 Wordmark "Đi làm với AI": chữ "AI" màu `primary`, phần còn lại màu `text`.
 
@@ -52,7 +53,8 @@ Wordmark "Đi làm với AI": chữ "AI" màu `primary`, phần còn lại màu 
 - **surface `#E3EEF9`** (xanh nhạt): thẻ, khối nội dung, nút phụ. Chữ trên surface dùng `text` (9.77:1).
 - **text `#1F3A5F`** (navy): chữ chính và màu viền sticker, viền mascot (10.96:1 trên nền chính).
 - **text-muted `#4F6B8A`**: chú thích, thông tin phụ (5.27:1 trên nền chính).
-- **buffalo `#8C7B70`**: màu thân Nghé, dùng cho hình minh hoạ, không dùng làm màu chữ.
+- **buffalo `#8A6A56`**: màu thân Nghé, dùng cho hình minh hoạ, không dùng làm màu chữ.
+- **accent `#F4A259`** (cam nắng): màu nhấn ấm duy nhất: nút, gạch chân slogan, số chú giải, hashtag trên nền tối. Chữ navy trên nền cam đạt 5.56:1, cam trên `dark-bg` đạt 7.56:1. Không dùng làm màu chữ trên nền sáng.
 - **success `#5E8C3A`**: trạng thái hoàn thành, dấu tick. Không dùng làm màu chữ nhỏ.
 - **dark-bg `#13243B`** (navy đêm): nền tối. Trên nền này chỉ dùng logo bản `nen-toi` hoặc `mono-trang`.
 
@@ -82,7 +84,7 @@ Bo góc lớn, tròn trịa: sm 8px (huy hiệu), md 14px, lg 24px (thẻ), pill
 - **button-primary**: nền `primary`, chữ `background`, kiểu chữ label, bo pill, padding 12px 24px. Là nút hành động chính, mỗi màn hình chỉ một nút.
 - **button-secondary**: nền `surface`, chữ `text`, label, bo pill, padding 12px 24px.
 - **card**: nền `surface`, chữ `text`, bo 24px, padding 24px, viền navy 2px, có thể thêm bóng sticker.
-- **badge-nhan-vien**: nền `primary-soft`, chữ `text` (7.75:1), kiểu caption, bo 8px, padding 4px 12px. Dùng cho thẻ "Nghé · Nhân sự AI".
+- **badge-nhan-vien**: nền `primary-soft`, chữ `text` (7.75:1), kiểu caption, bo 8px, padding 4px 12px. Dùng cho thẻ nhân viên trong mockup và chip "Mã NV".
 - **page**: nền `background`, chữ `text`, kiểu body.
 - **page-dark**: nền `dark-bg`, chữ `background`, kiểu body. Màu nhấn trên nền này là `primary-soft`.
 
@@ -90,7 +92,7 @@ Bo góc lớn, tròn trịa: sm 8px (huy hiệu), md 14px, lg 24px (thẻ), pill
 
 ### Logo
 
-Biểu tượng (bản A2, chốt 26/10): tấm thẻ xanh pastel viền navy, mặt là dấu nhắc lệnh `>_`, bên dưới là cổ áo và cà vạt xanh đậm. Ý nghĩa: AI là đồng nghiệp cấp cao, gương mặt là chỗ mình giao việc cho Agent. Wordmark "Đi làm với AI" màu navy, "AI" nằm trên viên thuốc xanh pastel. Bộ logo gồm: `logo-ngang`, `logo-doc`, `mono-navy`, `mono-trang`, `nen-toi` và `icon` (kèm `icon-avatar`).
+Biểu tượng (bản A2, chốt 26/10): tấm thẻ xanh pastel viền navy, mặt là dấu nhắc lệnh `>_`, bên dưới là cà vạt xanh đậm (nút và thân loe, rộng để đọc được ở 32px). Ý nghĩa: AI là đồng nghiệp cấp cao, gương mặt là chỗ mình giao việc cho Agent. Wordmark "Đi làm với AI" màu navy, "AI" nằm trên viên thuốc xanh pastel. Bộ logo gồm: `logo-ngang`, `logo-doc`, `mono-navy`, `mono-trang`, `nen-toi` và `icon` (kèm `icon-avatar`).
 
 - Do: chọn bản theo nền: nền sáng dùng `logo-ngang` hoặc `logo-doc`; nền tối dùng `nen-toi`; in một màu dùng `mono-navy`, hoặc `mono-trang` trên nền tối.
 - Do: chừa vùng an toàn quanh logo bằng chiều cao chữ "A" trong wordmark.
@@ -104,10 +106,10 @@ Biểu tượng (bản A2, chốt 26/10): tấm thẻ xanh pastel viền navy, m
 
 ### Mascot Nghé
 
-- Do: giữ đúng đặc điểm: hai sừng kem lưỡi liềm, mõm xám hồng `#BA8F89` với hai lỗ mũi hạt đậu, mắt tròn đen có một đốm sáng, má hồng, bụng `#A99A8F`, thân `#8C7B70`, viền navy `#1F3A5F` 6px ở khung 512px.
-- Do: luôn cho Nghé đeo thẻ nhân viên xanh pastel, chữ navy "Nghé · Nhân sự AI".
+- Do: giữ đúng đặc điểm: hai chồi sừng kem nhỏ (nghé con), mõm be `#D6B39B` với hai lỗ mũi hạt đậu, mắt tròn đen có một đốm sáng, má hồng, bụng `#A98A72`, thân `#8A6A56`, viền navy `#1F3A5F` 6px ở khung 512px.
+- Do: luôn cho Nghé thắt cà vạt xanh đậm cùng hình và màu với logo; đó là điểm nối giữa logo và mascot. Không đeo thẻ.
 - Do: dùng 6 tư thế sticker trong `03-mascot/` cho các tình huống tương ứng.
-- Don't: đổi màu thân, sừng hay mũi.
+- Don't: đổi màu thân, sừng hay mõm; không đổi chồi sừng thành sừng lớn.
 - Don't: vẽ Nghé buồn bã hoặc giận dữ.
 - Don't: để Nghé "thay thế con người" hay làm thay chủ nhân; Nghé là trợ lý, người dùng làm chủ.
 
