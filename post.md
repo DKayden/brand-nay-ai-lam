@@ -16,7 +16,7 @@ Link file đầy đủ: https://github.com/DKayden/brand-nay-ai-lam/tree/main
 Bản xem nhanh trên web: https://dkayden.github.io/brand-nay-ai-lam/
 Bản Google Drive: https://drive.google.com/file/d/1xitHixZ7_yhgzAuj4Ta1NWnFVtXXp5t3/view?usp=sharing
 
-Cả nhà thấy bộ nhận diện này đã hợp với group mình chưa? Góp ý cho Nghé ở bình luận nhé, chỗ nào chưa ưng Nghé sửa liền! 🐃
+Cả nhà thấy bộ nhận diện này đã hợp với group mình chưa? Góp ý cho Nghé ở bình luận nhé, chỗ nào chưa ưng Nghé ghi nhận hết! 🐃
 ```
 
 ## Ảnh đính kèm (theo thứ tự)
